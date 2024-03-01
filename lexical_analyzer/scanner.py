@@ -1,6 +1,24 @@
 class Scanner:
     def __init__(self):
         # symbols with same behaviour mapped to groups
+
+        # input : group
+        # A-Z, a-z : 0
+        # n, t : 1
+        # 0-9 : 2
+        # _ : 3
+        # |, +, -, *, <, >, &, ., @, :, =, ˜, ,, $, !, #, %, ˆ, [, ], {, }, ", ‘, ? : 4
+        # ’ : 5
+        # \ : 6
+        # ( : 7
+        # ) : 8
+        # ; : 9
+        # , : 10
+        # space : 11
+        # tab : 12
+        # newline : 13
+        # / : 14
+
         self.charMap = {
             'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0, 'H': 0, 'I': 0, 'J': 0, 'K': 0, 'L': 0, 'M': 0,
             'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0, 'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0,
@@ -11,7 +29,7 @@ class Scanner:
             '#': 4, '%': 4, 'ˆ': 4, '[': 4, ']': 4, '{': 4, '}': 4, '"': 4, '‘': 4, '?': 4, '’': 5, '\\': 6, '(': 7,
             ')': 8, ';': 9, ',': 10, ' ': 11, '\t': 12, '\n': 13, '/': 14
         }
-        
+
         # table for the finite state automata
         self.fsaTable = [
             [1, 1, 2, -1, 3, 11, -1, 5, 6, 7, 8, 4, 4, 4, 3],
@@ -23,7 +41,8 @@ class Scanner:
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -
+                1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 10],
             [-1, -1, -1, -1, -1, 12, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [12, 12, 12, 12, 12, 14, 13, 12, 12, 12, 12, 12, -1, -1, 12],
@@ -31,7 +50,7 @@ class Scanner:
             [-1, -1, -1, -1, -1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, 12, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         ]
-        
+
         self.acceptStates = {
             1: 'IDENTIFIER',
             2: 'INTEGER',
@@ -50,50 +69,53 @@ class Scanner:
         currState = 0
         output = []
         i = 0
+        lineNum = 1
 
         while i < len(str):
             chr = str[i]
             inputIndex = self.charMap.get(chr, -1)
 
+            # track line number
+            if chr == "\n":
+                lineNum += 1
+
+            # if the character is not in the charMap, throw an error
             if inputIndex == -1:
-                print("error")
+                print(
+                    f"Error : {chr} at line {lineNum} is not a valid character.")
                 return
 
             nextState = self.fsaTable[currState][inputIndex]
 
             # if the next state is unacceptable and the current state is an accept state, add the token to the output and go back to the start state
             if nextState == -1 and currState in self.acceptStates:
-                output.append((token, self.acceptStates[currState]))
+                if self.acceptStates[currState] != 'DELETE':
+                    output.append((token, self.acceptStates[currState]))
                 token = ''
                 currState = 0
+
+                if chr == '\n':
+                    lineNum -= 1
+
             # if the next state is unacceptable and the current state is not an accept state, throw an error
             elif nextState == -1 and currState not in self.acceptStates:
-                print(f"error - {token+chr}")
+                print(
+                    f"Error : {token+chr} at line {lineNum} is not a valid token.")
                 return
             else:
                 token += chr
                 i = i+1
                 currState = nextState
 
-        if currState in self.acceptStates:
+        if currState in self.acceptStates and self.acceptStates[currState] != 'DELETE':
             output.append((token, self.acceptStates[currState]))
-        else:
-            # if a comment is at the end of the file, it will be added to the output
-            if token[0:2] == '//':
-                output.append((token, 'DELETE'))
-            else:
-                print(f"error - {token}")
-                return
+
+        # if a comment is at the end of the file without EoL, it will not be considered as an error
+        elif token[0:2] != '//':
+            print(f"Error : {token} at line {lineNum} is not a valid token.")
+            return
 
         return output
-
-    # function to screen out DELETE tokens
-    def tokenScreen(self, tokenArray):
-        screenedTokenArray = []
-        for token in tokenArray:
-            if token[1] != 'DELETE':
-                screenedTokenArray.append(token)
-        return screenedTokenArray
 
     # function to print the tokens
     def printer(self, lst):
