@@ -2,6 +2,7 @@
     "python.analysis.extraPaths": [
         "${workspaceFolder}/errors_handling/",
         "${workspaceFolder}/lexical_analysis/",
-        "${workspaceFolder}/table_routines/"
+        "${workspaceFolder}/table_routines/",
+        "${workspaceFolder}/parser/"
     ]
 }
