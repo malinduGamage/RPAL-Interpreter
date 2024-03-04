@@ -1,4 +1,8 @@
+# error_handling/error_handler.py
 class Handler :
-    def __init__(self):
-        self.n = 0
-        print("Handler initialized")
+
+    @staticmethod
+    def handle_error(message):
+        print("Error:", message)
+    
+

@@ -5,7 +5,7 @@ import sys
 """ current_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir) """
-print(sys.path)
+
 from errors_handling.error_handler import Handler
 from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
@@ -16,7 +16,7 @@ class Scanner:
         """
         Initialize the scanner.
         """
-        Handler()
+        self.error = Handler().handle_error
         self.charMap = CharMap().charMap
         self.fsaTable = FSATable().fsaTable
         self.acceptStates = AcceptStates().acceptStates
@@ -39,7 +39,7 @@ class Scanner:
 
             # if the character is not in the charMap, throw an error
             if inputIndex == -1:
-                print(
+                self.error(
                     f"Error : {chr} at line {lineNum} is not a valid character.")
                 return
 
@@ -57,7 +57,7 @@ class Scanner:
 
             # if the next state is unacceptable and the current state is not an accept state, throw an error
             elif nextState == -1 and currState not in self.acceptStates:
-                print(
+                self.error(
                     f"Error : {token+chr} at line {lineNum} is not a valid token.")
                 return
             else:
@@ -70,7 +70,7 @@ class Scanner:
 
         # if a comment is at the end of the file without EoL, it will not be considered as an error
         elif token[0:2] != '//':
-            print(f"Error : {token} at line {lineNum} is not a valid token.")
+            self.error(f"Error : {token} at line {lineNum} is not a valid token.")
             return
 
         return output
