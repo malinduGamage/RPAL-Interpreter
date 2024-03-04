@@ -1,13 +1,22 @@
+import os
+import sys
+
+# Add the parent directory of the script to the Python path
+""" current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir) """
+print(sys.path)
+from errors_handling.error_handler import Handler
 from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
 from table_routines.accept_states import AcceptStates
-from error_handling.error_handler import ErrorHandler
 
 class Scanner:
     def __init__(self):
         """
         Initialize the scanner.
         """
+        Handler()
         self.charMap = CharMap().charMap
         self.fsaTable = FSATable().fsaTable
         self.acceptStates = AcceptStates().acceptStates
