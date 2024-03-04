@@ -1,7 +1,7 @@
 from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
 from table_routines.accept_states import AcceptStates
-#from error_handling.error_handler import ErrorHandler
+from error_handling.error_handler import ErrorHandler
 
 class Scanner:
     def __init__(self):
