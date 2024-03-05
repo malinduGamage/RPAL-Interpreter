@@ -20,3 +20,6 @@ RPAL-Interpreter/
 └── parser/ # Package for parsing functionality
 ├── **init**.py # Marks the directory as a Python package
 └── parser.py # Module containing parser logic
+└── screener/ # Package for
+├── **init**.py # Marks the directory as a Python package
+└── screener.py # Module containing

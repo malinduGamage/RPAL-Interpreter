@@ -3,6 +3,7 @@
         "${workspaceFolder}/errors_handling/",
         "${workspaceFolder}/lexical_analysis/",
         "${workspaceFolder}/table_routines/",
+        "${workspaceFolder}/screener/",
         "${workspaceFolder}/parser/"
     ]
 }

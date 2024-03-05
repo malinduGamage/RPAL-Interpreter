@@ -1,5 +1,6 @@
 import sys
 from lexical_analyzer import scanner
+from screener.token_screener import Screener
 
 def main():
     # Check if there are enough command-line arguments
@@ -12,6 +13,9 @@ def main():
 
     str = scanner.readFile(file_name)
     scanner.printer(scanner.tokenScan(str))
+    str = Screener.screener(str)
+    print("################################################################################")
+    scanner.printer(str)
 
     """ # Check if the -ast switch is provided
     if len(sys.argv) >= 3 and sys.argv[2] == "-ast":
