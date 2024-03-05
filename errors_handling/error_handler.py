@@ -1,5 +1,5 @@
 # error_handling/error_handler.py
-class Handler :
+class ErrorHandler :
 
     @staticmethod
     def handle_error(message):

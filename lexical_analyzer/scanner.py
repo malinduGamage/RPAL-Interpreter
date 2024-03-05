@@ -6,7 +6,7 @@ import sys
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir) """
 
-from errors_handling.error_handler import Handler
+from errors_handling.error_handler import ErrorHandler
 from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
 from table_routines.accept_states import AcceptStates
@@ -16,7 +16,7 @@ class Scanner:
         """
         Initialize the scanner.
         """
-        self.error = Handler().handle_error
+        self.error = ErrorHandler().handle_error
         self.charMap = CharMap().charMap
         self.fsaTable = FSATable().fsaTable
         self.acceptStates = AcceptStates().acceptStates
