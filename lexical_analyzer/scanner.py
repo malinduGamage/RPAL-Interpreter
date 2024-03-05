@@ -40,7 +40,7 @@ class Scanner:
             # if the character is not in the charMap, throw an error
             if inputIndex == -1:
                 self.error(
-                    f"Error : {chr} at line {lineNum} is not a valid character.")
+                    f"Error1 : {chr} at line {lineNum} is not a valid character.")
                 return
 
             nextState = self.fsaTable[currState][inputIndex]
@@ -58,7 +58,7 @@ class Scanner:
             # if the next state is unacceptable and the current state is not an accept state, throw an error
             elif nextState == -1 and currState not in self.acceptStates:
                 self.error(
-                    f"Error : {token+chr} at line {lineNum} is not a valid token.")
+                    f"Error2 : {token+chr} at line {lineNum} is not a valid token.")
                 return
             else:
                 token += chr
@@ -70,7 +70,7 @@ class Scanner:
 
         # if a comment is at the end of the file without EoL, it will not be considered as an error
         elif token[0:2] != '//':
-            self.error(f"Error : {token} at line {lineNum} is not a valid token.")
+            self.error(f"Error3 : {token} at line {lineNum} is not a valid token.")
             return
 
         return output
