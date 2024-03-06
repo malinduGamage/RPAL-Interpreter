@@ -1,16 +1,11 @@
-from lexical_analyzer.scanner import Scanner
+
 from table_routines.keywords import Keywords
+
 class Screener:
     def __init__(self):
         """
         Initialize the screener.
         """
-        # Initialize the scanner and retrieve necessary attributes
-        self.scanner = Scanner()
-        self.error = self.scanner.error
-        self.charMap = self.scanner.charMap
-        self.fsaTable = self.scanner.fsaTable
-        self.acceptStates = self.scanner.acceptStates
         # Retrieve keywords from the Keywords class
         self.keywords = Keywords().keywords
 
@@ -27,7 +22,7 @@ class Screener:
         # Iterate through the tokens
         filtered_tokens = []
         for token in tokens:
-            #print(token)
+            
             # Remove tokens marked for deletion or EOF tokens
             if token[1] == 'DELETE' :
                 continue
