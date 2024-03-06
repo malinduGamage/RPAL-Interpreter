@@ -11,6 +11,7 @@ from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
 from table_routines.accept_states import AcceptStates
 
+
 class Scanner:
     def __init__(self):
         """
@@ -47,8 +48,7 @@ class Scanner:
 
             # if the next state is unacceptable and the current state is an accept state, add the token to the output and go back to the start state
             if nextState == -1 and currState in self.acceptStates:
-                if self.acceptStates[currState] != 'DELETE':
-                    output.append((token, self.acceptStates[currState]))
+                output.append((token, self.acceptStates[currState]))
                 token = ''
                 currState = 0
 
@@ -65,12 +65,16 @@ class Scanner:
                 i = i+1
                 currState = nextState
 
-        if currState in self.acceptStates and self.acceptStates[currState] != 'DELETE':
+        if currState in self.acceptStates:
             output.append((token, self.acceptStates[currState]))
 
         # if a comment is at the end of the file without EoL, it will not be considered as an error
-        elif token[0:2] != '//':
-            self.error(f"Error3 : {token} at line {lineNum} is not a valid token.")
+        elif token[0:2] == '//':
+            output.append((token, 'DELETE'))
+
+        else:
+            self.error(
+                f"Error3 : {token} at line {lineNum} is not a valid token.")
             return
 
         return output
