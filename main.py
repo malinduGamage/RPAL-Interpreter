@@ -12,11 +12,18 @@ def main():
     # Get the filename from the command-line arguments
     file_name = sys.argv[1]
 
-    str = scanner.readFile(file_name)
-    scanner.printer(scanner.tokenScan(str))
-    # str = Screener.screener(str)
-    # print("################################################################################")
-    # scanner.printer(str)
+    str_content = scanner.readFile(file_name)
+    tokens = scanner.tokenScan(str_content)
+    scanner.printer(tokens)
+
+    # Create an instance of the Screener class
+    screener = Screener()
+    
+    # Call the screener method on the instance
+    filtered_tokens = screener.screener(tokens)
+    print("################################################################")
+    # Print the filtered tokens
+    scanner.printer(filtered_tokens)
 
     """ # Check if the -ast switch is provided
     if len(sys.argv) >= 3 and sys.argv[2] == "-ast":
