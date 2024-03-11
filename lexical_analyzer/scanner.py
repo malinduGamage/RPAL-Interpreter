@@ -4,7 +4,7 @@ from errors_handling.error_handler import ErrorHandler
 from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
 from table_routines.accept_states import AcceptStates
-from utils.tokens import Token  # noqa: F401
+from utils.tokens import Token  
 
 class Scanner:
     def __init__(self):
@@ -17,7 +17,7 @@ class Scanner:
         self.acceptStates = AcceptStates().acceptStates
 
     # function to scan the input string and return the tokens
-    def tokenScan(self, str):
+    def token_scan(self, str):
         token = ''
         currState = 0
         output = []
@@ -73,14 +73,4 @@ class Scanner:
 
         return output
 
-    # function to print the tokens
-    def printer(self, lst):
-        if lst != None:
-            for token in lst:
-                print(token)
 
-    # function to read the input file
-    def readFile(self, fileName):
-        file = open(f"{fileName}", "r", encoding='utf-8')
-        str = file.read()
-        return str

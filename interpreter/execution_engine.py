@@ -1,6 +1,8 @@
 from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
 from parser.parser import Parser
+import utils.token_printer
+import utils.file_handler
 
 class Evaluator:
     def __init__(self):
@@ -21,13 +23,13 @@ class Evaluator:
         """
         try:
             # Read content from the file
-            str_content = self.scanner.readFile(file_name)
+            str_content = utils.file_handler.read_file_content(file_name)
             # Tokenize the content
-            tokens = self.scanner.tokenScan(str_content)
+            tokens = self.scanner.token_scan(str_content)
             # Filter tokens
             filtered_tokens = self.screener.screener(tokens)
             # Print filtered tokens
-            self.scanner.printer(filtered_tokens)
+            utils.token_printer.print_tokens(filtered_tokens)
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
         except Exception as e:
