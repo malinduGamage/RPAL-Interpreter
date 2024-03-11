@@ -1,16 +1,10 @@
 import os
 import sys
-
-# Add the parent directory of the script to the Python path
-""" current_dir = os.path.dirname(os.path.realpath(__file__))
-parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-sys.path.append(parent_dir) """
-
 from errors_handling.error_handler import ErrorHandler
 from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
 from table_routines.accept_states import AcceptStates
-
+from utils.tokens import Token  # noqa: F401
 
 class Scanner:
     def __init__(self):
@@ -48,7 +42,7 @@ class Scanner:
 
             # if the next state is unacceptable and the current state is an accept state, add the token to the output and go back to the start state
             if nextState == -1 and currState in self.acceptStates:
-                output.append((token, self.acceptStates[currState]))
+                output.append(Token(token, self.acceptStates[currState]))
                 token = ''
                 currState = 0
 
@@ -66,11 +60,11 @@ class Scanner:
                 currState = nextState
 
         if currState in self.acceptStates:
-            output.append((token, self.acceptStates[currState]))
+            output.append(Token(token, self.acceptStates[currState]))
 
         # if a comment is at the end of the file without EoL, it will not be considered as an error
         elif token[0:2] == '//':
-            output.append((token, 'DELETE'))
+            output.append(Token(token, 'DELETE'))
 
         else:
             self.error(
@@ -82,8 +76,8 @@ class Scanner:
     # function to print the tokens
     def printer(self, lst):
         if lst != None:
-            for i in lst:
-                print(i)
+            for token in lst:
+                print(token)
 
     # function to read the input file
     def readFile(self, fileName):
