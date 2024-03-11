@@ -4,6 +4,7 @@
         "${workspaceFolder}/lexical_analysis/",
         "${workspaceFolder}/table_routines/",
         "${workspaceFolder}/screener/",
-        "${workspaceFolder}/parser/"
+        "${workspaceFolder}/parser/",
+        "${workspaceFolder}/interpreter/"
     ]
 }

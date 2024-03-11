@@ -1,7 +1,5 @@
 import sys
-from lexical_analyzer import scanner
-from screener.token_screener import Screener
-
+from interpreter.execution_engine import Evaluator
 
 def main():
     # Check if there are enough command-line arguments
@@ -11,20 +9,13 @@ def main():
 
     # Get the filename from the command-line arguments
     file_name = sys.argv[1]
-
-    str_content = scanner.readFile(file_name)
-    tokens = scanner.tokenScan(str_content)
-    scanner.printer(tokens)
-
-    # Create an instance of the Screener class
-    screener = Screener()
     
-    # Call the screener method on the instance
-    filtered_tokens = screener.screener(tokens)
-    print("################################################################")
-    # Print the filtered tokens
-    scanner.printer(filtered_tokens)
-
+    # Create an instance of the Evaluator class
+    interpreter = Evaluator()
+    
+    # Interpret the file
+    interpreter.interpret(file_name)
+   
     """ # Check if the -ast switch is provided
     if len(sys.argv) >= 3 and sys.argv[2] == "-ast":
         print("Abstract Syntax Tree option selected.")

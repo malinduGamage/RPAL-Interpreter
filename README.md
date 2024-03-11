@@ -5,7 +5,7 @@ RPAL-Interpreter/
 ├── main.py # Main entry point of your application
 ├── doc/ # Directory for documentation files
 ├── .vscode/ # Directory for VS Code settings
-│ └── setting.json # VS Code settings file
+│ └── settings.json # VS Code settings file
 ├── error_handling/ # Package for error handling functionality
 │ ├── **init**.py # Marks the directory as a Python package
 │ └── error_handler.py # Module containing error handling logic
@@ -17,9 +17,12 @@ RPAL-Interpreter/
 │ ├── char_map.py # Module containing character mapping logic
 │ ├── fsa_table.py # Module containing Finite State Automaton table logic
 │ └── accept_states.py # Module containing accept states logic
-└── parser/ # Package for parsing functionality
+├── parser/ # Package for parsing functionality
+│ ├── **init**.py # Marks the directory as a Python package
+│ └── parser.py # Module containing parser logic
+└── screener/ # Package for screening functionality
 ├── **init**.py # Marks the directory as a Python package
-└── parser.py # Module containing parser logic
-└── screener/ # Package for
+└── screener.py # Module containing screening logic
+└── interpreter/ # Package for interpreter functionality
 ├── **init**.py # Marks the directory as a Python package
-└── screener.py # Module containing
+└── execution_engine.py # Module containing interpreter logic
