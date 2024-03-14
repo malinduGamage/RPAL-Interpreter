@@ -1,8 +1,9 @@
 from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
-from parser.parser import Parser
+from parser.parser_module import Parser
 import utils.token_printer
 import utils.file_handler
+
 
 class Evaluator:
     def __init__(self):
@@ -29,7 +30,11 @@ class Evaluator:
             # Filter tokens
             filtered_tokens = self.screener.screener(tokens)
             # Print filtered tokens
-            utils.token_printer.print_tokens(filtered_tokens)
+            # utils.token_printer.print_tokens(filtered_tokens)
+            # Parse the filtered tokens
+            self.parser.parse(filtered_tokens)
+            print("Parse tree:")
+            self.parser.print_tree()
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
         except Exception as e:
