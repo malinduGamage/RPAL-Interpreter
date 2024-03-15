@@ -33,7 +33,7 @@ class Evaluator:
             # Filter tokens
             self.filtered_tokens = self.screener.screener(self.tokens)
             # Parse the filtered tokens
-            self.parser.parse(self.filtered_tokens)
+            self.parser.parse(self.filtered_tokens.copy())
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")

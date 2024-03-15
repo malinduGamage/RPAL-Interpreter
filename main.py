@@ -18,9 +18,16 @@ def main():
     evaluator.interpret(file_name)
 
     # Check if the -ast switch is provided
-    if len(sys.argv) >= 3 and sys.argv[2] == "-ast":
-        # print the abstract syntax tree
-        evaluator.print_AST()
+    if len(sys.argv) >= 3:
+        if sys.argv[2] == "-ast":
+            # print the abstract syntax tree
+            evaluator.print_AST()
+        elif sys.argv[2] == "-tokens":
+            # print the tokens
+            evaluator.print_tokens()
+        elif sys.argv[2] == "-ftokens":
+            # print the filtered tokens
+            evaluator.print_filtered_tokens()
 
 
 def handle_ast_option(file_name):
