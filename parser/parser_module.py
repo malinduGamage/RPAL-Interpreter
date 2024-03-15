@@ -8,23 +8,27 @@ class Parser:
 
     #   recursive descent parser
     def parse(self, token_list):
-
         next_token = token_list.pop(0)
 
         # function to build the tree
         def build_tree(token, n):
             node = Node(token)
-            for i in range(n):
-                node.add_child(self.stack.pop())
-            self.stack.push(node)
+            if self.stack.size() >= n:
+                for i in range(n):
+                    node.add_child(self.stack.pop())
+                self.stack.push(node)
+            else:
+                print(
+                    f"Error : Stack size is less than {n} , available {self.stack.size()}")
 
         # function to read a token and update to next_token
         def readToken():
             nonlocal next_token
-            if token_list:
-                next_token = token_list.pop(0)
             if next_token.type in {"ID", "INT", "STR"}:
                 build_tree(f"<{next_token.type}:{next_token.value}>", 0)
+            if token_list:
+                next_token = token_list.pop(0)
+                print(next_token)
 
         # Expressions ############################################
 
@@ -33,6 +37,7 @@ class Parser:
         #   -> Ew;
 
         def E():
+            print("in E")
             if next_token.value == "let":
                 readToken()
                 D()
@@ -65,6 +70,7 @@ class Parser:
         #    -> T;
 
         def Ew():
+            print("in Ew")
             T()
             if next_token.value == "where":
                 readToken()
@@ -76,32 +82,32 @@ class Parser:
         #   -> Ta ;
 
         def T():
+            print("in T")
             Ta()
-            if next_token.value == ",":
-                n = 0
-                while True:
-                    readToken()
-                    Ta()
-                    n += 1
-                    if next_token.value != ",":
-                        break
+            n = 0
+            while next_token.value == ",":
+                readToken()
+                Ta()
+                n += 1
+            if n > 0:
                 build_tree("tau", n+1)
 
         # Ta -> Ta ’aug’ Tc      => ’aug’
         #    -> Tc ;
 
         def Ta():
-            if next_token.value == "aug":
+            print("in Ta")
+            Tc()
+            while next_token.value == "aug":
                 readToken()
                 Tc()
                 build_tree("aug", 2)
-            else:
-                Tc()
 
         # Tc -> B ’->’ Tc ’|’ Tc     => ’->’
         #    -> B ;
 
         def Tc():
+            print("in Tc")
             B()
             if next_token.value == "->":
                 readToken()
@@ -110,6 +116,8 @@ class Parser:
                     readToken()
                     Tc()
                     build_tree("->", 3)
+                else:
+                    print("Error : Expected '|' ")
 
         ## Boolean Expressions ####################################
 
@@ -117,8 +125,9 @@ class Parser:
         #   -> Bt ;
 
         def B():
+            print("in B")
             Bt()
-            if next_token.value == "or":
+            while next_token.value == "or":
                 readToken()
                 Bt()
                 build_tree("or", 2)
@@ -127,8 +136,9 @@ class Parser:
         #    -> Bs ;
 
         def Bt():
+            print("in Bt")
             Bs()
-            if next_token.value == "&":
+            while next_token.value == "&":
                 readToken()
                 Bs()
                 build_tree("&", 2)
@@ -137,6 +147,7 @@ class Parser:
         #    -> Bp ;
 
         def Bs():
+            print("in Bs")
             if next_token.value == "not":
                 readToken()
                 Bp()
@@ -153,6 +164,7 @@ class Parser:
         #    -> A ;
 
         def Bp():
+            print("in Bp")
             A()
             if next_token.value in {"gr", ">"}:
                 readToken()
@@ -188,43 +200,48 @@ class Parser:
         #   -> At ;
 
         def A():
+            print("in A")
             if next_token.value == "+":
                 readToken()
                 At()
             elif next_token.value == "-":
                 readToken()
                 At()
-                build_tree("neg", 2)
+                build_tree("neg", 1)
             else:
                 At()
-                if next_token.value == "+":
-                    readToken()
-                    At()
-                    build_tree("+", 2)
-                elif next_token.value == "-":
-                    readToken()
-                    At()
-                    build_tree("-", 2)
+                while next_token.value in {"+", "-"}:
+                    if next_token.value == "+":
+                        readToken()
+                        At()
+                        build_tree("+", 2)
+                    elif next_token.value == "-":
+                        readToken()
+                        At()
+                        build_tree("-", 2)
 
         # At -> At ’*’ Af    => ’*’
         #    -> At ’/’ Af    => ’/’
         #    -> Af ;
 
         def At():
+            print("in At")
             Af()
-            if next_token.value == "*":
-                readToken()
-                Af()
-                build_tree("*", 2)
-            elif next_token.value == "/":
-                readToken()
-                Af()
-                build_tree("/", 2)
+            while next_token.value in {"*", "/"}:
+                if next_token.value == "*":
+                    readToken()
+                    Af()
+                    build_tree("*", 2)
+                elif next_token.value == "/":
+                    readToken()
+                    Af()
+                    build_tree("/", 2)
 
         # Af -> Ap ’**’ Af      => ’**’
         #    -> Ap ;
 
         def Af():
+            print("in Af")
             Ap()
             if next_token.value == "**":
                 readToken()
@@ -235,13 +252,16 @@ class Parser:
         #    -> R ;
 
         def Ap():
+            print("in Ap")
             R()
-            if next_token.value == "@":
+            while next_token.value == "@":
                 readToken()
                 if next_token.type == "ID":
                     readToken()
                     R()
                     build_tree("@", 3)
+                else:
+                    print("Error : Expected IDENTIFIER ")
 
         # Rators And Rands #######################################
 
@@ -249,14 +269,11 @@ class Parser:
         #   -> Rn ;
 
         def R():
-            n = 0
-            while True:
+            print("in R")
+            Rn()
+            while next_token.type in {"ID", "INT", "STR"} or next_token.value in {"true", "false", "nil", "(", "dummy"}:
                 Rn()
-                n += 1
-                if next_token.type not in {"ID", "INT", "STR"} and next_token.value not in {"true", "false", "nil", "(", "dummy"}:
-                    if n > 1:
-                        build_tree("gamma", n)
-                    break
+                build_tree("gamma", 2)
 
         # Rn -> ’<IDENTIFIER>’
         #    -> ’<INTEGER>’
@@ -268,11 +285,18 @@ class Parser:
         #    -> ’dummy’             => ’dummy’ ;
 
         def Rn():
+            print("in Rn")
             if next_token.type in {"ID", "INT", "STR"}:
                 readToken()
-            elif next_token.value in {"true", "false", "nil"}:
-                build_tree(next_token.value, 0)
+            elif next_token.value == "true":
                 readToken()
+                build_tree("true", 0)
+            elif next_token.value == "false":
+                readToken()
+                build_tree("false", 0)
+            elif next_token.value == "nil":
+                readToken()
+                build_tree("nil", 0)
             elif next_token.value == "(":
                 readToken()
                 E()
@@ -293,6 +317,7 @@ class Parser:
         #   -> Da ;
 
         def D():
+            print("in D")
             Da()
             if next_token.value == "within":
                 readToken()
@@ -303,6 +328,7 @@ class Parser:
         #    -> Dr ;
 
         def Da():
+            print("in Da")
             Dr()
             n = 0
             while next_token.value == "and":
@@ -316,6 +342,7 @@ class Parser:
         #    -> Db ;
 
         def Dr():
+            print("in Dr")
             if next_token.value == "rec":
                 readToken()
                 Db()
@@ -328,29 +355,36 @@ class Parser:
         #    -> ’(’ D ’)’ ;
 
         def Db():
+            print("in Db")
             if next_token.type == "ID":
-                readToken()
-                n = 0
-                while True:
-                    Vb()
-                    n += 1
-                    if next_token.type not in {"ID", "("}:
-                        break
-                if next_token.value == "=":
-                    readToken()
-                    E()
-                    build_tree("fcn_form", n+2)
+                if token_list:
+                    if token_list[0].value == "=":
+                        Vl()
+                        readToken()
+                        E()
+                        build_tree("=", 2)
+                    elif token_list[0].type == "ID" or token_list[0].value == "(":
+                        readToken()
+                        n = 0
+                        while True:
+                            Vb()
+                            n += 1
+                            if next_token.type not in {"ID", "("}:
+                                break
+                        if next_token.value == "=":
+                            readToken()
+                            E()
+                            build_tree("fcn_form", n+2)
+                        else:
+                            print("Error : Expected '=' ")
+                else:
+                    print("Error : Expected '=' or 'ID' ")
+
             elif next_token.value == "(":
                 readToken()
                 D()
                 if next_token.value == ")":
                     readToken()
-            else:
-                Vl()
-                if next_token.value == "=":
-                    readToken()
-                    E()
-                    build_tree("=", 2)
 
         # Variables ##############################################
 
@@ -359,6 +393,7 @@ class Parser:
         #    -> ’(’ ’)’             => ’()’;
 
         def Vb():
+            print("in Vb")
             if next_token.type == "ID":
                 readToken()
             elif next_token.type == "(":
@@ -370,7 +405,7 @@ class Parser:
                 if next_token.value == ")":
                     readToken()
                     if isV1 == False:
-                        build_tree("()", 1)
+                        build_tree("()", 0)
                 else:
                     print("Error : Expected ')' ")
             else:
@@ -379,6 +414,7 @@ class Parser:
         # Vl -> ’<IDENTIFIER>’ list ’,’         => ’,’?
 
         def Vl():
+            print("in Vl")
             n = 0
             while True:
                 if next_token.type == "ID":
