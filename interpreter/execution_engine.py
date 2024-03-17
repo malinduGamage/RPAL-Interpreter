@@ -17,6 +17,7 @@ class Evaluator:
         self.parser = Parser()
         self.tokens = []
         self.filtered_tokens = []
+        self.parse_tree = None
 
     def interpret(self, file_name):
         """
@@ -39,6 +40,8 @@ class Evaluator:
                 raise Exception("Scanning failed.")
             if self.parser.status == False:
                 raise Exception("Parsing failed.")
+
+            self.parse_tree = self.parser.stack.peek()
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
@@ -68,6 +71,6 @@ class Evaluator:
         Print the Abstract Syntax Tree (AST).
         """
         if self.parser.status:
-            utils.AST_printer.print_AST(self.parser.stack)
+            utils.AST_printer.print_AST(self.parse_tree)
         else:
             print("Parsing failed. AST cannot be printed.")

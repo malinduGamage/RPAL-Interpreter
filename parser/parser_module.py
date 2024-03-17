@@ -410,4 +410,11 @@ class Parser:
 
         # start of execution
         E()
-        self.status = True
+        if self.stack.size() == 1:
+            if not token_list:
+                self.status = True
+            else:
+                ErrorHandler.handle_error(
+                    "PARSER : all the tokens are not used ")
+        else:
+            ErrorHandler.handle_error("PARSER : AST has not created properly ")
