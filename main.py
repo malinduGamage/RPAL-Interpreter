@@ -9,7 +9,10 @@ def main():
         return
 
     # Get the filename from the command-line arguments
-    file_name = sys.argv[1]
+    if len(sys.argv) >= 3:
+        file_name = sys.argv[2]
+    else:
+        file_name = sys.argv[1]
 
     # Create an instance of the Evaluator class
     evaluator = Evaluator()
@@ -19,13 +22,13 @@ def main():
 
     # Check if the -ast switch is provided
     if len(sys.argv) >= 3:
-        if sys.argv[2] == "-ast":
+        if sys.argv[1] == "-ast":
             # print the abstract syntax tree
             evaluator.print_AST()
-        elif sys.argv[2] == "-tokens":
+        elif sys.argv[1] == "-t":
             # print the tokens
             evaluator.print_tokens()
-        elif sys.argv[2] == "-ftokens":
+        elif sys.argv[1] == "-ft":
             # print the filtered tokens
             evaluator.print_filtered_tokens()
 
