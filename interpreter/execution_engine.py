@@ -35,25 +35,39 @@ class Evaluator:
             # Parse the filtered tokens
             self.parser.parse(self.filtered_tokens.copy())
 
+            if self.scanner.status == False:
+                raise Exception("Scanning failed.")
+            if self.parser.status == False:
+                raise Exception("Parsing failed.")
+
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(f"An error occurred in {e}")
 
     def print_tokens(self):
         """
         Print the tokens.
         """
-        utils.token_printer.print_tokens(self.tokens)
+        if self.scanner.status:
+            utils.token_printer.print_tokens(self.tokens)
+        else:
+            print("Scanning failed. Tokens cannot be printed.")
 
     def print_filtered_tokens(self):
         """
         Print the filtered tokens.
         """
-        utils.token_printer.print_tokens(self.filtered_tokens)
+        if self.scanner.status:
+            utils.token_printer.print_tokens(self.filtered_tokens)
+        else:
+            print("Scanning failed. Filtered tokens cannot be printed.")
 
     def print_AST(self):
         """
         Print the Abstract Syntax Tree (AST).
         """
-        utils.AST_printer.print_AST(self.parser.stack)
+        if self.parser.status:
+            utils.AST_printer.print_AST(self.parser.stack)
+        else:
+            print("Parsing failed. AST cannot be printed.")

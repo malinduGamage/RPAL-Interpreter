@@ -1,10 +1,12 @@
 from utils.node import Node
 from utils.stack import Stack
+from errors_handling.error_handler import ErrorHandler
 
 
 class Parser:
     def __init__(self):
         self.stack = Stack()
+        self.status = False
 
     #   recursive descent parser
     def parse(self, token_list):
@@ -18,8 +20,8 @@ class Parser:
                     node.add_child(self.stack.pop())
                 self.stack.push(node)
             else:
-                print(
-                    f"Error : Stack size is less than {n} , available {self.stack.size()}")
+                ErrorHandler.handle_error(
+                    "PARSER : Stack size is less than {n} , cannot create node {token}")
 
         # function to read a token and update to next_token
         def readToken():
@@ -28,7 +30,6 @@ class Parser:
                 build_tree(f"<{next_token.type}:{next_token.value}>", 0)
             if token_list:
                 next_token = token_list.pop(0)
-                print(next_token)
 
         # Expressions ############################################
 
@@ -37,7 +38,6 @@ class Parser:
         #   -> Ew;
 
         def E():
-            print("in E")
             if next_token.value == "let":
                 readToken()
                 D()
@@ -46,7 +46,7 @@ class Parser:
                     E()
                     build_tree("let", 2)
                 else:
-                    print("Error : Expected 'in' ")
+                    ErrorHandler.handle_error("PARSER : Expected 'in' ")
 
             elif next_token.value == "fn":
                 readToken()
@@ -62,7 +62,7 @@ class Parser:
                     E()
                     build_tree("lambda", n+1)
                 else:
-                    print("Error : Expected '.' ")
+                    ErrorHandler.handle_error("PARSER : Expected '.' ")
             else:
                 Ew()
 
@@ -70,7 +70,6 @@ class Parser:
         #    -> T;
 
         def Ew():
-            print("in Ew")
             T()
             if next_token.value == "where":
                 readToken()
@@ -82,7 +81,6 @@ class Parser:
         #   -> Ta ;
 
         def T():
-            print("in T")
             Ta()
             n = 0
             while next_token.value == ",":
@@ -96,7 +94,6 @@ class Parser:
         #    -> Tc ;
 
         def Ta():
-            print("in Ta")
             Tc()
             while next_token.value == "aug":
                 readToken()
@@ -107,7 +104,6 @@ class Parser:
         #    -> B ;
 
         def Tc():
-            print("in Tc")
             B()
             if next_token.value == "->":
                 readToken()
@@ -117,7 +113,7 @@ class Parser:
                     Tc()
                     build_tree("->", 3)
                 else:
-                    print("Error : Expected '|' ")
+                    ErrorHandler.handle_error("PARSER : Expected '|' ")
 
         ## Boolean Expressions ####################################
 
@@ -125,7 +121,6 @@ class Parser:
         #   -> Bt ;
 
         def B():
-            print("in B")
             Bt()
             while next_token.value == "or":
                 readToken()
@@ -136,7 +131,6 @@ class Parser:
         #    -> Bs ;
 
         def Bt():
-            print("in Bt")
             Bs()
             while next_token.value == "&":
                 readToken()
@@ -147,7 +141,6 @@ class Parser:
         #    -> Bp ;
 
         def Bs():
-            print("in Bs")
             if next_token.value == "not":
                 readToken()
                 Bp()
@@ -164,7 +157,6 @@ class Parser:
         #    -> A ;
 
         def Bp():
-            print("in Bp")
             A()
             if next_token.value in {"gr", ">"}:
                 readToken()
@@ -200,7 +192,6 @@ class Parser:
         #   -> At ;
 
         def A():
-            print("in A")
             if next_token.value == "+":
                 readToken()
                 At()
@@ -225,7 +216,6 @@ class Parser:
         #    -> Af ;
 
         def At():
-            print("in At")
             Af()
             while next_token.value in {"*", "/"}:
                 if next_token.value == "*":
@@ -241,7 +231,6 @@ class Parser:
         #    -> Ap ;
 
         def Af():
-            print("in Af")
             Ap()
             if next_token.value == "**":
                 readToken()
@@ -252,7 +241,6 @@ class Parser:
         #    -> R ;
 
         def Ap():
-            print("in Ap")
             R()
             while next_token.value == "@":
                 readToken()
@@ -261,7 +249,7 @@ class Parser:
                     R()
                     build_tree("@", 3)
                 else:
-                    print("Error : Expected IDENTIFIER ")
+                    ErrorHandler.handle_error("PARSER : Expected IDENTIFIER ")
 
         # Rators And Rands #######################################
 
@@ -269,7 +257,6 @@ class Parser:
         #   -> Rn ;
 
         def R():
-            print("in R")
             Rn()
             while next_token.type in {"ID", "INT", "STR"} or next_token.value in {"true", "false", "nil", "(", "dummy"}:
                 Rn()
@@ -285,7 +272,6 @@ class Parser:
         #    -> ’dummy’             => ’dummy’ ;
 
         def Rn():
-            print("in Rn")
             if next_token.type in {"ID", "INT", "STR"}:
                 readToken()
             elif next_token.value == "true":
@@ -303,13 +289,13 @@ class Parser:
                 if next_token.value == ")":
                     readToken()
                 else:
-                    print("Error : Expected ')' ")
+                    ErrorHandler.handle_error("PARSER : Expected ')' ")
             elif next_token.value == "dummy":
                 readToken()
                 build_tree("dummy", 0)
             else:
-                print(
-                    "Error : Expected IDENTIFIER, INTEGER, STRING, true, false, nil, (, dummy ")
+                ErrorHandler.handle_error(
+                    "PARSER : Expected IDENTIFIER, INTEGER, STRING, true, false, nil, (, dummy ")
 
         # Definitions ############################################
 
@@ -317,7 +303,6 @@ class Parser:
         #   -> Da ;
 
         def D():
-            print("in D")
             Da()
             if next_token.value == "within":
                 readToken()
@@ -328,7 +313,6 @@ class Parser:
         #    -> Dr ;
 
         def Da():
-            print("in Da")
             Dr()
             n = 0
             while next_token.value == "and":
@@ -342,7 +326,6 @@ class Parser:
         #    -> Db ;
 
         def Dr():
-            print("in Dr")
             if next_token.value == "rec":
                 readToken()
                 Db()
@@ -355,7 +338,6 @@ class Parser:
         #    -> ’(’ D ’)’ ;
 
         def Db():
-            print("in Db")
             if next_token.type == "ID":
                 if token_list:
                     if token_list[0].value == "=":
@@ -376,10 +358,9 @@ class Parser:
                             E()
                             build_tree("fcn_form", n+2)
                         else:
-                            print("Error : Expected '=' ")
+                            ErrorHandler.handle_error("PARSER : Expected '=' ")
                 else:
-                    print("Error : Expected '=' or 'ID' ")
-
+                    ErrorHandler.handle_error("PARSER : Expected '=' or 'ID' ")
             elif next_token.value == "(":
                 readToken()
                 D()
@@ -393,7 +374,6 @@ class Parser:
         #    -> ’(’ ’)’             => ’()’;
 
         def Vb():
-            print("in Vb")
             if next_token.type == "ID":
                 readToken()
             elif next_token.type == "(":
@@ -407,14 +387,13 @@ class Parser:
                     if isV1 == False:
                         build_tree("()", 0)
                 else:
-                    print("Error : Expected ')' ")
+                    ErrorHandler.handle_error("PARSER : Expected ')' ")
             else:
-                print("Error : Expected IDENTIFIER, ( ")
+                ErrorHandler.handle_error("PARSER : Expected IDENTIFIER, ( ")
 
         # Vl -> ’<IDENTIFIER>’ list ’,’         => ’,’?
 
         def Vl():
-            print("in Vl")
             n = 0
             while True:
                 if next_token.type == "ID":
@@ -425,10 +404,10 @@ class Parser:
                     else:
                         break
                 else:
-                    print("Error : Expected IDENTIFIER ")
-                    break
+                    ErrorHandler.handle_error("PARSER : Expected IDENTIFIER ")
             if n > 1:
                 build_tree(",", n)
 
         # start of execution
         E()
+        self.status = True
