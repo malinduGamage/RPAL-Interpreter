@@ -340,7 +340,7 @@ class Parser:
         def Db():
             if next_token.type == "ID":
                 if token_list:
-                    if token_list[0].value == "=":
+                    if token_list[0].value == "=" or token_list[0].value == ",":
                         Vl()
                         readToken()
                         E()

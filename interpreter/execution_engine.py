@@ -36,17 +36,16 @@ class Evaluator:
             # Parse the filtered tokens
             self.parser.parse(self.filtered_tokens.copy())
 
-            if self.scanner.status == False:
-                raise Exception("Scanning failed.")
-            if self.parser.status == False:
-                raise Exception("Parsing failed.")
-
             self.parse_tree = self.parser.stack.peek()
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
         except Exception as e:
             print(f"An error occurred in {e}")
+            if self.scanner.status == False:
+                print("Scanning failed.")
+            elif self.parser.status == False:
+                print("Parsing failed.")
 
     def print_tokens(self):
         """
@@ -73,4 +72,4 @@ class Evaluator:
         if self.parser.status:
             utils.AST_printer.print_AST(self.parse_tree)
         else:
-            print("Parsing failed. AST cannot be printed.")
+            print("AST cannot be printed.")
