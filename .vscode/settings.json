@@ -6,7 +6,8 @@
         "${workspaceFolder}/table_routines/",
         "${workspaceFolder}/screener/",
         "${workspaceFolder}/parser/",
-        "${workspaceFolder}/interpreter/"
+        "${workspaceFolder}/interpreter/",
+        "${workspaceFolder}/tests/"
         
     ]
 }
