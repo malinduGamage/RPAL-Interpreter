@@ -7,7 +7,7 @@
         "${workspaceFolder}/screener/",
         "${workspaceFolder}/parser/",
         "${workspaceFolder}/interpreter/",
-        "${workspaceFolder}/tests/"
+        "${workspaceFolder}/rpal_tests/"
         
     ]
 }

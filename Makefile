@@ -22,10 +22,10 @@ run: install main.py test.txt
 	$(PYTHON) main.py test.txt
 
 # Run tests
-test: install tests/
+test: install rpal_tests/
 	@echo "Running tests..."
 	@echo "!..not yet implemented...!"
-	$(PYTEST) tests/
+	$(PYTEST) rpal_tests/
 
 # Clean up generated files
 clean:

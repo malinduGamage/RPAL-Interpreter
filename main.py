@@ -1,6 +1,6 @@
 import sys
 from interpreter.execution_engine import Evaluator
-""" from tests.rpal_exe import rpal_exe """
+from rpal_tests.rpal_exe import rpal_exe
 
 def main():
     # Check if there are enough command-line arguments
@@ -36,6 +36,7 @@ def main():
         else:
             # Default behavior: Print the Abstract Syntax Tree
             evaluator.print_AST()
+    rpal_exe("add")    
 
 
 def handle_ast_option(file_name):
