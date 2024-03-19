@@ -25,7 +25,7 @@ run: install main.py test.txt
 test: install rpal_tests/
 	@echo "Running tests..."
 	@echo "!..not yet implemented...!"
-	$(PYTEST) rpal_tests/
+	$(PYTEST) -v
 
 # Clean up generated files
 clean:
