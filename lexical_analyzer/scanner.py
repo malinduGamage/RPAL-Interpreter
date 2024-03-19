@@ -4,7 +4,8 @@ from errors_handling.error_handler import ErrorHandler
 from table_routines.char_map import CharMap
 from table_routines.fsa_table import FSATable
 from table_routines.accept_states import AcceptStates
-from utils.tokens import Token  
+from utils.tokens import Token
+
 
 class Scanner:
     def __init__(self):
@@ -15,6 +16,7 @@ class Scanner:
         self.charMap = CharMap().charMap
         self.fsaTable = FSATable().fsaTable
         self.acceptStates = AcceptStates().acceptStates
+        self.status = False
 
     # function to scan the input string and return the tokens
     def token_scan(self, str):
@@ -35,7 +37,7 @@ class Scanner:
             # if the character is not in the charMap, throw an error
             if inputIndex == -1:
                 self.error(
-                    f"Error1 : {chr} at line {lineNum} is not a valid character.")
+                    f"SCANNER : {chr} at line {lineNum} is not a valid character.")
                 return
 
             nextState = self.fsaTable[currState][inputIndex]
@@ -52,7 +54,7 @@ class Scanner:
             # if the next state is unacceptable and the current state is not an accept state, throw an error
             elif nextState == -1 and currState not in self.acceptStates:
                 self.error(
-                    f"Error2 : {token+chr} at line {lineNum} is not a valid token.")
+                    f"SCANNER : {token+chr} at line {lineNum} is not a valid token.")
                 return
             else:
                 token += chr
@@ -68,9 +70,8 @@ class Scanner:
 
         else:
             self.error(
-                f"Error3 : {token} at line {lineNum} is not a valid token.")
+                f"SCANNER : {token} at line {lineNum} is not a valid token.")
             return
 
+        self.status = True
         return output
-
-
