@@ -1,3 +1,0 @@
-let f n = rf n 1 1 where
-    rec rf n c r = c eq n+1 -> r | rf n (c+1) (c*r)
-in Print (f 3, f 5, f 7)

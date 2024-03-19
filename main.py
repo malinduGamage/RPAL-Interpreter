@@ -1,6 +1,6 @@
 import sys
 from interpreter.execution_engine import Evaluator
-
+""" from tests.rpal_exe import rpal_exe """
 
 def main():
     # Check if there are enough command-line arguments
@@ -23,14 +23,19 @@ def main():
     # Check if the -ast switch is provided
     if len(sys.argv) >= 3:
         if sys.argv[1] == "-ast":
-            # print the abstract syntax tree
+            # Print the Abstract Syntax Tree
             evaluator.print_AST()
         elif sys.argv[1] == "-t":
-            # print the tokens
+            # Print the tokens
             evaluator.print_tokens()
         elif sys.argv[1] == "-ft":
-            # print the filtered tokens
+            # Print the filtered tokens
             evaluator.print_filtered_tokens()
+        elif sys.argv[1] == "-st":
+            print("Not yet implemented")
+        else:
+            # Default behavior: Print the Abstract Syntax Tree
+            evaluator.print_AST()
 
 
 def handle_ast_option(file_name):
