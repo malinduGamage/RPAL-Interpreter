@@ -36,7 +36,7 @@ def main():
         else:
             # Default behavior: Print the Abstract Syntax Tree
             evaluator.print_AST()
-    rpal_exe("add")    
+    rpal_exe("div",True)    
 
 
 def handle_ast_option(file_name):

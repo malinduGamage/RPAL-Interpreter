@@ -2,6 +2,7 @@ from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
 from parser.parser_module import Parser
 import utils.token_printer
+import utils.AST_list
 import utils.AST_printer
 import utils.file_handler
 
@@ -73,3 +74,18 @@ class Evaluator:
             utils.AST_printer.print_AST(self.parse_tree)
         else:
             print("AST cannot be printed.")
+
+    def get_ast_list(self):
+        """
+        Retrieves the abstract syntax tree (AST) list representation.
+
+        Returns:
+            list: AST list representation.
+        """
+        # Check if parsing was successful
+        if self.parser.status:
+            # Call the list_AST function to generate AST list
+            return utils.AST_list.list_AST(self.parse_tree)
+        else:
+            # Print a message indicating that AST cannot be printed
+            return []
