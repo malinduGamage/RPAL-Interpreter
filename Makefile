@@ -30,7 +30,6 @@ tests: install rpal_tests/
 # Run normal tests
 test: 
 	@echo "Running tests..."
-	@echo "!..not yet implemented...!"
 	@if [ "$(F)" = "" ]; then \
 		$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests.py ; \
 	else \
@@ -40,7 +39,6 @@ test:
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests..."
-	@echo "!..not yet implemented...!"
 	@if [ "$(F)" = "" ]; then \
 		$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
 	else \

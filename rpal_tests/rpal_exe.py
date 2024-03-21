@@ -36,9 +36,16 @@ def rpal_exe(source_file_path, ast=False):
 
         
 
+        def remove_spaces(string):
+            return string.replace(" ", "").replace("function_form","fcn_form")
+
         # If ast is True, exclude the last element (result)
         if ast:
-            original_output = original_output.split()[:-1]
+            original_output = original_output.splitlines()[:-1]
+
+        # Remove spaces from each element in the original_output list
+        original_output = [remove_spaces(element) for element in original_output]
+
         
         # Print the original output and its raw version
         if ast :
