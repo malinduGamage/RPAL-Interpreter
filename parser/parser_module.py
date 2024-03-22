@@ -276,13 +276,13 @@ class Parser:
                 readToken()
             elif next_token.value == "true":
                 readToken()
-                build_tree("true", 0)
+                build_tree("<true>", 0)
             elif next_token.value == "false":
                 readToken()
-                build_tree("false", 0)
+                build_tree("<false>", 0)
             elif next_token.value == "nil":
                 readToken()
-                build_tree("nil", 0)
+                build_tree("<nil>", 0)
             elif next_token.value == "(":
                 readToken()
                 E()
@@ -292,7 +292,7 @@ class Parser:
                     ErrorHandler.handle_error("PARSER : Expected ')' ")
             elif next_token.value == "dummy":
                 readToken()
-                build_tree("dummy", 0)
+                build_tree("<dummy>", 0)
             else:
                 ErrorHandler.handle_error(
                     "PARSER : Expected IDENTIFIER, INTEGER, STRING, true, false, nil, (, dummy ")
@@ -356,7 +356,7 @@ class Parser:
                         if next_token.value == "=":
                             readToken()
                             E()
-                            build_tree("fcn_form", n+2)
+                            build_tree("function_form", n+2)
                         else:
                             ErrorHandler.handle_error("PARSER : Expected '=' ")
                 else:
@@ -385,7 +385,7 @@ class Parser:
                 if next_token.value == ")":
                     readToken()
                     if isV1 == False:
-                        build_tree("()", 0)
+                        build_tree("<()>", 0)
                 else:
                     ErrorHandler.handle_error("PARSER : Expected ')' ")
             else:
