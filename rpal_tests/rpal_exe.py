@@ -54,13 +54,13 @@ def rpal_exe(source_file_path, ast=False):
             if string[-1] == " ":
                 return string[:-1]
             return string
-        original_output = original_output.splitlines()
+        original_output = original_output.splitlines()[:-1]
         # If ast is True, exclude the last element (result)
-        if ast:
+        """ if ast:
             if original_output[-1] == "":
                 original_output = original_output[:-2]
             else :
-                original_output = original_output[:-1]
+                original_output = original_output[:-1] """
 
         # Remove spaces from each element in the original_output list
         original_output = [remove_spaces(element)
