@@ -11,6 +11,15 @@ class Scanner:
     def __init__(self):
         """
         Initialize the scanner.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None
         """
         self.error = ErrorHandler().handle_error
         self.charMap = CharMap().charMap
@@ -20,6 +29,25 @@ class Scanner:
 
     # function to scan the input string and return the tokens
     def token_scan(self, str):
+        """
+        Scans the input string and returns a list of tokens.
+
+        Parameters
+        ----------
+        str : str
+            The input string to be scanned.
+
+        Returns
+        -------
+        List[Token]
+            A list of tokens generated from the input string.
+
+        Raises
+        ------
+        ScannerError
+            If an invalid character or token is encountered.
+        """
+
         token = ''
         currState = 0
         output = []

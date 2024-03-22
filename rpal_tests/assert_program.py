@@ -3,6 +3,16 @@ from rpal_tests.rpal_exe import rpal_exe
 from interpreter.execution_engine import Evaluator 
 
 def program(source_file_name,ast=False):
+    """
+    Runs the RPAL program with the given source file name.
+
+    Parameters:
+    source_file_name (str): The name of the RPAL source file to run.
+    ast (bool, optional): Whether to return the abstract syntax tree of the program. Defaults to False.
+
+    Returns:
+    Union[str, List[Any]]: The output of the RPAL program, or the abstract syntax tree if `ast` is True.
+    """
     # Setup: Obtain original output by running the RPAL program using rpal_exe
     # Get the current directory
     current_directory = os.path.dirname(os.path.abspath(__file__))

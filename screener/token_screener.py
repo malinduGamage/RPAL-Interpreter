@@ -6,6 +6,13 @@ class Screener:
     def __init__(self):
         """
         Initialize the screener.
+
+        Args:
+            None
+
+        Returns:
+            None
+
         """
         # Retrieve keywords from the Keywords class
         self.keywords = Keywords().keywords

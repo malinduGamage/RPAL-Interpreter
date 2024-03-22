@@ -2,6 +2,20 @@ import os
 import subprocess
 
 def rpal_exe(source_file_path, ast=False):
+    """
+    Runs the Repl.it Pal (rpal.exe) code analysis tool on the specified source file.
+
+    Args:
+        source_file_path (str): The path to the source file to analyze.
+        ast (bool, optional): Whether to return the Abstract Syntax Tree (AST) of the file.
+            Defaults to False.
+
+    Returns:
+        Union[List[str], None]: The output of the rpal.exe tool as a list of strings, or None if
+            an error occurred. If the AST option is specified, the output will not include the
+            final result string.
+    """
+    
     # Get the current directory
     current_directory = os.path.dirname(os.path.abspath(__file__))
     

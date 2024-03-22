@@ -1,18 +1,24 @@
 class AcceptStates:
+    """
+    Initialize the accept states for the Finite State Automaton (FSA).
+
+    Each accept state is associated with a token type or identifier.
+    """
     def __init__(self):
         """
-        Initialize the accept states for the Finite State Automaton (FSA).
-
-        Each accept state is associated with a token type or identifier.
+        Initialize the accept states.
         """
+
+        # Initialize the accept states dictionary with mappings of state numbers to token types
         self.acceptStates = {
-            1: 'ID',
-            2: 'INT',
-            3: 'OPERATOR',
-            4: 'DELETE',
-            5: '(',
-            6: ')',
-            7: ';',
-            8: ',',
-            9: 'STR'
+            1: 'ID',          # Identifier
+            2: 'INT',         # Integer
+            3: 'OPERATOR',    # Operator
+            4: 'DELETE',      # Delete keyword
+            5: '(',           # Left parenthesis
+            6: ')',           # Right parenthesis
+            7: ';',           # Semicolon
+            8: ',',           # Comma
+            9: 'STR'          # String
         }
+

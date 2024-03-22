@@ -8,6 +8,9 @@ import utils.file_handler
 
 
 class Evaluator:
+    """
+    Initialize the Evaluator class.
+    """
     def __init__(self):
         """
         Initialize the Evaluator class.
@@ -68,7 +71,13 @@ class Evaluator:
 
     def print_AST(self):
         """
-        Print the Abstract Syntax Tree (AST).
+        Prints the Abstract Syntax Tree (AST) of the program.
+
+        Raises:
+            ValueError: If the AST is not available.
+
+        Returns:
+            None: If the AST is printed.
         """
         if self.parser.status:
             utils.AST_printer.print_AST(self.parse_tree)

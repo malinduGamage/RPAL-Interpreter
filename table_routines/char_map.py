@@ -34,4 +34,6 @@ class CharMap:
             int: The category group number associated with the character. Returns -1 if the character
                  is not found in the mapping.
         """
-        return self.charMap.get(char, -1)  # Return -1 for characters not found in the map
+        # Return the category group number associated with the character
+        # If the character is not found in the mapping, return -1
+        return self.charMap.get(char, -1)  
