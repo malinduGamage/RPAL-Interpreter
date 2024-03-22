@@ -24,7 +24,7 @@ def program(source_file_name,ast=False):
      # Execution: Obtain actual output by interpreting the program using the Evaluator
     evaluator = Evaluator()
     actual_output = evaluator.interpret(source_file_path) 
-    print("Hello",output)
+    #print("Hello",output)
     if ast:
         actual_output = evaluator.get_ast_list()
         actual_output += (output.splitlines())

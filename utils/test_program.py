@@ -49,7 +49,7 @@ test_programs = [
     "test1",        # Test program for test1 operation
     "tiny",         # Test program for tiny
     "tiny.1",       # Test program for tiny version 1
-    "tower",        # Test program for tower
+    "towers",        # Test program for tower
     "Treepicture",  # Test program for tree picture
     "trees",        # Test program for trees
     "tuples",       # Test program for tuples
