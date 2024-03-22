@@ -1,8 +1,5 @@
 import pytest
 from rpal_tests.assert_program import program
-import os
-from rpal_tests.rpal_exe import rpal_exe
-from interpreter.execution_engine import Evaluator
 from utils.test_program import test_programs
 
 """
