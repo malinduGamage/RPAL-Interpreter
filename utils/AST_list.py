@@ -21,7 +21,7 @@ def list_AST(tree):
 
         """
         # Append the current node to the AST list with appropriate indentation
-        ast.append("." * depth + root.data)
+        ast.append("." * depth + root.data+" ")
 
         # Traverse each child node recursively
         for child in root.children:

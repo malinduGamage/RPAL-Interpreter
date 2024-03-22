@@ -58,7 +58,7 @@ def rpal_exe(source_file_path, ast=False):
         # If ast is True, exclude the last element (result)
         if ast:
             original_output = original_output.splitlines()
-            original_output = [remove_spaces(element) for element in original_output]
+            #original_output = [remove_spaces(element) for element in original_output]
 
         # Remove spaces from each element in the original_output list
 
