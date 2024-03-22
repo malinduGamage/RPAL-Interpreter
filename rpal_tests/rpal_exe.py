@@ -54,7 +54,7 @@ def rpal_exe(source_file_path, ast=False):
             if string[-1] == " ":
                 return string[:-1]
             return string
-
+        original_output = original_output.splitlines()
         # If ast is True, exclude the last element (result)
         if ast:
             if original_output[-1] == "":
