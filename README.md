@@ -105,6 +105,18 @@ To generate the Abstract Syntax Tree:
 ```bash
 python main.py -ast file_name
 ```
+#### Additional Switches for Analysis (Debugging):
+To generate the token list from the lexical analyzer:
+
+```bash
+python main.py -t file_name
+```
+
+To generate the filtered token list from the screene:
+
+```bash
+python main.py -ft file_name
+```
 
 To generate the Standardized Tree:
 
@@ -114,26 +126,32 @@ python main.py -st file_name
 
 #### Make Commands (Alternative Method)
 
-Alternatively, you can use the following make commands:
-Install Dependencies:
+Alternatively, you can use the following make commands:  
+**Install Dependencies:**
 
 ```bash
 make install
 ```
 
-Run Program (test.txt):
+**Run Program (test.txt):**
 
 ```bash
 make run
 ```
 
-Run Tests:
+**Run Tests:**  
+All test :
 
 ```bash
-make test
+make test_ast
 ```
 
-All in One (Install, Run, Test):
+Specific file (in rpal_tests/rpal_source):
+
+```bash
+make test_ast F=file_name
+```
+**All in One (Install, Run, Test):**
 
 ```bash
 make all
