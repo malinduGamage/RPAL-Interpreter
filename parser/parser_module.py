@@ -4,16 +4,43 @@ from errors_handling.error_handler import ErrorHandler
 
 
 class Parser:
+    """
+    This class is responsible for parsing the input code and creating an Abstract Syntax Tree (AST)
+    """
     def __init__(self):
+        """
+        Initialize the Parser class by creating a stack and setting the status to False
+        """
         self.stack = Stack()
         self.status = False
 
     #   recursive descent parser
     def parse(self, token_list):
+        """
+        This function is the entry point of the recursive descent parser. It takes a list of tokens as input and
+        attempts to parse them into an AST.
+
+        Args:
+            token_list (list): A list of tokens to be parsed
+
+        Returns:
+            None
+        """
         next_token = token_list.pop(0)
 
         # function to build the tree
         def build_tree(token, n):
+            """
+            This function is used to build the tree while parsing. It takes a token and the number of children
+            of the node as input and adds the children to the node accordingly.
+
+            Args:
+                token (str): The token of the node
+                n (int): The number of children of the node
+
+            Returns:
+                None
+            """
             node = Node(token)
             if self.stack.size() >= n:
                 for i in range(n):
@@ -25,6 +52,12 @@ class Parser:
 
         # function to read a token and update to next_token
         def readToken():
+            """
+            This function is used to read the next token from the input list and update the next_token variable.
+
+            Returns:
+                None
+            """
             nonlocal next_token
             if next_token.type in {"ID", "INT", "STR"}:
                 build_tree(f"<{next_token.type}:{next_token.value}>", 0)
@@ -38,6 +71,13 @@ class Parser:
         #   -> Ew;
 
         def E():
+            """
+            This function is used to parse the expressions in the input code. It can parse a let expression, a
+            function expression, or a where expression.
+
+            Returns:
+                None
+            """
             if next_token.value == "let":
                 readToken()
                 D()
@@ -70,6 +110,13 @@ class Parser:
         #    -> T;
 
         def Ew():
+            """
+            This function is used to parse the where expressions in the input code. It can parse a tuple
+            expression or a regular expression.
+
+            Returns:
+                None
+            """
             T()
             if next_token.value == "where":
                 readToken()
@@ -81,6 +128,13 @@ class Parser:
         #   -> Ta ;
 
         def T():
+            """
+            This function is used to parse the tuple expressions in the input code. It can parse a tuple of
+            arbitrary length.
+
+            Returns:
+                None
+            """
             Ta()
             n = 0
             while next_token.value == ",":
@@ -94,6 +148,13 @@ class Parser:
         #    -> Tc ;
 
         def Ta():
+            """
+            This function is used to parse the augmented tuple expressions in the input code. It can parse a
+            tuple expression followed by an augment operator.
+
+            Returns:
+                None
+            """
             Tc()
             while next_token.value == "aug":
                 readToken()
@@ -104,6 +165,13 @@ class Parser:
         #    -> B ;
 
         def Tc():
+            """
+            This function is used to parse the conditional tuple expressions in the input code. It can parse a
+            boolean expression followed by a conditional operator.
+
+            Returns:
+                None
+            """
             B()
             if next_token.value == "->":
                 readToken()
@@ -121,6 +189,13 @@ class Parser:
         #   -> Bt ;
 
         def B():
+            """
+            This function is used to parse the boolean expressions in the input code. It can parse a boolean
+            expression followed by an OR operator.
+
+            Returns:
+                None
+            """
             Bt()
             while next_token.value == "or":
                 readToken()
@@ -131,6 +206,13 @@ class Parser:
         #    -> Bs ;
 
         def Bt():
+            """
+            This function is used to parse the boolean expressions in the input code. It can parse a boolean
+            expression followed by an AND operator.
+
+            Returns:
+                None
+            """
             Bs()
             while next_token.value == "&":
                 readToken()
@@ -141,6 +223,13 @@ class Parser:
         #    -> Bp ;
 
         def Bs():
+            """
+            This function is used to parse the boolean expressions in the input code. It can parse a NOT
+            expression or a regular boolean expression.
+
+            Returns:
+                None
+            """
             if next_token.value == "not":
                 readToken()
                 Bp()
@@ -157,6 +246,13 @@ class Parser:
         #    -> A ;
 
         def Bp():
+            """
+            This function is used to parse the boolean expressions in the input code. It can parse a regular
+            boolean expression followed by comparison operators.
+
+            Returns:
+                None
+            """
             A()
             if next_token.value in {"gr", ">"}:
                 readToken()
@@ -192,6 +288,13 @@ class Parser:
         #   -> At ;
 
         def A():
+            """
+            This function is used to parse the arithmetic expressions in the input code. It can parse an
+            arithmetic expression followed by addition or subtraction operators.
+
+            Returns:
+                None
+            """
             if next_token.value == "+":
                 readToken()
                 At()
@@ -216,6 +319,13 @@ class Parser:
         #    -> Af ;
 
         def At():
+            """
+            This function is used to parse the arithmetic expressions in the input code. It can parse an
+            arithmetic expression followed by multiplication and division operators.
+
+            Returns:
+                None
+            """
             Af()
             while next_token.value in {"*", "/"}:
                 if next_token.value == "*":
@@ -231,6 +341,13 @@ class Parser:
         #    -> Ap ;
 
         def Af():
+            """
+            This function is used to parse the arithmetic expressions in the input code. It can parse an
+            arithmetic expression followed by exponentiation operator.
+
+            Returns:
+                None
+            """
             Ap()
             if next_token.value == "**":
                 readToken()
@@ -241,6 +358,13 @@ class Parser:
         #    -> R ;
 
         def Ap():
+            """
+            This function is used to parse the arithmetic expressions in the input code. It can parse an
+            arithmetic expression followed by function application.
+            
+            Returns:
+                None
+            """
             R()
             while next_token.value == "@":
                 readToken()
@@ -257,6 +381,13 @@ class Parser:
         #   -> Rn ;
 
         def R():
+            """
+            This function is used to parse the arithmetic expressions in the input code. It can parse an
+            arithmetic expression followed by function composition.
+            
+            Returns:
+                None
+            """
             Rn()
             while next_token.type in {"ID", "INT", "STR"} or next_token.value in {"true", "false", "nil", "(", "dummy"}:
                 Rn()
@@ -272,6 +403,12 @@ class Parser:
         #    -> ’dummy’             => ’dummy’ ;
 
         def Rn():
+            """
+            This function is used to parse the atomic arithmetic expressions in the input code. 
+            
+            Returns:
+                None
+            """
             if next_token.type in {"ID", "INT", "STR"}:
                 readToken()
             elif next_token.value == "true":
@@ -303,6 +440,12 @@ class Parser:
         #   -> Da ;
 
         def D():
+            """
+            Parses definitions in the input code.
+
+            Returns:
+                None
+             """
             Da()
             if next_token.value == "within":
                 readToken()
@@ -313,6 +456,12 @@ class Parser:
         #    -> Dr ;
 
         def Da():
+            """
+            Parses definitions in the input code.
+
+             Returns:
+                None
+             """
             Dr()
             n = 0
             while next_token.value == "and":
@@ -326,6 +475,12 @@ class Parser:
         #    -> Db ;
 
         def Dr():
+            """
+            Parses definitions in the input code.
+             
+             Returns:
+                None
+             """
             if next_token.value == "rec":
                 readToken()
                 Db()
@@ -338,6 +493,12 @@ class Parser:
         #    -> ’(’ D ’)’ ;
 
         def Db():
+            """
+            Parses definitions in the input code.
+             
+             Returns:
+                None
+             """
             if next_token.type == "ID":
                 if token_list:
                     if token_list[0].value == "=" or token_list[0].value == ",":
@@ -374,6 +535,12 @@ class Parser:
         #    -> ’(’ ’)’             => ’()’;
 
         def Vb():
+            """
+            Parses variables in the input code.
+             
+            Returns:
+                None
+             """
             if next_token.type == "ID":
                 readToken()
             elif next_token.type == "(":
@@ -394,6 +561,12 @@ class Parser:
         # Vl -> ’<IDENTIFIER>’ list ’,’         => ’,’?
 
         def Vl():
+            """
+            Parses comma-separated lists of identifiers in the input code.
+             
+            Returns:
+                None
+             """
             n = 0
             while True:
                 if next_token.type == "ID":
