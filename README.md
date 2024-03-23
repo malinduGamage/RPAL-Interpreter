@@ -201,14 +201,18 @@ RPAL-Interpreter/
 │   ├── stack.py                        # Module containing stack class definition
 │   ├── token_printer.py                # Module containing token printing function (for debugging purposes)
 │   ├── AST_printer.py                  # Module containing AST printing function (for debugging purposes)
+│   ├── AST_list.py                     # Module for listing AST
+│   ├── test_program.py                 # List of program file names in rpal_tests/rpal_source
 │   ├── file_handler.py                 # Module containing file handling functions
 │   └── __init__.py                     # Marks the directory as a Python package
 |
-├── tests/                              # Directory for tests
-│   ├── rpal_sources/                   # Directory for RPAL source codes files to test
-│   ├── test_rpal_sources/              # Directory
+├── rpal_tests/                         # Directory for tests
+│   ├── rpal_sources/                   # Directory for RPAL source code files to test
+│   ├── test_generate_tests.py          # Module for generating tests
+│   ├── test_generate_ast_tests.py      # Module for generating tests in rpal_source by pytest
 │   ├── assert_program                  # Module
 │   ├── rpal_exe.py                     # Module for executing RPAL source code
+│   ├── rpal_interpret.py               # Module for interpreting RPAL source code
 │   ├── cygwin1.dll                     # Cygwin DLL required for execution (if applicable)
 │   └── __init__.py                     # Marks the directory as a Python package
 |
@@ -219,7 +223,10 @@ RPAL-Interpreter/
 |
 ├── requirements.txt                    # File containing project dependencies
 |
+├── Makefile                            # Makefile for automating tasks such as installation, running tests, and cleaning up
+|
 └── __init__.py                         # Marks the directory as a Python package
+
 
 
 ```
