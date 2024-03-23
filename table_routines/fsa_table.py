@@ -1,3 +1,10 @@
+#table_routines/fsa_table.py
+
+#Description
+# This module contains the FSATable class that represents the transition table for the Finite State Automaton (FSA).
+
+#Usage
+# This function provides the FSATable class that initializes the transition table for the FSA.
 class FSATable:
     """
     Initialize the Finite State Automaton (FSA) transition table.

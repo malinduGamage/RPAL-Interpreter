@@ -1,3 +1,10 @@
+#table_routines/keywords.py
+
+#Description
+# This module contains the Keywords class that represents the keywords used in the RPAL language.
+
+#Usage
+# The Keywords class provides a set of predefined reserved words in the RPAL language.
 class Keywords:
     """
     Represents the keywords used in the RPAL language.

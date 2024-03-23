@@ -1,3 +1,11 @@
+#table_routines/accept_states.py
+
+#Description
+# This module contains the AcceptStates class that represents the accept states for the Finite State Automaton (FSA).
+
+#Usage
+# This module provides the AcceptStates class that initializes the accept states for the FSA.
+
 class AcceptStates:
     """
     Initialize the accept states for the Finite State Automaton (FSA).

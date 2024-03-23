@@ -1,3 +1,11 @@
+#rpal_tests/rpal_exe.py
+
+#Description
+#This module is used to run the Repl.it Pal (rpal.exe) code analysis tool on the specified source file.
+
+#Usage
+#This module is used to run the Repl.it Pal (rpal.exe) code analysis tool on the specified source file.
+
 import os
 import subprocess
 

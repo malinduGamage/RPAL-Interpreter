@@ -1,3 +1,15 @@
+# lexical_analyzer/scanner.py
+
+# Description:
+# This file contains the Scanner class, which is responsible for scanning the input string and returning a list of tokens. 
+# It utilizes a character map, a Finite State Automaton (FSA) table, and a set of accept states to perform lexical analysis.
+
+# Usage:
+# The Scanner class provides the token_scan() method, which scans the input string and returns a list of tokens.
+# To use the Scanner, create an instance of the Scanner class and call the token_scan() method with the input string.
+# The token_scan() method takes a single argument, the input string to be scanned, and returns a list of Token objects.
+# If the input string contains any invalid characters or tokens, the Scanner class raises a ScannerError.
+
 import os
 import sys
 from errors_handling.error_handler import ErrorHandler
@@ -8,6 +20,22 @@ from utils.tokens import Token
 
 
 class Scanner:
+    """
+    Initialize and manage the scanner for the RPAL interpreter.
+
+    The Scanner class is responsible for scanning the input string and identifying tokens based on a predefined set of characters and states. It utilizes a character map, Finite State Automaton (FSA) table, and accept states to perform lexical analysis.
+
+    Attributes:
+        error (method): A method to handle errors encountered during scanning.
+        charMap (dict): A dictionary mapping characters to their corresponding indices for lookup.
+        fsaTable (list of lists): A 2D list representing the Finite State Automaton table for transition states.
+        acceptStates (set): A set containing accept states in the Finite State Automaton.
+        status (bool): A flag indicating the current status of the scanner.
+
+    Methods:
+        token_scan(str): Scans the input string and returns a list of tokens.
+
+    """
     def __init__(self):
         """
         Initialize the scanner.

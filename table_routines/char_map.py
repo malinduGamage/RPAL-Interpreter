@@ -1,3 +1,10 @@
+#table_routines/char_map.py
+
+#Description
+# This module contains the CharMap class that represents a character mapping dictionary.
+
+#Usage
+# The CharMap class provides a mapping of characters to group numbers based on their behavior.
 class CharMap:
     def __init__(self):
         """

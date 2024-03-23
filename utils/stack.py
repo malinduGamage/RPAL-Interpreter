@@ -1,3 +1,11 @@
+#utils/stack.py
+
+#Description
+# This module implements the Stack data structure using a list as the underlying data structure.
+
+#Usage
+# Create a new stack using the Stack class and perform push, pop, peek, and size operations on the stack.
+
 class Stack:
     """
     A stack is an abstract data type that serves as a collection of elements, with two main operations:

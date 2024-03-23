@@ -1,3 +1,11 @@
+#utils/node.py
+
+#Description
+# This module contains the Node class, which represents a node in a binary tree data structure.
+
+#Usage
+# This function provides the Node class, which can be used to represent nodes in a binary tree data structure.
+
 class Node:
     """
     A node in a binary tree data structure.

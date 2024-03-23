@@ -1,3 +1,11 @@
+#rpal_tests/assert_program.py
+
+# Description:
+# This function is used to compare the output of the RPAL program obtained by running the program using rpal_exe with the output obtained by interpreting the program using the Evaluator.
+
+#Usage:
+# The program function can be used to compare the output of the RPAL program obtained by running the program using rpal_exe with the output obtained by interpreting the program using the Evaluator.
+
 import os
 from rpal_tests.rpal_exe import rpal_exe
 from interpreter.execution_engine import Evaluator 

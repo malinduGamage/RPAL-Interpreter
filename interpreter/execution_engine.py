@@ -1,3 +1,17 @@
+#interpreter/execution_engine.py
+
+# Description:
+# This module serves as the main execution engine of the RPAL interpreter. It coordinates the interpretation process, including tokenization, filtering, parsing, and printing of tokens, filtered tokens, and the Abstract Syntax Tree (AST) of the program.
+
+# Usage:
+# The Evaluator class in this module provides methods to interpret RPAL programs and print their corresponding tokens, filtered tokens, and AST.
+# To use the Evaluator, create an instance of the Evaluator class.
+# Call the interpret() method with the name of the RPAL file to be interpreted.
+# Call the print_tokens(), print_filtered_tokens(), or print_AST() methods to print the tokens, filtered tokens, or AST, respectively.
+# If parsing fails due to invalid RPAL syntax, the interpreter will print an error message indicating the failure.
+# If scanning fails due to invalid characters or tokens, the interpreter will raise a ScannerError.
+# If the RPAL file is not found, the interpreter will print a corresponding error message.
+
 from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
 from parser.parser_module import Parser
@@ -9,19 +23,28 @@ import utils.file_handler
 
 class Evaluator:
     """
-    Initialize the Evaluator class.
+    The Evaluator class interprets RPAL programs.
+
+    Attributes:
+        scanner (Scanner): An instance of the Scanner class for tokenization.
+        screener (Screener): An instance of the Screener class for token filtering.
+        parser (Parser): An instance of the Parser class for parsing.
+        tokens (list): A list to store tokens generated from the input file.
+        filtered_tokens (list): A list to store filtered tokens after screening.
+        parse_tree (Node): The root node of the parse tree representing the program's Abstract Syntax Tree (AST).
     """
     def __init__(self):
         """
         Initialize the Evaluator class.
         """
         # Initialize scanner, screener, and parser objects
-        self.scanner = Scanner()
-        self.screener = Screener()
-        self.parser = Parser()
-        self.tokens = []
-        self.filtered_tokens = []
-        self.parse_tree = None
+        
+        self.scanner = Scanner()       # Initialize the scanner object
+        self.screener = Screener()     # Initialize the screener object
+        self.parser = Parser()         # Initialize the parser object
+        self.tokens = []               # Initialize a list to store tokens
+        self.filtered_tokens = []      # Initialize a list to store filtered tokens
+        self.parse_tree = None         # Initialize the parse tree
 
     def interpret(self, file_name):
         """

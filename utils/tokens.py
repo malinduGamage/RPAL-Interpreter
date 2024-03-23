@@ -1,3 +1,10 @@
+#utils/tokens.py
+
+# Description:
+# This module contains the Token class, which represents a token in a program.
+
+#Usage:
+# This module provides the Token class, which can be used to represent tokens in a program.
 class Token :
     class Token:
         """

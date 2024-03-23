@@ -1,3 +1,11 @@
+#utils/test_program.py
+
+#Description
+#This module contains a list of test programs for the RPAL interpreter.
+
+#Usage
+#The test_programs list contains the names of individual test programs for AST programs.
+
 # List of individual test names for AST programs
 test_programs = [
     "add",          # Test program for addition operation
