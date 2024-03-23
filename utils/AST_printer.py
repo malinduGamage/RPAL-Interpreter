@@ -6,5 +6,8 @@ def print_AST(tree):
     Args:
         tree: The root node of the AST.
     """
+    # Generate a list representation of the Abstract Syntax Tree (AST) using a depth-first traversal
     ls = list_AST(tree)
+    
+    # Print each node of the AST with indentation to represent the tree structure
     print("\n".join(ls))
