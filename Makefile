@@ -1,13 +1,9 @@
 # Makefile for RPAL interpreter 
 
-# Makefile for RPAL interpreter 
-
 # Usage:
 # - `make`: Installs dependencies, runs the RPAL interpreter, runs tests, and cleans up.
 # - `make install`: Installs project dependencies.
 # - `make run`: Executes the RPAL interpreter.
-# - `make test`: Executes all test cases.
-# - `make test F=...`: Executes a specific test case.
 # - `make test_ast`: Executes all test cases related to Abstract Syntax Tree (AST).
 # - `make test_ast F=...`: Executes a specific test case related to AST.
 # - `make clean`: Cleans up generated files.
