@@ -21,10 +21,10 @@ PYTEST = pytest
 .DEFAULT_GOAL := all
 
 # Targets
-.PHONY: install run test clean all
+.PHONY: install run test_ast clean all
 
 # Default target
-all: clean install run test clean
+all: clean install run test_ast clean
 
 # Install dependencies
 install: requirements.txt
