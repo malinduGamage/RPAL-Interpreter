@@ -50,7 +50,7 @@ def main():
 
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
-        print("Usage: python myrpal.py file_name [-ast]")
+        print("Usage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] file_name ")
         return
 
     # Get the filename from the command-line arguments
@@ -83,13 +83,13 @@ def main():
         elif sys.argv[1] == "-r":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
             try :
-                handle_original_rpal_eval()
+                handle_original_rpal_eval(file_name)
             except :
                 print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
         elif sys.argv[1] == "-rast":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
             try :
-                handle_original_rpal_ast()
+                handle_original_rpal_ast(file_name)
             except :
                 print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
 
