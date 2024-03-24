@@ -36,21 +36,6 @@ run: install main.py test.txt
 	@echo "Running RPAL interpreter..."
 	$(PYTHON) main.py test.txt
 
-# Run all tests
-tests: install rpal_tests/
-	@echo "Running tests..."
-	@echo "!..not yet implemented...!"
-	$(PYTHON) -m pytest -v rpal_tests/
-
-# Run normal tests
-test: 
-	@echo "Running tests..."
-	@if [ "$(F)" = "" ]; then \
-		$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests.py ; \
-	else \
-		$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_tests.py -vvv --tb=short; \
-	fi
-
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests..."
