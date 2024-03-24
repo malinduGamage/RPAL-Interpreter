@@ -1,11 +1,34 @@
+#screener/token_screener.py
+
+#Description
+#This module contains the Screener class, which is responsible for filtering unwanted tokens from the input list of tokens.
+
+#Usage
+#The Screener class provides the screener() method, which removes unwanted tokens from the input list of tokens and returns the filtered list.
+
 from table_routines.keywords import Keywords
 from utils.tokens import Token
 
-
 class Screener:
+    """
+    Token Screener class responsible for filtering unwanted tokens from the input list of tokens.
+
+    Attributes:
+        keywords (set): Set containing keywords to be filtered out from the token list.
+
+    Methods:
+        screener(tokens): Removes unwanted tokens from the input list of tokens and returns the filtered list.
+    """
     def __init__(self):
         """
         Initialize the screener.
+
+        Args:
+            None
+
+        Returns:
+            None
+
         """
         # Retrieve keywords from the Keywords class
         self.keywords = Keywords().keywords

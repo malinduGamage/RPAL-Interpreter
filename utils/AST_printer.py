@@ -1,3 +1,12 @@
+#utils/AST_printer.py
+
+#Description
+# This module contains a function to print the Abstract Syntax Tree (AST) with appropriate indentation.
+
+#Usage
+# This module provides the print_AST() function to print the AST with appropriate indentation.
+
+from utils.AST_list import list_AST
 def print_AST(tree):
     """
     Prints the Abstract Syntax Tree (AST) with appropriate indentation.
@@ -5,20 +14,8 @@ def print_AST(tree):
     Args:
         tree: The root node of the AST.
     """
-    def traverse(root, depth):
-        """
-        Recursively traverses the AST and prints each node with indentation.
-        
-        Args:
-            root: The current node being processed.
-            depth: The depth of the current node in the tree.
-        """
-        # Print the current node with appropriate indentation
-        print("." * depth + root.data)
-        
-        # Recursively traverse each child node
-        for child in root.children:
-            traverse(child, depth + 1)
-
-    # Start traversal from the root node with depth 0
-    traverse(tree, 0)
+    # Generate a list representation of the Abstract Syntax Tree (AST) using a depth-first traversal
+    ls = list_AST(tree)
+    
+    # Print each node of the AST with indentation to represent the tree structure
+    print("\n".join(ls))

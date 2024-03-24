@@ -1,3 +1,18 @@
+# Makefile for RPAL interpreter 
+
+# Makefile for RPAL interpreter 
+
+# Usage:
+# - `make`: Installs dependencies, runs the RPAL interpreter, runs tests, and cleans up.
+# - `make install`: Installs project dependencies.
+# - `make run`: Executes the RPAL interpreter.
+# - `make test`: Executes all test cases.
+# - `make test F=...`: Executes a specific test case.
+# - `make test_ast`: Executes all test cases related to Abstract Syntax Tree (AST).
+# - `make test_ast F=...`: Executes a specific test case related to AST.
+# - `make clean`: Cleans up generated files.
+# - `make all`: Installs dependencies, runs the RPAL interpreter, runs tests, and cleans up.
+
 # Variables
 PYTHON = python
 PYTEST = pytest
@@ -30,7 +45,6 @@ tests: install rpal_tests/
 # Run normal tests
 test: 
 	@echo "Running tests..."
-	@echo "!..not yet implemented...!"
 	@if [ "$(F)" = "" ]; then \
 		$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests.py ; \
 	else \
@@ -40,7 +54,6 @@ test:
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests..."
-	@echo "!..not yet implemented...!"
 	@if [ "$(F)" = "" ]; then \
 		$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
 	else \

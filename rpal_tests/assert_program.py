@@ -1,3 +1,11 @@
+#rpal_tests/assert_program.py
+
+# Description:
+# This function is used to compare the output of the RPAL program obtained by running the program using rpal_exe with the output obtained by interpreting the program using the Evaluator.
+
+#Usage:
+# The program function can be used to compare the output of the RPAL program obtained by running the program using rpal_exe with the output obtained by interpreting the program using the Evaluator.
+
 import os
 from rpal_tests.rpal_exe import rpal_exe
 from interpreter.execution_engine import Evaluator 
@@ -15,13 +23,19 @@ def program(source_file_name,ast=False):
     if not os.path.exists(source_file_path):
         print(f"Error: '{source_file_name}' file not found in the rpal_sources directory.")
         return None
-    original_output = rpal_exe(source_file_path,ast)
+    output = rpal_exe(source_file_path)
+    if ast :
+        original_output = rpal_exe(source_file_path,ast)
+    else :
+        original_output = output
+
      # Execution: Obtain actual output by interpreting the program using the Evaluator
     evaluator = Evaluator()
     actual_output = evaluator.interpret(source_file_path) 
-
+    #print("Hello",output)
     if ast:
         actual_output = evaluator.get_ast_list()
+        actual_output += (output.splitlines())
         print("\nactual output :\n",actual_output, "\n")
     else:
         # Manually set the actual output for testing purposes

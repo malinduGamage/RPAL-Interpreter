@@ -1,9 +1,25 @@
+#rpal_tests/test_generate_ast_tests.py
+
+# Description:
+# Generates test cases for the RPAL interpreter by comparing the output of the RPAL program obtained by running the program using rpal_exe with the output obtained by interpreting the program using the Evaluator.
+
+# Usage:
+# The test_program function can be used to generate test cases for the RPAL interpreter by comparing the output of the RPAL program obtained by running the program using rpal_exe with the output obtained by interpreting the program using the Evaluator.
+
 import pytest
 from rpal_tests.assert_program import program
-import os
-from rpal_tests.rpal_exe import rpal_exe
-from interpreter.execution_engine import Evaluator
 from utils.test_program import test_programs
+
+"""
+This function is a test function that is used to test the functionality of the interpreter.
+
+Args:
+    program_name (str): The name of the program to be tested.
+
+Returns:
+    tuple: A tuple containing the actual and original program strings.
+
+"""
 
 # Parametrize the test cases dynamically
 
