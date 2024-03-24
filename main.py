@@ -1,5 +1,5 @@
 # Usage:
-# python main.py file_name [-ast] [-t] [-ft] [-st] [-r] [-rast]
+# python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] file_name
 
 # Arguments:
 # file_name: The name of the RPAL file to interpret.
@@ -17,13 +17,13 @@
 # python main.py example.rpal
 
 # To print the Abstract Syntax Tree (AST):
-# python main.py example.rpal -ast
+# python main.py -ast example.rpal 
 
 # To print the tokens:
-# python main.py example.rpal -t
+# python main.py -t example.rpal 
 
 # To print the filtered tokens:
-# python main.py example.rpal -ft
+# python main.py -ft example.rpal 
 
 # To execute the original RPAL interpreter on a file and print the AST:
 # python main.py -rast example.rpal
