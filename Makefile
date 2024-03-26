@@ -15,38 +15,56 @@
 
 # Variables
 ifeq ($(OS),Windows_NT)
-	PIP_CMD = pip
+	PYTHON := python
+	PIP := pip
+	PY_VERSION := $(shell $(PYTHON) --version 2>&1)
 else
-	PIP_CMD = pip3
+	PYTHON := python3
+	PIP := pip3
+	PY_VERSION := $(shell $(PYTHON) --version 2>&1)
 endif
 
-PYTHON = python
 PYTEST = pytest
 
 # Default target
 .DEFAULT_GOAL := all
 
 # Targets
-.PHONY: install run test clean all
+.PHONY: install run tests test test_ast clean all check_python check_pip
 
 # Default target
-all: clean install run test_ast clean
+all: install clean test_ast clean
 
 # Install dependencies
-install: requirements.txt
+install: check_python check_pip requirements.txt
 	@echo "Installing dependencies..."
-	$(PIP_CMD) install -r requirements.txt
+	$(PYTHON) -m $(PIP) install -r requirements.txt
+
+# Check if Python is installed
+check_python:
+	@echo "Checking Python installation..."
+	@if [ -z "$(PYTHON)" ]; then \
+		echo "$(PYTHON) is not installed. Please install $(PYTHON)."; \
+		exit 1; \
+	else \
+		echo "Python is installed at $(PYTHON)"; \
+		echo "Python version: $(PY_VERSION)"; \
+	fi
+
+# Check if pip is installed
+check_pip:
+	@echo "Checking pip installation..."
+	@if [ -z "$(PIP)" ]; then \
+		echo "$(PIP) is not installed. Please install $(PIP)."; \
+		exit 1; \
+	else \
+		echo "$(PIP) is installed at $(shell command -v $(PIP))"; \
+	fi
 
 # Run the RPAL interpreter
 run: install main.py test.txt
 	@echo "Running RPAL interpreter..."
 	$(PYTHON) main.py test.txt
-
-# Run all tests
-tests: install rpal_tests/
-	@echo "Running tests..."
-	@echo "!..not yet implemented...!"
-	$(PYTHON) -m pytest -v rpal_tests/
 
 # Run normal tests
 test: 
@@ -81,20 +99,6 @@ test_ast:
 			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
 		fi \
 	fi
-
-
-
-# Clean up generated files
-clean:
-	@echo "Cleaning up..."
-	-$(PYTHON) -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]') if p.exists()]"
-	-$(PYTHON) -Bc "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__') if p.exists()]"
-	-$(PYTHON) -Bc "import shutil; shutil.rmtree('.pytest_cache', ignore_errors=True)"
-
-# Ensure that the requirements file is present
-requirements.txt:
-	@echo "Error: requirements.txt file not found."
-	@exit 1
 
 
 
