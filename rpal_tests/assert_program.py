@@ -32,10 +32,10 @@ def program(source_file_name,ast=False):
      # Execution: Obtain actual output by interpreting the program using the Evaluator
     evaluator = Evaluator()
     actual_output = evaluator.interpret(source_file_path) 
-    #print("Hello",output)
+
     if ast:
-        actual_output = evaluator.get_ast_list()
-        actual_output += (output.splitlines())
+        actual_output = "\n".join(evaluator.get_ast_list())
+        actual_output += ("\n"+output)
         print("\nactual output :\n",actual_output, "\n")
     else:
         # Manually set the actual output for testing purposes
@@ -43,5 +43,4 @@ def program(source_file_name,ast=False):
         print("\nactual output :\n",actual_output,"raw version",repr(actual_output), "\n") 
     
     # Assertion: Compare original output with actual output
-    
     return actual_output , original_output

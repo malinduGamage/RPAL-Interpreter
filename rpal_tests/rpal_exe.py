@@ -28,6 +28,14 @@ def rpal_exe(source_file_path, ast=False):
     # Get the current directory
     current_directory = os.path.dirname(os.path.abspath(__file__))
 
+    # Construct the full path to the source file
+    source_file_path = os.path.join(current_directory, "rpal_sources", source_file_path)
+
+    # Check if the source file exists
+    if not os.path.exists(source_file_path):
+        print(f"Error: '{source_file_path}' file not found in the rpal_sources directory.")
+        return None
+
     # Construct the full path to rpal.exe
     rpal_exe_path = os.path.join(current_directory, "rpal.exe")
 
@@ -56,23 +64,17 @@ def rpal_exe(source_file_path, ast=False):
         # Execute the command and capture the output
         process = subprocess.Popen(command, stdout=subprocess.PIPE)
         original_output = process.communicate()[0].decode("utf-8")
-
-        def remove_spaces(string):
-            # .replace("function_form","fcn_form")
-            if string and string[-1] == " ":
-                return string[:-1]
-            return string
         
         # If ast is True, exclude the last element (result)
         if ast:
-            original_output = original_output.splitlines()
+            original_output = original_output#.splitlines()
 
         # Print the original output and its raw version
         if ast:
             print("\nOriginal rpal.exe output:\n", original_output, "\n")
         else:
             print("\nOriginal rpal.exe output\n:", original_output,
-                  "raw version:", repr(original_output), "\n")
+                  "raw version:", repr(original_output), "\n",source_file_path)
 
         return original_output
 
@@ -80,8 +82,3 @@ def rpal_exe(source_file_path, ast=False):
         print("An error occurred while executing rpal.exe:", e)
         return None
 
-
-# Test the rpal.exe
-if __name__ == "__main__":
-    current_file_name = os.path.basename(__file__)
-    rpal_exe(current_file_name)

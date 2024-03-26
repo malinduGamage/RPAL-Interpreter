@@ -51,20 +51,37 @@ tests: install rpal_tests/
 # Run normal tests
 test: 
 	@echo "Running tests..."
-	@if [ "$(F)" = "" ]; then \
-		$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests.py ; \
+	@if [ "$(OS)" = "Windows" ] && [ "$(R)" = "" ]; then \
+		if [ "$(F)" = "" ]; then \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests_with_rpal_exe.py ; \
+		else \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_tests_with_rpal_exe.py -vvv --tb=short; \
+		fi \
 	else \
-		$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_tests.py -vvv --tb=short; \
+		if [ "$(F)" = "" ]; then \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests.py ; \
+		else \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_tests.py -vvv --tb=short; \
+		fi \
 	fi
 
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests..."
-	@if [ "$(F)" = "" ]; then \
-		$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
+	@if [ "$(OS)" = "Windows" ] && [ "$(R)" = "" ]; then \
+		if [ "$(F)" = "" ]; then \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
+		else \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests_with_rpal_exe.py -vvv --tb=short; \
+		fi \
 	else \
-		$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
+		if [ "$(F)" = "" ]; then \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
+		else \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
+		fi \
 	fi
+
 
 
 # Clean up generated files
@@ -78,3 +95,16 @@ clean:
 requirements.txt:
 	@echo "Error: requirements.txt file not found."
 	@exit 1
+
+
+
+
+
+
+
+
+
+
+
+
+
