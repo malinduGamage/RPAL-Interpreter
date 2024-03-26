@@ -14,6 +14,12 @@
 # - `make all`: Installs dependencies, runs the RPAL interpreter, runs tests, and cleans up.
 
 # Variables
+ifeq ($(OS),Windows_NT)
+	PIP_CMD = pip
+else
+	PIP_CMD = pip3
+endif
+
 PYTHON = python
 PYTEST = pytest
 
@@ -24,12 +30,12 @@ PYTEST = pytest
 .PHONY: install run test clean all
 
 # Default target
-all: clean install run test clean
+all: clean install run test_ast clean
 
 # Install dependencies
 install: requirements.txt
 	@echo "Installing dependencies..."
-	$(PYTHON) -m pip install -r requirements.txt
+	$(PIP_CMD) install -r requirements.txt
 
 # Run the RPAL interpreter
 run: install main.py test.txt
