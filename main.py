@@ -30,6 +30,7 @@
 
 
 import sys
+import platform
 from interpreter.execution_engine import Evaluator
 from rpal_tests.rpal_exe import rpal_exe
 
@@ -97,7 +98,10 @@ def main():
             # Default behavior: Evaluate the program
             #handle_default_behavior(evaluator)
             print("Not yet implemented")
-   
+""" s = []
+for p in test_programs:
+    s.append(rpal_exe(p))
+print(s)   """ 
 
 
 def handle_ast_option(evaluator):
@@ -175,28 +179,30 @@ def handle_original_rpal_eval(file_name):
     Handles the original RPAL evaluation.
 
     Args:
-        None
+        file_name (str): The name of the file to evaluate.
 
     Returns:
         None
-
     """
-    # Your code to handle the original RPAL evaluation
-    rpal_exe(file_name)
+    if platform.system() == "Windows":
+        rpal_exe(file_name)
+    else:
+        print("Original RPAL evaluation is not supported on this operating system.")
 
 def handle_original_rpal_ast(file_name):
     """
-    Handles the original RPAL evaluation.
+    Handles the original RPAL AST generation.
 
     Args:
-        None
+        file_name (str): The name of the file to generate AST.
 
     Returns:
         None
-
     """
-    # Your code to handle the original RPAL evaluation
-    rpal_exe(file_name, True)
+    if platform.system() == "Windows":
+        rpal_exe(file_name, True)
+    else:
+        print("Original RPAL AST generation is not supported on this operating system.")
 
 if __name__ == "__main__":
     main()
