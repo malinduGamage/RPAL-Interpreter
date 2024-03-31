@@ -69,7 +69,7 @@ run: install main.py test.txt
 # Run normal tests
 test: 
 	@echo "Running tests..."
-	@if [ "$(OS)" = "Windows" ] && [ "$(R)" = "" ]; then \
+	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = "" ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests_with_rpal_exe.py ; \
 		else \
@@ -86,7 +86,7 @@ test:
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests..."
-	@if [ "$(OS)" = "Windows" ] && [ "$(R)" = "" ]; then \
+	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = "" ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
 		else \
@@ -100,6 +100,17 @@ test_ast:
 		fi \
 	fi
 
+# Clean up generated files
+clean:
+	@echo "Cleaning up..."
+	-$(PYTHON) -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]') if p.exists()]"
+	-$(PYTHON) -Bc "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__') if p.exists()]"
+	-$(PYTHON) -Bc "import shutil; shutil.rmtree('.pytest_cache', ignore_errors=True)"
+
+# Ensure that the requirements file is present
+requirements.txt:
+	@echo "Error: requirements.txt file not found."
+	@exit 1
 
 
 

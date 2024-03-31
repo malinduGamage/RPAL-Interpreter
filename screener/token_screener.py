@@ -11,14 +11,14 @@ from utils.tokens import Token
 
 class Screener:
     """
-    Token Screener class responsible for filtering unwanted tokens from the input list of tokens.
+    Removes unwanted tokens from the input list of tokens.
 
-    Attributes:
-        keywords (set): Set containing keywords to be filtered out from the token list.
-
-    Methods:
-        screener(tokens): Removes unwanted tokens from the input list of tokens and returns the filtered list.
+    :param tokens: List of tokens to be screened.
+    :type tokens: list
+    :return: Filtered list of tokens.
+    :rtype: list
     """
+
     def __init__(self):
         """
         Initialize the screener.
