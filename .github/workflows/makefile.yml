@@ -5,18 +5,33 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup python3.8
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.8
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/setup-python@v5
         with:
           python-version: 3.8
+
+      - name: Setup Python 3.8 on Windows
+        if: matrix.os == 'windows-latest'
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.8
+
       - name: Install dependencies
         run: |
           make install
-      - name: test with pytest
+
+      - name: Test with pytest
         run: |
           make test_ast
-      - name: cleanup after test
+
+      - name: Cleanup after test
         run: |
           make clean
