@@ -86,23 +86,17 @@ test:
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests..."
-	if [ "$(OS)" = "Windows_NT" ]; then \
-		echo "Running on Windows"; \	
-	else \
-		echo "Running on Linux or macOS"; \
-	fi
-
-	@if [ "$(OS)" = "Windows_NT" ] && [ -z "$(R)" ]; then \
-		if [ "$(F)" = "" ]; then \
-			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
-		else \
-			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests_with_rpal_exe.py -vvv --tb=short; \
-		fi \
-	else \
+	@if [ "$$(uname -s)" = "Linux" ] && [ -z "$(R)" ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
 		else \
 			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
+		fi \
+	else \
+		if [ "$(F)" = "" ]; then \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
+		else \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests_with_rpal_exe.py -vvv --tb=short; \
 		fi \
 	fi
 
