@@ -1,4 +1,4 @@
-![Tests](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/.github/workflows/makefile.yml/badge.svg)
+![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/makefile.yml/badge.svg)
 
 ## RPAL-Interpreter
 
