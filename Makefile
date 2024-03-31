@@ -86,7 +86,7 @@ test:
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests..."
-	@if [ "$(OS)" = "Windows" ] && [ "$(R)" = "" ]; then \
+	@if [ "$(OS)" = "Windows_NT" ] && [ -z "$(R)" ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
 		else \
