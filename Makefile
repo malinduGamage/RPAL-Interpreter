@@ -13,6 +13,14 @@
 # - `make clean`: Cleans up generated files.
 # - `make all`: Installs dependencies, runs the RPAL interpreter, runs tests, and cleans up.
 
+ifeq ($(GITHUB_ACTIONS),true)
+  ifeq ($(OS),Windows_NT)
+	SHELL := cmd.exe
+  else
+	SHELL := /bin/sh
+  endif
+endif
+
 # Variables
 ifeq ($(OS),Windows_NT)
 	PYTHON := python
