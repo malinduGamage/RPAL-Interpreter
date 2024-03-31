@@ -1,3 +1,5 @@
+![Tests](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/.github/workflows/makefile.yml/badge.svg)
+
 ## RPAL-Interpreter
 
 ## Table of Contents
@@ -105,7 +107,9 @@ To generate the Abstract Syntax Tree:
 ```bash
 python main.py -ast file_name
 ```
+
 #### Additional Switches for Analysis (Debugging):
+
 To generate the token list from the lexical analyzer:
 
 ```bash
@@ -151,6 +155,7 @@ Specific file (in rpal_tests/rpal_source):
 ```bash
 make test_ast F=file_name
 ```
+
 **All in One (Install, Run, Test):**
 
 ```bash
