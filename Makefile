@@ -101,6 +101,17 @@ test_ast:
 	fi
 
 
+# Clean up generated files
+clean:
+	@echo "Cleaning up..."
+	-$(PYTHON) -Bc "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]') if p.exists()]"
+	-$(PYTHON) -Bc "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__') if p.exists()]"
+	-$(PYTHON) -Bc "import shutil; shutil.rmtree('.pytest_cache', ignore_errors=True)"
+
+# Ensure that the requirements file is present
+requirements.txt:
+	@echo "Error: requirements.txt file not found."
+	@exit 1
 
 
 
