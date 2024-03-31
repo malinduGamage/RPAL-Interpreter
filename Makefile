@@ -20,7 +20,7 @@ ifeq ($(OS),Windows_NT)
 	PY_VERSION := $(shell $(PYTHON) --version 2>&1)
 else
 	PYTHON := python3
-	PIP := pip3
+	PIP := pip
 	PY_VERSION := $(shell $(PYTHON) --version 2>&1)
 endif
 
