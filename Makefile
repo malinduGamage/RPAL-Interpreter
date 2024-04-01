@@ -76,7 +76,7 @@ run: install main.py test.txt
 
 # Run normal tests
 test: 
-	@echo "Running tests..."
+	@echo "Running tests...$(OS)"
 	@if [ "$(OS)" = "Windows" ] && [ "$(R)" = "" ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests_with_rpal_exe.py ; \
