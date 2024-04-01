@@ -93,7 +93,7 @@ test:
 
 # Run a specific test with parameters
 test_ast:
-	@echo "Running tests..."
+	@echo "Running tests...$(OS)"
 	@if [ "$$(uname -s)" = "Linux" ] && [ -z "$(R)" ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
