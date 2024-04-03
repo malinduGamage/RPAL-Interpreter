@@ -94,15 +94,10 @@ def main():
             except :
                 print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
 
-        else:
-            # Default behavior: Evaluate the program
-            #handle_default_behavior(evaluator)
-            print("Not yet implemented")
-""" s = []
-for p in test_programs:
-    s.append(rpal_exe(p))
-print(s)   """ 
-
+    else:
+        # Default behavior: Evaluate the program
+        #handle_default_behavior(evaluator)
+        print("Not yet implemented")
 
 def handle_ast_option(evaluator):
     """
