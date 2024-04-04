@@ -10,7 +10,7 @@ import os
 from rpal_tests.rpal_exe import rpal_exe
 from interpreter.execution_engine import Evaluator 
 
-def program(source_file_name,ast=False):
+def program(source_file_name,flag=None):
     # Setup: Obtain original output by running the RPAL program using rpal_exe
     # Get the current directory
     current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -24,8 +24,8 @@ def program(source_file_name,ast=False):
         print(f"Error: '{source_file_name}' file not found in the rpal_sources directory.")
         return None
     output = rpal_exe(source_file_path)
-    if ast :
-        original_output = rpal_exe(source_file_path,ast)
+    if flag != None:
+        original_output = rpal_exe(source_file_path,flag)
     else :
         original_output = output
 
@@ -33,7 +33,7 @@ def program(source_file_name,ast=False):
     evaluator = Evaluator()
     actual_output = evaluator.interpret(source_file_path) 
 
-    if ast:
+    if flag != None:
         actual_output = "\n".join(evaluator.get_ast_list())
         actual_output += ("\n"+output)
         print("\nactual output :\n",actual_output, "\n")

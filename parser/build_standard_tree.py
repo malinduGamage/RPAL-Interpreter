@@ -16,10 +16,11 @@ class standard_tree:
             p = tree.children[1]
             tree.children[1] = tree.children[0].children[1]
             tree.children[0].children[1] = p
+######################################################################## Done #######################################################
         elif tree.data == "and" and tree.children[0].data == "=":
             equal = tree.children[0]
             tree.data = "="
-            tree.children[0] = Node(",", "PUNCTION")
+            tree.children[0] = Node(",")
             comma = tree.children[0]
             comma.children[0] = Node(equal.children[0].data)
             tree.children[0].children[1] = Node("tau", "KEYWORD")

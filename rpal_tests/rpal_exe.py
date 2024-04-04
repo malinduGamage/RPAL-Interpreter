@@ -10,7 +10,7 @@ import os
 import subprocess
 
 
-def rpal_exe(source_file_path, ast=False):
+def rpal_exe(source_file_path, flag=None):
     """
     Runs the Repl.it Pal (rpal.exe) code analysis tool on the specified source file.
 
@@ -54,11 +54,13 @@ def rpal_exe(source_file_path, ast=False):
 
     # Prepare the command to execute rpal.exe
     command = [rpal_exe_path, source_file_path]
-    if ast:
+    if flag=="ast":
         command.insert(1, "-ast")
+    elif flag == "st" :
+        command.insert(1, "-st")
 
     # Print the command for debugging
-    print("Executing command:", " ".join(command))
+    #print("Executing command:", " ".join(command))
 
     try:
         # Execute the command and capture the output
@@ -66,11 +68,13 @@ def rpal_exe(source_file_path, ast=False):
         original_output = process.communicate()[0].decode("utf-8")
         
         # If ast is True, exclude the last element (result)
-        if ast:
+        if flag=="ast":
             original_output = original_output#.splitlines()
 
         # Print the original output and its raw version
-        if ast:
+        if flag=="ast":
+            print("\nOriginal rpal.exe output:\n", original_output, "\n")
+        elif flag=="st":
             print("\nOriginal rpal.exe output:\n", original_output, "\n")
         else:
             print("\nOriginal rpal.exe output\n:", original_output,

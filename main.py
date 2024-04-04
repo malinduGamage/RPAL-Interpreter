@@ -36,6 +36,7 @@ from rpal_tests.rpal_exe import rpal_exe
 from parser.build_standard_tree import standard_tree
 from utils.node import Node
 from utils.AST_printer import print_AST
+from utils.test_program import test_programs
 
 
 def main():
@@ -109,13 +110,16 @@ def main():
             try:
                 handle_original_rpal_ast(file_name)
             except:
-                print(
-                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
 
     else:
         # Default behavior: Evaluate the program
         # handle_default_behavior(evaluator)
         print("Not yet implemented")
+    """ l = []
+    for program in test_programs:
+        l.append(rpal_exe(program,True))
+    print(l) """
 
 
 def handle_ast_option(evaluator):
