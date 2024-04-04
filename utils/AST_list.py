@@ -1,9 +1,9 @@
-#utils/list_AST.py
+# utils/list_AST.py
 
 # Description
 # This function returns an abstract syntax tree as a list.
 
-#Usage
+# Usage
 # This function takes a parse tree as input and returns an abstract syntax tree as a list.
 
 def list_AST(tree):
@@ -28,6 +28,7 @@ def list_AST(tree):
         depth (int): The current level of indentation
 
         """
+        print(root)
         # Append the current node to the AST list with appropriate indentation
         ast.append("." * depth + root.data+" ")
 

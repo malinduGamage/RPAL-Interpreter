@@ -17,13 +17,13 @@
 # python main.py example.rpal
 
 # To print the Abstract Syntax Tree (AST):
-# python main.py -ast example.rpal 
+# python main.py -ast example.rpal
 
 # To print the tokens:
-# python main.py -t example.rpal 
+# python main.py -t example.rpal
 
 # To print the filtered tokens:
-# python main.py -ft example.rpal 
+# python main.py -ft example.rpal
 
 # To execute the original RPAL interpreter on a file and print the AST:
 # python main.py -rast example.rpal
@@ -33,6 +33,10 @@ import sys
 import platform
 from interpreter.execution_engine import Evaluator
 from rpal_tests.rpal_exe import rpal_exe
+from parser.build_standard_tree import standard_tree
+from utils.node import Node
+from utils.AST_printer import print_AST
+
 
 def main():
     """
@@ -49,9 +53,21 @@ def main():
 
     """
 
+    tree = Node("let")
+    tree.add_child(Node("p"))
+    tree.add_child(Node("="))
+    tree.children[0].add_child(Node("e"))
+    tree.children[0].add_child(Node("x"))
+
+    s = standard_tree(tree)
+    s.build_standard_tree()
+
+    print_AST(tree)
+
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
-        print("Usage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] file_name ")
+        print(
+            "Usage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] file_name ")
         return
 
     # Get the filename from the command-line arguments
@@ -79,25 +95,28 @@ def main():
             handle_filtered_tokens_option(evaluator)
         elif sys.argv[1] == "-st":
             # Print the standard tree
-            #handle_standard_tree_option(evaluator)
+            # handle_standard_tree_option(evaluator)
             print("Not yet implemented")
         elif sys.argv[1] == "-r":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
-            try :
+            try:
                 handle_original_rpal_eval(file_name)
-            except :
-                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+            except:
+                print(
+                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
         elif sys.argv[1] == "-rast":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
-            try :
+            try:
                 handle_original_rpal_ast(file_name)
-            except :
-                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+            except:
+                print(
+                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
 
     else:
         # Default behavior: Evaluate the program
-        #handle_default_behavior(evaluator)
+        # handle_default_behavior(evaluator)
         print("Not yet implemented")
+
 
 def handle_ast_option(evaluator):
     """
@@ -113,6 +132,7 @@ def handle_ast_option(evaluator):
     # Your code to print the abstract syntax tree
     evaluator.print_AST()
 
+
 def handle_standard_tree_option(evaluator):
     """
     Prints the Standard Tree for the given file.
@@ -126,6 +146,7 @@ def handle_standard_tree_option(evaluator):
     """
     # Your code to print the standard tree
     evaluator.print_standard_tree()
+
 
 def handle_default_behavior(evaluator):
     """
@@ -141,6 +162,7 @@ def handle_default_behavior(evaluator):
     # Your code for default behavior
     print("Not yet implemented")
 
+
 def handle_tokens_option(evaluator):
     """
     Prints the tokens for the given file.
@@ -155,6 +177,7 @@ def handle_tokens_option(evaluator):
     # Your code to print the tokens
     evaluator.print_tokens()
 
+
 def handle_filtered_tokens_option(evaluator):
     """
     Prints the filtered tokens for the given file.
@@ -168,6 +191,7 @@ def handle_filtered_tokens_option(evaluator):
     """
     # Your code to print the filtered tokens
     evaluator.print_filtered_tokens()
+
 
 def handle_original_rpal_eval(file_name):
     """
@@ -184,6 +208,7 @@ def handle_original_rpal_eval(file_name):
     else:
         print("Original RPAL evaluation is not supported on this operating system.")
 
+
 def handle_original_rpal_ast(file_name):
     """
     Handles the original RPAL AST generation.
@@ -198,6 +223,7 @@ def handle_original_rpal_ast(file_name):
         rpal_exe(file_name, True)
     else:
         print("Original RPAL AST generation is not supported on this operating system.")
+
 
 if __name__ == "__main__":
     main()
