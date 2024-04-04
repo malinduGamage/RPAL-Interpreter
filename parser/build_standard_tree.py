@@ -4,6 +4,8 @@ from utils.node import Node
 
 class standard_tree:
     def __init__(self, tree):
+        self.op = ["aug","or","&","+","-","/","**","gr"]
+        self.uop = ["not","neg"]
         self.tree = tree
         self.standard_tree = None
         self.status = False
@@ -23,7 +25,7 @@ class standard_tree:
             tree.children[0] = Node(",")
             comma = tree.children[0]
             comma.children[0] = Node(equal.children[0].data)
-            tree.children[0].children[1] = Node("tau", "KEYWORD")
+            tree.children[0].children[1] = Node("tau")
             tau = tree.children[0].children[1]
 
             tau.children[0] = Node(equal.children[0].children[1].data)
@@ -38,16 +40,6 @@ class standard_tree:
                 tau = tau.children[1]
 
                 equal = equal.children[1]
-        elif tree.data == "where":
-            tree.data = "gamma"
-            if tree.children[1].data == "=":
-                p = tree.children[0]
-                x = tree.children[1].children[0]
-                e = tree.children[1].children[0].children[1]
-                tree.children[0] = Node("lambda", "KEYWORD")
-                tree.children[0].children[1] = e
-                tree.children[0].children[0] = x
-                tree.children[0].children[0].children[1] = p
         elif tree.data == "within":
             if tree.children[0].data == "=" and tree.children[0].children[1].data == "=":
                 x1 = tree.children[0].children[0]
@@ -63,20 +55,6 @@ class standard_tree:
                 temp = temp.children[0]
                 temp.children[0] = x1
                 temp.children[0].children[1] = e2
-        elif tree.data == "rec" and tree.children[0].data == "=":
-            x = tree.children[0].children[0]
-            e = tree.children[0].children[0].children[1]
-
-            tree.data = "="
-            tree.children[0] = x
-            tree.children[0].children[1] = Node("gamma", "KEYWORD")
-            tree.children[0].children[1].children[0] = Node("YSTAR", "KEYWORD")
-            ystar = tree.children[0].children[1].children[0]
-
-            ystar.children[1] = Node("lambda", "KEYWORD")
-
-            ystar.children[1].children[0] = Node(x)
-            ystar.children[1].children[0].children[1] = Node(e)
         elif tree.data == "function_form":
             p = tree.children[0]
             v = tree.children[0].children[1]
@@ -111,12 +89,38 @@ class standard_tree:
                     temp = temp.children[0].children[1]
                     temp.children[0] = Node(v)
                     temp.children[0].children[1] = v.children[1]
+
+        elif tree.data == "where":
+            tree.data = "gamma"
+            if tree.children[1].data == "=":
+                p = tree.children[0]
+                x = tree.children[1].children[0]
+                e = tree.children[1].children[0].children[1]
+                tree.children[0] = Node("lambda", "KEYWORD")
+                tree.children[0].children[1] = e
+                tree.children[0].children[0] = x
+                tree.children[0].children[0].children[1] = p
+######################################################################## Done #######################################################
+
+        elif tree.data == "rec" and tree.children[0].data == "=":
+            x , e = tree.children[0].children
+
+            tree.data = "="
+            tree.children = [x, Node("gamma")]
+            tree.children[1].children = [Node("Ystar"),Node("lambda")]
+            tree.children[1].children[1].children = [x,e]
+        
+        elif tree.data in self.op:
+            op_ = tree.data
+            e1 = tree.children[0]
+            e2 = tree.children[1]
+            tree.data = "gamma"
+            tree.children = [Node("gamma"),e2]
+            tree.children[0].children = [Node(op_),e1]
         elif tree.data == "@":
             e1 = tree.children[0]
             n = tree.children[1]
-            e2 = tree.children[1].children[1]
+            e2 = tree.children[2]
             tree.data = "gamma"
-            tree.children[0] = Node("gamma", "KEYWORD")
-            tree.children[0].children[1] = e2
-            tree.children[0].children[0] = n
-            tree.children[0].children[0].children[1] = e1
+            tree.children = [Node("gamma"),e2]
+            tree.children[0].children = [n,e1]

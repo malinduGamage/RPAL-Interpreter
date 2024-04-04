@@ -54,16 +54,34 @@ def main():
 
     """
 
-    tree = Node("let")
-    tree.add_child(Node("p"))
-    tree.add_child(Node("="))
-    tree.children[0].add_child(Node("e"))
-    tree.children[0].add_child(Node("x"))
+    """ tree1 = Node("@")
+    tree1.add_child(Node("e2"))
+    tree1.add_child(Node("n"))
+    tree1.add_child(Node("e1"))
 
-    s = standard_tree(tree)
-    s.build_standard_tree()
+    s1 = standard_tree(tree1)
+    s1.build_standard_tree()
 
-    print_AST(tree)
+    print_AST(tree1)
+
+    tree2 = Node("aug")
+    tree2.add_child(Node("e2"))
+    tree2.add_child(Node("e1"))
+
+    s2 = standard_tree(tree2)
+    s2.build_standard_tree()
+    print_AST(tree2)
+
+    tree3 = Node("rec")
+    tree3.add_child(Node("="))
+    tree3.children[0].children = [Node("x"),Node("e")]
+    
+
+    s3 = standard_tree(tree3)
+    s3.build_standard_tree()
+    print_AST(tree3) """
+
+    
 
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
