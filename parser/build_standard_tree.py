@@ -15,3 +15,13 @@ class standard_tree:
             p = tree.children[1]
             tree.children[1] = tree.children[0].children[1]
             tree.children[0].children[1] = p
+
+tree = Node("let")
+tree.add_child(Node("p"))
+tree.add_child(Node("="))
+tree.children[0].add_child(Node("e"))
+tree.children[1].add_child(Node("x"))
+
+standard_tree.build_standard_tree(tree)
+
+print(tree.data)
