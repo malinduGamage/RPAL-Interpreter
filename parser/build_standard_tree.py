@@ -40,21 +40,6 @@ class standard_tree:
                 tau = tau.children[1]
 
                 equal = equal.children[1]
-        elif tree.data == "within":
-            if tree.children[0].data == "=" and tree.children[0].children[1].data == "=":
-                x1 = tree.children[0].children[0]
-                e1 = tree.children[0].children[0].children[1]
-                x2 = tree.children[0].children[1].children[0]
-                e2 = tree.children[0].children[1].children[0].children[1]
-                tree.data = "="
-                tree.children[0] = x2
-                tree.children[0].children[1] = Node("gamma", "KEYWORD")
-                temp = tree.children[0].children[1]
-                temp.children[0] = Node("lambda", "KEYWORD")
-                temp.children[0].children[1] = e1
-                temp = temp.children[0]
-                temp.children[0] = x1
-                temp.children[0].children[1] = e2
         elif tree.data == "function_form":
             p = tree.children[0]
             v = tree.children[0].children[1]
@@ -90,17 +75,41 @@ class standard_tree:
                     temp.children[0] = Node(v)
                     temp.children[0].children[1] = v.children[1]
 
-        elif tree.data == "where":
-            tree.data = "gamma"
-            if tree.children[1].data == "=":
-                p = tree.children[0]
-                x = tree.children[1].children[0]
-                e = tree.children[1].children[0].children[1]
-                tree.children[0] = Node("lambda", "KEYWORD")
-                tree.children[0].children[1] = e
-                tree.children[0].children[0] = x
-                tree.children[0].children[0].children[1] = p
 ######################################################################## Done #######################################################
+        elif tree.data == "within" and tree.children[0].data == "=" and tree.children[1].data == "=":
+            x1 , e1 = tree.children[0].children
+            x2 , e2 = tree.children[1].children
+            tree.data = "="
+            tree.children = [x2,Node("gamma")]
+            tree.children[1].children = [Node("lambda"),e1]
+            tree.children[1].children[0].children = [x1,e2]
+        elif tree.data in self.uop :
+            e = tree.children[0]
+            tree.children = [Node(tree.data),e]
+            tree.data = "gamma"
+        elif tree.data == "->" :
+            b , t, e = tree.children
+            tree.data = "gamma"
+            tree.children = [Node("gamma"),Node("nil")]
+            tree.children[0].children = [Node("gamma"),Node("lambda")]
+            tree.children[0].children[0].children = [Node("gamma"),Node("lambda")]
+            tree.children[0].children[1].children = [Node("()"),Node("e")]
+            tree.children[0].children[0].children[0].children = [Node("Cond"),Node("B")]
+            tree.children[0].children[0].children[1].children = [Node("()"),Node("T")]
+
+        
+        elif tree.data == "neg" :
+            e = tree.children[0]
+            tree.data = "gamma"
+            tree.children = [Node("neg"),e]
+        
+        elif tree.data == "where" and tree.children[1].data == "=":
+            p = tree.children[0]
+            x ,e = tree.children[1].children
+            tree.data = "gamma"
+            tree.children = [Node("lambda"),e]
+            tree.children[0].children = [x,p]
+
 
         elif tree.data == "rec" and tree.children[0].data == "=":
             x , e = tree.children[0].children

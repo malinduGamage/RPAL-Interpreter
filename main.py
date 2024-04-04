@@ -79,9 +79,47 @@ def main():
 
     s3 = standard_tree(tree3)
     s3.build_standard_tree()
-    print_AST(tree3) """
+    print_AST(tree3) 
 
+    tree4 = Node("where")
+    tree4.children = [Node("p"),Node("=")]
+    tree4.children[1].children = [Node("x"),Node("e")]
     
+
+    s4 = standard_tree(tree4)
+    s4.build_standard_tree()
+    print_AST(tree4) 
+
+    tree5 = Node("neg")
+    tree5.children = [Node("e")]
+    
+    s5 = standard_tree(tree5)
+    s5.build_standard_tree()
+    print_AST(tree5)
+
+    tree6 = Node("->")
+    tree6.children = [Node("b"),Node("t"),Node("e")]
+    
+    s6 = standard_tree(tree6)
+    s6.build_standard_tree()
+    print_AST(tree6)
+
+    tree7 = Node("not")
+    tree7.children = [Node("e")]
+
+    s7 = standard_tree(tree7)
+    s7.build_standard_tree()
+    print_AST(tree7)"""
+
+    tree8 = Node("within")
+    tree8.children = [Node("="),Node("=")]
+    tree8.children[0].children = [Node("x1"),Node("e1")]
+    tree8.children[1].children = [Node("x2"),Node("e2")]
+
+    s8 = standard_tree(tree8)
+    s8.build_standard_tree()
+    print_AST(tree8)
+
 
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
