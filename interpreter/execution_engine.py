@@ -17,8 +17,8 @@ from screener.token_screener import Screener
 from parser.parser_module import Parser
 from parser.build_standard_tree import StandardTree
 import utils.token_printer
-import utils.AST_list
-import utils.AST_printer
+import utils.tree_list
+import utils.tree_printer
 import utils.file_handler
 
 
@@ -109,7 +109,7 @@ class Evaluator:
             None: If the AST is printed.
         """
         if self.parser.status:
-            utils.AST_printer.print_AST(self.parse_ast_tree)
+            utils.tree_printer.print_tree(self.parse_ast_tree)
         else:
             print("AST cannot be printed.")
 
@@ -123,7 +123,7 @@ class Evaluator:
         # Check if parsing was successful
         if self.parser.status:
             # Call the list_AST function to generate AST list
-            return utils.AST_list.list_AST(self.parse_ast_tree)
+            return utils.tree_list.list_tree(self.parse_ast_tree)
         else:
             # Print a message indicating that AST cannot be printed
             return []
@@ -139,7 +139,7 @@ class Evaluator:
             None: If the ST is printed.
         """
         if self.standard_tree.status:
-            utils.AST_printer.print_AST(self.parse_st_tree)
+            utils.tree_printer.print_AST(self.parse_st_tree)
         else:
             print("AST cannot be printed.")
 
@@ -153,7 +153,7 @@ class Evaluator:
         # Check if parsing was successful
         if self.standard_tree.status:
             # Call the list_AST function to generate AST list
-            return utils.AST_list.list_AST(self.parse_st_tree)
+            return utils.tree_list.list_AST(self.parse_st_tree)
         else:
             # Print a message indicating that AST cannot be printed
             return []

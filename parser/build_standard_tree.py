@@ -73,8 +73,6 @@ class StandardTree:
             self.status = False
             self.error_handler.handle_error(e)
 
-
-
     def _apply_transformations(self, tree):
         """
         Apply transformations to the input tree based on specific cases.

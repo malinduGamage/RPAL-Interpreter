@@ -6,7 +6,7 @@
 # Usage
 # This function takes a parse tree as input and returns an abstract syntax tree as a list.
 
-def list_AST(tree):
+def list_tree(tree):
     """
     This function takes a parse tree as input and returns an abstract syntax tree as a list.
 

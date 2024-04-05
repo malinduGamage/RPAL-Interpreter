@@ -33,7 +33,7 @@ from interpreter.execution_engine import Evaluator
 from rpal_tests.rpal_exe import rpal_exe
 from parser.build_standard_tree import StandardTree
 from utils.node import Node
-from utils.AST_printer import print_AST
+from tree_printer import print_AST
 from utils.test_program import test_programs
 
 

@@ -15,7 +15,6 @@ from utils.node import Node
 from utils.stack import Stack
 from errors_handling.error_handler import ErrorHandler
 
-
 class Parser:
     """
     Parser class responsible for parsing the input code and constructing an Abstract Syntax Tree (AST).
