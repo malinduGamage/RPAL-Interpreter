@@ -125,6 +125,23 @@ test_ast:
 		fi \
 	fi
 
+test_all:
+	@echo "Running tests...$(OS)"
+	@if [ "$$(uname -s)" = "Linux" ] && [ -z "$(R)" ]; then \
+		echo "=========================================================================================================="; \
+		echo "Running tests for Abstract Syntax Tree (AST):"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests for Standardized Syntax Tree (ST):"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
+	else \
+		echo "=========================================================================================================="; \
+		echo "Running tests for Abstract Syntax Tree (AST):"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests for Standardized Syntax Tree (ST):"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
+	fi
 
 # Clean up generated files
 clean:
