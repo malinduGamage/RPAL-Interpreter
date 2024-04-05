@@ -1,24 +1,137 @@
 ![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/makefile.yml/badge.svg)
 
 ## RPAL-Interpreter
+- This project was the culmination of the CS3513-Programming Languages module, which was part of the curriculum offered by the Department of Computer Science & Engineering at the University of Moratuwa. It was completed during the 4th semester of Batch 21.
 
 ## Table of Contents
 
-- [About](#about)
+- [Problem Requirements](#problem-requirements)
+- [About our solution](#about-our-solution)
+- [Usage](#usage)
 - [Features](#features)
 - [Project Structure](#project-structure)
 - - [Lexical Analyzer](#lexical-analyzer)
 - - [Screener](#screener)
 - - [Parser](#parser)
 - - [CSE Machine](#cse-machine)
-- [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Contributors](#contributors)
 - [License](#license)
+  
+## Problem Requirements
+- Implement a lexical analyzer and a parser for the RPAL (Right-reference Pedagogic Algorithmic Language). Refer the [RPAL_Lex](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Lex.pdf) for the lexical rules and [RPAL_Grammar](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Grammar.pdf) for the grammar details.Additionally, refer to [About RPAL](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/About%20RPAL.pdf)  for information about the RPAL language.
+- The output of the parser should be the Abstract Syntax Tree (AST) for the given input program.
+Implement an algorithm to convert the Abstract Syntax Tree (AST) in to Standardize Tree (ST) and implement CSE machine.Refer to the [semantics](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/semantics.pdf) document, which contains the rules for transforming the AST into the ST
+- Program should be able to read an input file which contains a RPAL program and return Output which should match the output of rpal.exe for the relevant program.
+- For more details, refer the [Project_Requirements](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/ProgrammingProject.pdf) document.
 
-## About
+## About our solution
 
-RPAL-Interpreter is a Python package for interpreting RPAL (Recursive Programming Algorithmic Language) code. It provides functionality for lexical analysis, parsing, error handling, and interpretation of RPAL programs.
+- **Programming Language**:python
+- **Development & Testing**:  Visual Studio Code, Command Line, Cygwin, Pytest, GitHub Actions
+
+## Usage
+
+To use the RPAL-Interpreter, follow these steps:
+### Prerequisites
+- Your local machine must have Python and pip installed.
+1. Clone the repository to your local machine or download the project source code as a ZIP file.
+2. Navigate to the root directory of the project in the command line interface.
+3. Install the dependencies by running the following command in the project directory:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Put your RPAL test programs in the root directory. We had added the [test.txt](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/test.txt) to the root directory, which contains the sample input program of the [Project_Requirements](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/ProgrammingProject.pdf) document.
+Run the main script `main.py` with the file name as an argument:
+
+```bash
+python main.py file_name
+```
+
+The following sequence of commands can be used in the root of the project directory to compile the program and execute RPAL programs:
+
+To generate the Abstract Syntax Tree:
+
+```bash
+python main.py -ast file_name
+```
+
+#### Additional Switches for Analysis (Debugging):
+
+To generate the token list from the lexical analyzer:
+
+```bash
+python main.py -t file_name
+```
+
+To generate the filtered token list from the screen:
+
+```bash
+python main.py -ft file_name
+```
+
+To generate the Standardized Tree:
+
+```bash
+python main.py -st file_name
+```
+
+#### Using Make Commands (Alternative Method)
+
+**Your local machine must be able to run make command**
+
+#### Note for Windows Users
+
+For Windows users, for make commad [Cygwin](https://www.cygwin.com/install.html) or similar unix like env tools for execution.
+
+Alternatively, you can use the following make commands: 
+
+**Install Dependencies:**
+
+```bash
+make install
+```
+
+**Run Program (test.txt):**
+
+```bash
+make run
+```
+
+**Run Tests:**  
+Run all tests :
+
+```bash
+make test_all
+```
+Run tests for final result:
+
+```bash
+make test
+```
+
+Run tests for AST result:
+
+```bash
+make test_ast
+```
+
+Run tests for ST result:
+
+```bash
+make test_st
+```
+
+**All in One (Install, Run, Test(test_all)):**
+
+```bash
+make all
+```
+#### Note for Python 3 Users
+
+ If you have both Python 2 and Python 3 installed, you may need to use python3 instead of python in the commands above. Similarly, use pip3 instead of pip for installing packages.
 
 ## Features
 
@@ -29,7 +142,6 @@ RPAL-Interpreter is a Python package for interpreting RPAL (Recursive Programmin
 - Executes the RPAL program and produces the output
 
 The interpreter consists of the following main components:
-
 ## Project Structure
 
 The RPAL interpreter project is structured into several components, each responsible for specific functionalities related to lexical analysis, parsing, interpretation, and error handling. Below is an overview of the project structure and its key components:
@@ -83,89 +195,6 @@ The RPAL interpreter project is structured into several components, each respons
   - **Input**: Standard Tree (ST).
   - **Output**: Output of the source program.
 
-## Usage
-
-To use the RPAL-Interpreter, follow these steps:
-
-1. Install the dependencies by running
-
-```bash
-pip install -r requirements.txt
-```
-
-2. Write your RPAL code in a file (e.g., `example.rpal`).
-3. Run the main script `main.py` with the file name as an argument:
-
-```bash
-python main.py example.rpal
-```
-
-The following sequence of commands can be used in the root of the project directory to compile the program and execute RPAL programs:
-
-To generate the Abstract Syntax Tree:
-
-```bash
-python main.py -ast file_name
-```
-
-#### Additional Switches for Analysis (Debugging):
-
-To generate the token list from the lexical analyzer:
-
-```bash
-python main.py -t file_name
-```
-
-To generate the filtered token list from the screene:
-
-```bash
-python main.py -ft file_name
-```
-
-To generate the Standardized Tree:
-
-```bash
-python main.py -st file_name
-```
-
-#### Make Commands (Alternative Method)
-
-Alternatively, you can use the following make commands:  
-**Install Dependencies:**
-
-```bash
-make install
-```
-
-**Run Program (test.txt):**
-
-```bash
-make run
-```
-
-**Run Tests:**  
-All test :
-
-```bash
-make test_ast
-```
-
-Specific file (in rpal_tests/rpal_source):
-
-```bash
-make test_ast F=file_name
-```
-
-**All in One (Install, Run, Test):**
-
-```bash
-make all
-```
-
-#### Note for Windows Users
-
-For Windows users, some commands may require [Cygwin](https://www.cygwin.com/install.html) or similar tools for execution.
-
 ## Directory Structure
 
 ```bash
@@ -182,7 +211,8 @@ RPAL-Interpreter/
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── parser/                             # Package for parsing functionality
-│   ├── parser_module.py                # Module containing parser logic
+│   ├── build_standard_tree.py          # Module for converting AST to standard tree
+│   ├── parser_module.py                # Module containing parser logic (filter token to AST)
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── interpreter/                        # Package for interpreter functionality
@@ -205,19 +235,25 @@ RPAL-Interpreter/
 │   ├── node.py                         # Module containing node data structure class definition
 │   ├── stack.py                        # Module containing stack class definition
 │   ├── token_printer.py                # Module containing token printing function (for debugging purposes)
-│   ├── AST_printer.py                  # Module containing AST printing function (for debugging purposes)
-│   ├── AST_list.py                     # Module for listing AST
-│   ├── test_program.py                 # List of program file names in rpal_tests/rpal_source
+│   ├── tree_printer.py                  # Module containing tree printing function (for debugging purposes)
+│   ├── tree_list.py                     # Module for listing tree elements
 │   ├── file_handler.py                 # Module containing file handling functions
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── rpal_tests/                         # Directory for tests
 │   ├── rpal_sources/                   # Directory for RPAL source code files to test
 │   ├── test_generate_tests.py          # Module for generating tests
-│   ├── test_generate_ast_tests.py      # Module for generating tests in rpal_source by pytest
-│   ├── assert_program                  # Module
-│   ├── rpal_exe.py                     # Module for executing RPAL source code
-│   ├── rpal_interpret.py               # Module for interpreting RPAL source code
+│   ├── test_generate_ast_tests.py      # Module for generating tests in rpal_sources by pytest for AST
+│   ├── test_generate_st_tests.py       # Module for generating tests in rpal_sources by pytest for standard tree
+│   ├── test_generate_tests_with_rpal_exe.py      # Module for generating tests in rpal_sources by pytest output generated by real rpal.exe
+│   ├── test_generate_ast_tests_with_rpal_exe.py  # Module for generating tests in rpal_sources by pytest for AST output generated by real rpal.exe
+│   ├── test_generate_st_tests_with_rpal_exe.py   # Module for generating tests in rpal_sources by pytest for standard tree output generated by real rpal.exe
+│   ├── assert_program .py              # Module for checking tests
+│   ├── program_name_list.py            # List of program names in rpal_sources directory
+│   ├── output.py                       # List of outputs generated by rpal.exe
+│   ├── output_ast.py                   # List of AST outputs generated by rpal.exe
+│   ├── output_st.py                    # List of standard tree outputs generated by rpal.exe
+│   ├── rpal.exe                        # RPAL interpreter
 │   ├── cygwin1.dll                     # Cygwin DLL required for execution (if applicable)
 │   └── __init__.py                     # Marks the directory as a Python package
 |
