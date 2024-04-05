@@ -33,8 +33,8 @@ Implement an algorithm to convert the Abstract Syntax Tree (AST) in to Standardi
 ## Usage
 
 To use the RPAL-Interpreter, follow these steps:
-### Prerequisites
-- Your local machine must have Python and pip installed.
+> ### Prerequisites
+> Your local machine must have Python and pip installed.
 1. Clone the repository to your local machine or download the project source code as a ZIP file.
 2. Navigate to the root directory of the project in the command line interface.
 3. Install the dependencies by running the following command in the project directory:
@@ -82,9 +82,9 @@ python main.py -st file_name
 
 **Your local machine must be able to run make command**
 
-#### Note for Windows Users
+> #### Note for Windows Users
 
-For Windows users, for make commad [Cygwin](https://www.cygwin.com/install.html) or similar unix like env tools for execution.
+> For Windows users, for make commad [Cygwin](https://www.cygwin.com/install.html) or similar unix like env tools for execution.
 
 Alternatively, you can use the following make commands: 
 
@@ -129,9 +129,8 @@ make test_st
 ```bash
 make all
 ```
-#### Note for Python 3 Users
-
- If you have both Python 2 and Python 3 installed, you may need to use python3 instead of python in the commands above. Similarly, use pip3 instead of pip for installing packages.
+> #### Note for Python 3 Users
+> If you have both Python 2 and Python 3 installed, you may need to use python3 instead of python in the commands above. Similarly, use pip3 instead of pip for installing packages.
 
 ## Features
 
