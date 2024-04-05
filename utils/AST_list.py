@@ -28,7 +28,7 @@ def list_AST(tree):
         depth (int): The current level of indentation
 
         """
-        print(root)
+        #print(root)
         # Append the current node to the AST list with appropriate indentation
         ast.append("." * depth + root.data+" ")
 

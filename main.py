@@ -33,7 +33,7 @@ import sys
 import platform
 from interpreter.execution_engine import Evaluator
 from rpal_tests.rpal_exe import rpal_exe
-from parser.build_standard_tree import standard_tree
+from parser.build_standard_tree import StandardTree
 from utils.node import Node
 from utils.AST_printer import print_AST
 from utils.test_program import test_programs
@@ -53,7 +53,7 @@ def main():
         ValueError: If the number of command line arguments is less than 2.
 
     """
-
+    s = StandardTree()
     """ tree1 = Node("@")
     tree1.add_child(Node("e2"))
     tree1.add_child(Node("n"))
@@ -107,18 +107,18 @@ def main():
     tree7 = Node("not")
     tree7.children = [Node("e")]
 
-    s7 = standard_tree(tree7)
-    s7.build_standard_tree()
-    print_AST(tree7)"""
+    s.build_standard_tree(tree7)
+    print_AST(tree7) """
 
     tree8 = Node("within")
     tree8.children = [Node("="),Node("=")]
     tree8.children[0].children = [Node("x1"),Node("e1")]
     tree8.children[1].children = [Node("x2"),Node("e2")]
 
-    s8 = standard_tree(tree8)
-    s8.build_standard_tree()
     print_AST(tree8)
+    
+    s.build_standard_tree(tree8)
+    print_AST(tree8) 
 
 
     # Check if there are enough command-line arguments

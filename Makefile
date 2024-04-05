@@ -113,15 +113,15 @@ test_ast:
 	@echo "Running tests...$(OS)"
 	@if [ "$$(uname -s)" = "Linux" ] && [ -z "$(R)" ]; then \
 		if [ "$(F)" = "" ]; then \
-			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
+			$(PYTHON) -m pytest -vv --no-summary rpal_tests/test_generate_ast_tests.py ; \
 		else \
-			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
+			$(PYTHON) -m pytest -vv  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
 		fi \
 	else \
 		if [ "$(F)" = "" ]; then \
-			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
+			$(PYTHON) -m pytest -vv --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
 		else \
-			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests_with_rpal_exe.py -vvv --tb=short; \
+			$(PYTHON) -m pytest -vv  -k "$(F)" rpal_tests/test_generate_ast_tests_with_rpal_exe.py -vvv --tb=short; \
 		fi \
 	fi
 

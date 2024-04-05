@@ -15,7 +15,7 @@
 from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
 from parser.parser_module import Parser
-from parser.build_standard_tree import standard_tree
+from parser.build_standard_tree import StandardTree
 import utils.token_printer
 import utils.AST_list
 import utils.AST_printer
