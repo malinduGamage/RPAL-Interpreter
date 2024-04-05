@@ -1,3 +1,6 @@
+# Description:
+# This script serves as the main entry point for interpreting RPAL programs. It provides functionality to interpret RPAL code, print Abstract Syntax Trees (ASTs), tokens, and filtered tokens, as well as execute the original RPAL interpreter on a file and print the AST.
+
 # Usage:
 # python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] file_name
 
@@ -16,18 +19,13 @@
 # To interpret an RPAL program:
 # python main.py example.rpal
 
-# To print the Abstract Syntax Tree (AST):
-# python main.py -ast example.rpal
-
-# To print the tokens:
-# python main.py -t example.rpal
-
-# To print the filtered tokens:
-# python main.py -ft example.rpal
-
-# To execute the original RPAL interpreter on a file and print the AST:
-# python main.py -rast example.rpal
-
+# Optional Switches Examples:
+# -ast: python main.py -ast example.rpal
+# -t: python main.py -t example.rpal
+# -ft: python main.py -ft example.rpal
+# -st: Not yet implemented
+# -r: python main.py -r example.rpal
+# -rast: python main.py -rast example.rpal
 
 import sys
 import platform
@@ -60,7 +58,7 @@ def main():
     tree1.add_child(Node("e1"))
 
     s1 = standard_tree(tree1)
-    s1.build_standard_tree()
+    s.build_standard_tree()
 
     print_AST(tree1)
 
@@ -69,7 +67,7 @@ def main():
     tree2.add_child(Node("e1"))
 
     s2 = standard_tree(tree2)
-    s2.build_standard_tree()
+    s.build_standard_tree()
     print_AST(tree2)
 
     tree3 = Node("rec")
@@ -78,7 +76,7 @@ def main():
     
 
     s3 = standard_tree(tree3)
-    s3.build_standard_tree()
+    s.build_standard_tree()
     print_AST(tree3) 
 
     tree4 = Node("where")
@@ -87,21 +85,21 @@ def main():
     
 
     s4 = standard_tree(tree4)
-    s4.build_standard_tree()
+    s.build_standard_tree()
     print_AST(tree4) 
 
     tree5 = Node("neg")
     tree5.children = [Node("e")]
     
     s5 = standard_tree(tree5)
-    s5.build_standard_tree()
+    s.build_standard_tree()
     print_AST(tree5)
 
     tree6 = Node("->")
     tree6.children = [Node("b"),Node("t"),Node("e")]
     
     s6 = standard_tree(tree6)
-    s6.build_standard_tree()
+    s.build_standard_tree()
     print_AST(tree6)
 
     tree7 = Node("not")
