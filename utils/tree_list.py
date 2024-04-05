@@ -33,7 +33,7 @@ def list_tree(tree):
         # Append the current node to the AST list with appropriate indentation
         ast.append("." * depth + root.data + " ")
 
-        # Traverse each child node recursively
+        #Traverse each child node recursively
         for child in root.children:
             # Call traverse function for each child node with increased depth
             traverse(child, depth + 1)
