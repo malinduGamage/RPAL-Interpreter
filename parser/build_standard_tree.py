@@ -93,7 +93,7 @@ class StandardTree:
             else:
                 for child in tree.children:
                     traverse(child)
-                    self._apply_transformations(tree)
+                self._apply_transformations(tree)
 
         self.standard_tree = deepcopy(self.tree)
         traverse(self.standard_tree)
