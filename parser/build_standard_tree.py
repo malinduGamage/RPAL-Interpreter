@@ -43,7 +43,7 @@ class StandardTree:
         _transform_at(tree): Transforms at expression.
     """
 
-    def __init__(self):
+    def _init_(self):
         """
         Initialize the StandardTree object.
         """
@@ -58,7 +58,7 @@ class StandardTree:
             "+",
             "-",
             "/",
-            "**",
+            "",
             "gr",
             "ge",
             "ls",
