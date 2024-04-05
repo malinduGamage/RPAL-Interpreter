@@ -33,8 +33,12 @@ def program(source_file_name,flag=None):
     evaluator = Evaluator()
     actual_output = evaluator.interpret(source_file_path) 
 
-    if flag != None:
+    if flag == "ast":
         actual_output = "\n".join(evaluator.get_ast_list())
+        actual_output += ("\n"+output)
+        print("\nactual output :\n",actual_output, "\n")
+    elif flag == "st":
+        actual_output = "\n".join(evaluator.get_st_list())
         actual_output += ("\n"+output)
         print("\nactual output :\n",actual_output, "\n")
     else:

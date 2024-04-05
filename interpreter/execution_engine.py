@@ -45,8 +45,7 @@ class Evaluator:
         self.scanner = Scanner()  # Initialize the scanner object
         self.screener = Screener()  # Initialize the screener object
         self.parser = Parser()  # Initialize the parser object
-        # Initialize the standard tree builder object
-        self.standard_tree = StandardTree()
+        self.standard_tree = StandardTree() # Initialize the standard tree builder object
         self.tokens = []  # Initialize a list to store tokens
         self.filtered_tokens = []  # Initialize a list to store filtered tokens
         self.parse_ast_tree = None  # Initialize the parse ast tree
@@ -70,9 +69,8 @@ class Evaluator:
             self.parser.parse(self.filtered_tokens.copy())
             self.parse_ast_tree = self.parser.stack.peek()
             # convert the ast tree to standard tree
-            self.parse_st_tree = self.standard_tree.build_standard_tree(
-                self.parse_ast_tree
-            )
+            self.standard_tree.build_standard_tree(self.parse_ast_tree)
+            self.parse_st_tree = self.standard_tree.standard_tree
             # self.standard_tree.build_standard_tree(self.parse_ast_tree)
             # self.parse_st_tree = self.standard_tree.standard_tree
 
@@ -158,7 +156,7 @@ class Evaluator:
         # Check if parsing was successful
         if self.standard_tree.status:
             # Call the list_AST function to generate AST list
-            return utils.tree_list.list_AST(self.parse_st_tree)
+            return utils.tree_list.list_tree(self.parse_st_tree)
         else:
             # Print a message indicating that AST cannot be printed
             return []

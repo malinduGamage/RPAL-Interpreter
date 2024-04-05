@@ -11,8 +11,7 @@
 
 from utils.node import Node
 from errors_handling.error_handler import ErrorHandler
-
-
+from copy import deepcopy
 class StandardTree:
     """
     StandardTree class is responsible for transforming an input Abstract Syntax Tree (AST) into a standard tree format.
@@ -94,11 +93,12 @@ class StandardTree:
                     traverse(child)
                     self._apply_transformations(tree)
 
-        traverse(tree)
-        traverse(tree)
+        self.standard_tree = deepcopy(self.tree)
+        traverse(self.standard_tree)
+        traverse(self.standard_tree)
         self.status = True
-        self.standard_tree = tree
-        return tree
+        
+        return self.standard_tree
 
     def _apply_transformations(self, tree):
         """
