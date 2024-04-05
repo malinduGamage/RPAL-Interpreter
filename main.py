@@ -34,7 +34,7 @@ from interpreter.execution_engine import Evaluator
 from rpal_tests.rpal_exe import rpal_exe
 from parser.build_standard_tree import StandardTree
 from utils.node import Node
-from tree_printer import print_AST
+from utils.tree_printer import print_tree
 from utils.test_program import test_programs
 
 
@@ -52,66 +52,65 @@ def main():
         ValueError: If the number of command line arguments is less than 2.
 
     """
-    s = StandardTree()
-    """ 
-    tree1 = Node("@")
-    tree1.add_child(Node("e2"))
-    tree1.add_child(Node("n"))
-    tree1.add_child(Node("e1"))
+    # s = StandardTree()
 
-    s.build_standard_tree(tree1)
+    # tree1 = Node("@")
+    # tree1.add_child(Node("e2"))
+    # tree1.add_child(Node("n"))
+    # tree1.add_child(Node("e1"))
 
-    print_AST(tree1)
+    # tree2 = Node("aug")
+    # tree2.add_child(Node("e2"))
+    # tree2.add_child(Node("e1"))
 
-    tree2 = Node("aug")
-    tree2.add_child(Node("e2"))
-    tree2.add_child(Node("e1"))
+    # tree3 = Node("rec")
+    # tree3.add_child(Node("="))
+    # tree3.children[0].children = [Node("x"), Node("e")]
 
-    s.build_standard_tree(tree2)
-    print_AST(tree2)
+    # tree4 = Node("where")
+    # tree4.children = [Node("p"), Node("=")]
+    # tree4.children[1].children = [Node("x"), Node("e")]
 
-    tree3 = Node("rec")
-    tree3.add_child(Node("="))
-    tree3.children[0].children = [Node("x"),Node("e")]
+    # tree5 = Node("neg")
+    # tree5.children = [Node("e")]
 
-    s.build_standard_tree(tree3)
-    print_AST(tree3) 
+    # tree6 = Node("->")
+    # tree6.children = [Node("b"), Node("t"), Node("e")]
 
-    tree4 = Node("where")
-    tree4.children = [Node("p"),Node("=")]
-    tree4.children[1].children = [Node("x"),Node("e")]
-    
-    s.build_standard_tree(tree4)
-    print_AST(tree4) 
+    # tree7 = Node("not")
+    # tree7.children = [Node("e")]
 
-    tree5 = Node("neg")
-    tree5.children = [Node("e")]
-    
-    s.build_standard_tree(tree5)
-    print_AST(tree5)
+    # tree8 = Node("within")
+    # tree8.children = [Node("="), Node("=")]
+    # tree8.children[0].children = [Node("x1"), Node("e1")]
+    # tree8.children[1].children = [Node("x2"), Node("e2")]
 
-    tree6 = Node("->")
-    tree6.children = [Node("b"),Node("t"),Node("e")]
-    
-    s.build_standard_tree(tree6)
-    print_AST(tree6)
+    # tree9 = Node("tau")
+    # for i in range(1, 6):
+    #     tree9.add_child(Node(f'{i}'))
 
-    tree7 = Node("not")
-    tree7.children = [Node("e")]
+    # tree10 = Node("and")
 
-    s.build_standard_tree(tree7)
-    print_AST(tree7) """
+    # for i in range(1, 6):
+    #     tree10.add_child(Node("="))
+    #     tree10.children[0].add_child(Node(f'e{5-i}'))
+    #     tree10.children[0].add_child(Node(f'x{5-i}'))
 
-    tree8 = Node("within")
-    tree8.children = [Node("="),Node("=")]
-    tree8.children[0].children = [Node("x1"),Node("e1")]
-    tree8.children[1].children = [Node("x2"),Node("e2")]
+    # tree11 = Node("function_form")
+    # tree11.add_child(Node("e"))
+    # for i in range(0, 6):
+    #     tree11.add_child(Node(f'v{5-i}'))
+    # tree11.add_child(Node("p"))
 
-    print_AST(tree8)
-    
-    s.build_standard_tree(tree8)
-    print_AST(tree8) 
+    # tree12 = Node("lambda")
+    # tree12.add_child(Node("e"))
+    # for i in range(0, 6):
+    #     tree12.add_child(Node(f'v{5-i}'))
 
+    # print_tree(tree3)
+    # print("\n")
+    # s.build_standard_tree(tree3)
+    # print_tree(tree3)
 
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
@@ -144,8 +143,8 @@ def main():
             handle_filtered_tokens_option(evaluator)
         elif sys.argv[1] == "-st":
             # Print the standard tree
-            # handle_standard_tree_option(evaluator)
-            print("Not yet implemented")
+            handle_standard_tree_option(evaluator)
+
         elif sys.argv[1] == "-r":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
             try:
@@ -158,13 +157,15 @@ def main():
             try:
                 handle_original_rpal_ast(file_name)
             except:
-                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+                print(
+                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
         elif sys.argv[1] == "-rst":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
             try:
                 handle_original_rpal_st(file_name)
             except:
-                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+                print(
+                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
 
     else:
         # Default behavior: Evaluate the program
@@ -203,7 +204,7 @@ def handle_standard_tree_option(evaluator):
 
     """
     # Your code to print the standard tree
-    evaluator.print_standard_tree()
+    evaluator.print_ST()
 
 
 def handle_default_behavior(evaluator):
@@ -281,6 +282,7 @@ def handle_original_rpal_ast(file_name):
         rpal_exe(file_name, "ast")
     else:
         print("Original RPAL AST generation is not supported on this operating system.")
+
 
 def handle_original_rpal_st(file_name):
     """

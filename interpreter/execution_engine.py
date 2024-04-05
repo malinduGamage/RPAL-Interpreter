@@ -1,4 +1,4 @@
-#interpreter/execution_engine.py
+# interpreter/execution_engine.py
 
 # Description:
 # This module serves as the main execution engine of the RPAL interpreter. It coordinates the interpretation process, including tokenization, filtering, parsing, and printing of tokens, filtered tokens, and the Abstract Syntax Tree (AST) of the program.
@@ -34,20 +34,23 @@ class Evaluator:
         filtered_tokens (list): A list to store filtered tokens after screening.
         parse_tree (Node): The root node of the parse tree representing the program's Abstract Syntax Tree (AST).
     """
+
     def __init__(self):
         """
         Initialize the Evaluator class.
         """
 
         # Initialize scanner, screener, and parser objects
-        
-        self.scanner = Scanner()       # Initialize the scanner object
-        self.screener = Screener()     # Initialize the screener object
-        self.parser = Parser()         # Initialize the parser object
-        self.tokens = []               # Initialize a list to store tokens
-        self.filtered_tokens = []      # Initialize a list to store filtered tokens
-        self.parse_ast_tree = None     # Initialize the parse ast tree
-        self.parse_st_tree = None      # Initialize the parse st tree
+
+        self.scanner = Scanner()  # Initialize the scanner object
+        self.screener = Screener()  # Initialize the screener object
+        self.parser = Parser()  # Initialize the parser object
+        # Initialize the standard tree builder object
+        self.standard_tree = StandardTree()
+        self.tokens = []  # Initialize a list to store tokens
+        self.filtered_tokens = []  # Initialize a list to store filtered tokens
+        self.parse_ast_tree = None  # Initialize the parse ast tree
+        self.parse_st_tree = None  # Initialize the parse st tree
 
     def interpret(self, file_name):
         """
@@ -67,9 +70,11 @@ class Evaluator:
             self.parser.parse(self.filtered_tokens.copy())
             self.parse_ast_tree = self.parser.stack.peek()
             # convert the ast tree to standard tree
-            #self.standard_tree = standard_tree(self.parse_ast_tree) # Initialize the standard tree object
-            #self.standard_tree.build_standard_tree(self.parse_ast_tree)
-            #self.parse_st_tree = self.standard_tree.standard_tree
+            self.parse_st_tree = self.standard_tree.build_standard_tree(
+                self.parse_ast_tree
+            )
+            # self.standard_tree.build_standard_tree(self.parse_ast_tree)
+            # self.parse_st_tree = self.standard_tree.standard_tree
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
@@ -127,21 +132,21 @@ class Evaluator:
         else:
             # Print a message indicating that AST cannot be printed
             return []
-        
+
     def print_ST(self):
         """
         Prints the Syntax Tree (ST) of the program.
 
         Raises:
-            ValueError: If the AST is not available.
+            ValueError: If the ST is not available.
 
         Returns:
             None: If the ST is printed.
         """
         if self.standard_tree.status:
-            utils.tree_printer.print_AST(self.parse_st_tree)
+            utils.tree_printer.print_tree(self.parse_st_tree)
         else:
-            print("AST cannot be printed.")
+            print("ST cannot be printed.")
 
     def get_st_list(self):
         """

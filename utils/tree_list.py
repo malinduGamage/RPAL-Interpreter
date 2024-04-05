@@ -6,6 +6,7 @@
 # Usage
 # This function takes a parse tree as input and returns an tree as a list.
 
+
 def list_tree(tree):
     """
     This function takes a parse tree as input and returns an tree as a list.
@@ -28,9 +29,9 @@ def list_tree(tree):
         depth (int): The current level of indentation
 
         """
-        #print(root)
+        # print(root)
         # Append the current node to the AST list with appropriate indentation
-        ast.append("." * depth + root.data+" ")
+        ast.append("." * depth + root.data + " ")
 
         # Traverse each child node recursively
         for child in root.children:
