@@ -12,6 +12,8 @@
 from utils.node import Node
 from errors_handling.error_handler import ErrorHandler
 from copy import deepcopy
+
+
 class StandardTree:
     """
     StandardTree class is responsible for transforming an input Abstract Syntax Tree (AST) into a standard tree format.
@@ -95,9 +97,9 @@ class StandardTree:
 
         self.standard_tree = deepcopy(self.tree)
         traverse(self.standard_tree)
-        traverse(self.standard_tree)
+
         self.status = True
-        
+
         return self.standard_tree
 
     def _apply_transformations(self, tree):
@@ -112,31 +114,31 @@ class StandardTree:
         self.tree = tree
 
         # Apply transformations based on specific cases
-        if tree.data == "let":
+        if tree.data == "let":  #
             self._transform_let(tree)
-        elif tree.data == "tau":
-            self._transform_tau(tree)
-        elif tree.data == "and":
+        # elif tree.data == "tau":
+        #    self._transform_tau(tree)
+        elif tree.data == "and":  #
             self._transform_and(tree)
-        elif tree.data == "function_form":
+        elif tree.data == "function_form":  #
             self._transform_function_form(tree)
-        elif tree.data == "lambda":
+        elif tree.data == "lambda":  #
             self._transform_lambda_1(tree)
         elif tree.data == "lambda" and (tree.children[0].data == ","):
             self._transform_lambda_2(tree)
-        elif tree.data == "within":
+        elif tree.data == "within":  #
             self._transform_within(tree)
-        elif tree.data in self.unary_operators:
-            self._transform_uop(tree)
-        elif tree.data == "->":
-            self._transform_conditional(tree)
-        elif tree.data == "where":
+        # elif tree.data in self.unary_operators:
+        #     self._transform_uop(tree)
+        # elif tree.data == "->":
+        #     self._transform_conditional(tree)
+        elif tree.data == "where":  #
             self._transform_where(tree)
-        elif tree.data == "rec":
+        elif tree.data == "rec":  #
             self._transform_rec(tree)
-        elif tree.data in self.binary_operators:
-            self._transform_op(tree)
-        elif tree.data == "@":
+        # elif tree.data in self.binary_operators:
+        #     self._transform_op(tree)
+        elif tree.data == "@":  #
             self._transform_at(tree)
 
     def _transform_let(self, tree):
@@ -329,7 +331,7 @@ class StandardTree:
             x, e = tree.children[0].children
             tree.data = "="
             tree.children = [x, Node("gamma")]
-            tree.children[1].children = [Node("Y*"), Node("lambda")]
+            tree.children[1].children = [Node("<Y*>"), Node("lambda")]
             tree.children[1].children[1].children = [x, e]
 
     def _transform_op(self, tree):
