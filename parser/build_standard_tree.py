@@ -1,8 +1,8 @@
 # parser/build_standard_tree.py
 
 # Description:
-# This module contains the StandardTree class, which is used to build a standard tree from a given ast tree. 
-# The standard tree is a transformed version of the input tree based on predefined rules and transformations.
+# This module contains the StandardTree class, which is used to build a standard tree from a given AST tree. 
+# The standard tree is a transformed version of the input tree based on predefined rules and transformations outlined in the "semantics.pdf" documentation.
 
 # Usage:
 # This module provides the StandardTree class, which can be utilized to transform an input tree into a standard form.
@@ -10,14 +10,42 @@
 # Each transformation corresponds to specific cases or patterns found in the input tree's structure.
 
 from utils.node import Node
+from errors_handling.error_handler import ErrorHandler
 class StandardTree:
+    """
+    StandardTree class is responsible for transforming an input Abstract Syntax Tree (AST) into a standard tree format.
+
+    The standard tree is a transformed version of the input tree based on predefined rules and transformations.
+
+    Attributes:
+        binary_operators (list): List of binary operators for tree transformation.
+        unary_operators (list): List of unary operators for tree transformation.
+        tree (Node): The original input tree to be transformed.
+        standard_tree (Node): The transformed standard tree.
+        status (bool): Flag to indicate transformation status. True if transformation is successful, otherwise False.
+
+    Methods:
+        build_standard_tree(tree): Builds the standard tree from the input tree.
+        _transform_let(tree): Transforms let expression into gamma expression.
+        _transform_tau(tree): Transforms tau expression into lambda expression.
+        _transform_and(tree): Transforms and expression with equality into comma expression.
+        _transform_function_form(tree): Transforms function_form expression into lambda expression.
+        _transform_lambda(tree): Transforms lambda expression.
+        _transform_within(tree): Transforms within expression.
+        _transform_uop(tree): Transforms unary operator.
+        _transform_conditional(tree): Transforms conditional expression.
+        _transform_where(tree): Transforms where expression.
+        _transform_rec(tree): Transforms rec expression.
+        _transform_op(tree): Transforms binary operator.
+        _transform_at(tree): Transforms at expression.
+    """
     def __init__(self):
         """
         Initialize the StandardTree object.
-
-        Args:
-        - tree: The input tree to be transformed.
         """
+        # Error handler
+        self.error_handler = ErrorHandler()
+
         # Operators and unary operators for tree transformation
         self.binary_operators = ["aug", "or", "&", "+", "-", "/", "**", "gr","ge","ls","le","eq","ne","and"]
         self.unary_operators = ["not", "neg"]
@@ -34,7 +62,28 @@ class StandardTree:
     def build_standard_tree(self,tree):
         """
         Build the standard tree from the input tree.
+
+        Args:
+            tree (Node): The input tree to be transformed.
         """
+        try:
+            self._apply_transformations(tree)
+            self.status = True
+        except Exception as e:
+            self.status = False
+            self.error_handler.handle_error(e)
+
+
+
+    def _apply_transformations(self, tree):
+        """
+        Apply transformations to the input tree based on specific cases.
+
+        Args:
+            tree (Node): The input tree to be transformed.
+        """
+
+        # Store the input tree for reference
         self.tree = tree
         
         # Apply transformations based on specific cases
@@ -70,7 +119,7 @@ class StandardTree:
         Transform let expression into gamma expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         tree.data = "gamma"
         tree.children[0].data = "lambda"
@@ -83,7 +132,7 @@ class StandardTree:
         Transform tau expression into lambda expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         tree.data = "lambda"
         tree.children[0].data = "tau"
@@ -94,7 +143,7 @@ class StandardTree:
         Transform and expression with equality into comma expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         equal = tree.children[0]
         tree.data = "="
@@ -122,7 +171,7 @@ class StandardTree:
         Transform function_form expression into lambda expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         p = tree.children[0]
         v = tree.children[0].children[1]
@@ -147,7 +196,7 @@ class StandardTree:
         Transform lambda expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         v = tree.children[0]
         temp = tree
@@ -169,11 +218,8 @@ class StandardTree:
         Transform within expression.
 
         Args:
-        - tree: The tree to be transformed.
+        - tree (Node): The tree to be transformed.
         """
-        print("@",tree)
-        print("#",tree.children[0].children)
-        print("&",tree.children[1].children)
         x1 , e1 = tree.children[0].children
         x2 , e2 = tree.children[1].children
         tree.data = "="
@@ -197,7 +243,7 @@ class StandardTree:
         Transform conditional expression.
 
         Args:
-            tree : The tree to transform
+            - tree (Node): The tree to be transformed.
         """
         b , t, e = tree.children
         tree.data = "gamma"
@@ -212,7 +258,7 @@ class StandardTree:
         Transform where expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         e1 = tree.children[0]
         e2 = tree.children[1]
@@ -229,7 +275,7 @@ class StandardTree:
         Transform rec expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         x , e = tree.children[0].children
         tree.data = "="
@@ -242,7 +288,7 @@ class StandardTree:
         Transform binary operator.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         op_ = tree.data
         e1 = tree.children[0]
@@ -260,7 +306,7 @@ class StandardTree:
         Transform at expression.
 
         Args:
-        - tree: The tree to be transformed.
+        -  tree (Node): The tree to be transformed.
         """
         e1 = tree.children[0]
         n = tree.children[1]
