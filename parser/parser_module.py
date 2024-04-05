@@ -2,7 +2,7 @@
 
 # Description:
 # This module contains the Parser class, which is responsible for parsing the input code and constructing an Abstract Syntax Tree (AST).
-# The parser utilizes a recursive descent parsing technique to analyze the structure of the input code based on predefined grammar rules.
+# The parser utilizes a recursive descent parsing technique to analyze the structure of the input code based on predefined grammar rules outlined in the "RPAL_Grammar.pdf" document in the doc directory.
 # It identifies expressions, definitions, variables, and other language constructs, and builds a hierarchical representation of the code in the form of an AST.
 
 # Usage:
@@ -14,7 +14,6 @@
 from utils.node import Node
 from utils.stack import Stack
 from errors_handling.error_handler import ErrorHandler
-
 
 class Parser:
     """

@@ -1,4 +1,4 @@
-#interpreter/execution_engine.py
+# interpreter/execution_engine.py
 
 # Description:
 # This module serves as the main execution engine of the RPAL interpreter. It coordinates the interpretation process, including tokenization, filtering, parsing, and printing of tokens, filtered tokens, and the Abstract Syntax Tree (AST) of the program.
@@ -15,9 +15,10 @@
 from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
 from parser.parser_module import Parser
+from parser.build_standard_tree import StandardTree
 import utils.token_printer
-import utils.AST_list
-import utils.AST_printer
+import utils.tree_list
+import utils.tree_printer
 import utils.file_handler
 
 
@@ -33,18 +34,22 @@ class Evaluator:
         filtered_tokens (list): A list to store filtered tokens after screening.
         parse_tree (Node): The root node of the parse tree representing the program's Abstract Syntax Tree (AST).
     """
+
     def __init__(self):
         """
         Initialize the Evaluator class.
         """
+
         # Initialize scanner, screener, and parser objects
-        
-        self.scanner = Scanner()       # Initialize the scanner object
-        self.screener = Screener()     # Initialize the screener object
-        self.parser = Parser()         # Initialize the parser object
-        self.tokens = []               # Initialize a list to store tokens
-        self.filtered_tokens = []      # Initialize a list to store filtered tokens
-        self.parse_tree = None         # Initialize the parse tree
+
+        self.scanner = Scanner()  # Initialize the scanner object
+        self.screener = Screener()  # Initialize the screener object
+        self.parser = Parser()  # Initialize the parser object
+        self.standard_tree = StandardTree() # Initialize the standard tree builder object
+        self.tokens = []  # Initialize a list to store tokens
+        self.filtered_tokens = []  # Initialize a list to store filtered tokens
+        self.parse_ast_tree = None  # Initialize the parse ast tree
+        self.parse_st_tree = None  # Initialize the parse st tree
 
     def interpret(self, file_name):
         """
@@ -62,8 +67,12 @@ class Evaluator:
             self.filtered_tokens = self.screener.screener(self.tokens)
             # Parse the filtered tokens
             self.parser.parse(self.filtered_tokens.copy())
-
-            self.parse_tree = self.parser.stack.peek()
+            self.parse_ast_tree = self.parser.stack.peek()
+            # convert the ast tree to standard tree
+            self.standard_tree.build_standard_tree(self.parse_ast_tree)
+            self.parse_st_tree = self.standard_tree.standard_tree
+            # self.standard_tree.build_standard_tree(self.parse_ast_tree)
+            # self.parse_st_tree = self.standard_tree.standard_tree
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
@@ -103,7 +112,7 @@ class Evaluator:
             None: If the AST is printed.
         """
         if self.parser.status:
-            utils.AST_printer.print_AST(self.parse_tree)
+            utils.tree_printer.print_tree(self.parse_ast_tree)
         else:
             print("AST cannot be printed.")
 
@@ -117,7 +126,37 @@ class Evaluator:
         # Check if parsing was successful
         if self.parser.status:
             # Call the list_AST function to generate AST list
-            return utils.AST_list.list_AST(self.parse_tree)
+            return utils.tree_list.list_tree(self.parse_ast_tree)
+        else:
+            # Print a message indicating that AST cannot be printed
+            return []
+
+    def print_ST(self):
+        """
+        Prints the Syntax Tree (ST) of the program.
+
+        Raises:
+            ValueError: If the ST is not available.
+
+        Returns:
+            None: If the ST is printed.
+        """
+        if self.standard_tree.status:
+            utils.tree_printer.print_tree(self.parse_st_tree)
+        else:
+            print("ST cannot be printed.")
+
+    def get_st_list(self):
+        """
+        Retrieves the syntax tree (ST) list representation.
+
+        Returns:
+            list: ST list representation.
+        """
+        # Check if parsing was successful
+        if self.standard_tree.status:
+            # Call the list_AST function to generate AST list
+            return utils.tree_list.list_tree(self.parse_st_tree)
         else:
             # Print a message indicating that AST cannot be printed
             return []
