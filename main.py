@@ -17,15 +17,16 @@
 
 # Examples:
 # To interpret an RPAL program:
-# python main.py example.rpal
+# python main.py file_name
 
 # Optional Switches Examples:
-# -ast: python main.py -ast example.rpal
-# -t: python main.py -t example.rpal
-# -ft: python main.py -ft example.rpal
-# -st: Not yet implemented
-# -r: python main.py -r example.rpal
-# -rast: python main.py -rast example.rpal
+# -t: python main.py -t file_name
+# -ft: python main.py -ft file_name
+# -ast: python main.py -ast file_name
+# -st: python main.py -st file_name
+# -r: python main.py -r file_name
+# -rast: python main.py -rast file_name
+# -rst: python main.py -rst file_name
 
 import sys
 import platform
@@ -52,13 +53,13 @@ def main():
 
     """
     s = StandardTree()
-    """ tree1 = Node("@")
+    """ 
+    tree1 = Node("@")
     tree1.add_child(Node("e2"))
     tree1.add_child(Node("n"))
     tree1.add_child(Node("e1"))
 
-    s1 = standard_tree(tree1)
-    s.build_standard_tree()
+    s.build_standard_tree(tree1)
 
     print_AST(tree1)
 
@@ -66,40 +67,33 @@ def main():
     tree2.add_child(Node("e2"))
     tree2.add_child(Node("e1"))
 
-    s2 = standard_tree(tree2)
-    s.build_standard_tree()
+    s.build_standard_tree(tree2)
     print_AST(tree2)
 
     tree3 = Node("rec")
     tree3.add_child(Node("="))
     tree3.children[0].children = [Node("x"),Node("e")]
-    
 
-    s3 = standard_tree(tree3)
-    s.build_standard_tree()
+    s.build_standard_tree(tree3)
     print_AST(tree3) 
 
     tree4 = Node("where")
     tree4.children = [Node("p"),Node("=")]
     tree4.children[1].children = [Node("x"),Node("e")]
     
-
-    s4 = standard_tree(tree4)
-    s.build_standard_tree()
+    s.build_standard_tree(tree4)
     print_AST(tree4) 
 
     tree5 = Node("neg")
     tree5.children = [Node("e")]
     
-    s5 = standard_tree(tree5)
-    s.build_standard_tree()
+    s.build_standard_tree(tree5)
     print_AST(tree5)
 
     tree6 = Node("->")
     tree6.children = [Node("b"),Node("t"),Node("e")]
     
-    s6 = standard_tree(tree6)
-    s.build_standard_tree()
+    s.build_standard_tree(tree6)
     print_AST(tree6)
 
     tree7 = Node("not")
@@ -163,6 +157,12 @@ def main():
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
             try:
                 handle_original_rpal_ast(file_name)
+            except:
+                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+        elif sys.argv[1] == "-rst":
+            # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
+            try:
+                handle_original_rpal_st(file_name)
             except:
                 print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
 
@@ -278,9 +278,24 @@ def handle_original_rpal_ast(file_name):
         None
     """
     if platform.system() == "Windows":
-        rpal_exe(file_name, True)
+        rpal_exe(file_name, "ast")
     else:
         print("Original RPAL AST generation is not supported on this operating system.")
+
+def handle_original_rpal_st(file_name):
+    """
+    Handles the original RPAL ST generation.
+
+    Args:
+        file_name (str): The name of the file to generate ST.
+
+    Returns:
+        None
+    """
+    if platform.system() == "Windows":
+        rpal_exe(file_name, "st")
+    else:
+        print("Original RPAL ST generation is not supported on this operating system.")
 
 
 if __name__ == "__main__":

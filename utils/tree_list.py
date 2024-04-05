@@ -1,27 +1,27 @@
-# utils/list_AST.py
+# utils/list_tree.py
 
 # Description
-# This function returns an abstract syntax tree as a list.
+# This function returns an tree as a list.
 
 # Usage
-# This function takes a parse tree as input and returns an abstract syntax tree as a list.
+# This function takes a parse tree as input and returns an tree as a list.
 
 def list_tree(tree):
     """
-    This function takes a parse tree as input and returns an abstract syntax tree as a list.
+    This function takes a parse tree as input and returns an tree as a list.
 
     Parameters:
     tree (ParseTree): The parse tree to be traversed
 
     Returns:
-    ast (list): The abstract syntax tree as a list
+    ast (list): The  tree as a list
 
     """
     ast = []
 
     def traverse(root, depth):
         """
-        This function recursively traverses the parse tree and constructs the abstract syntax tree.
+        This function recursively traverses the parse tree and constructs the  tree.
 
         Parameters:
         root (ParseTree): The current node of the parse tree
@@ -40,5 +40,5 @@ def list_tree(tree):
     # Start traversal from the root node with depth 0
     traverse(tree, 0)
 
-    # Return the constructed abstract syntax tree
+    # Return the constructed  tree
     return ast
