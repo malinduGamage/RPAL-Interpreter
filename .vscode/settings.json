@@ -6,6 +6,7 @@
         "${workspaceFolder}/table_routines/",
         "${workspaceFolder}/screener/",
         "${workspaceFolder}/parser/",
+        "${workspaceFolder}/cse_machine/",
         "${workspaceFolder}/interpreter/",
         "${workspaceFolder}/rpal_tests/"
         

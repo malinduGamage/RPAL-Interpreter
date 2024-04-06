@@ -23,7 +23,6 @@ class StandardTree:
     Attributes:
         binary_operators (list): List of binary operators for tree transformation.
         unary_operators (list): List of unary operators for tree transformation.
-        tree (Node): The original input tree to be transformed.
         standard_tree (Node): The transformed standard tree.
         status (bool): Flag to indicate transformation status. True if transformation is successful, otherwise False.
 
@@ -69,9 +68,6 @@ class StandardTree:
         ]
         self.unary_operators = ["not", "neg"]
 
-        # Original input tree
-        self.tree = None
-
         # Placeholder for the standard tree
         self.standard_tree = None
 
@@ -85,7 +81,6 @@ class StandardTree:
         Args:
             tree (Node): The input tree to be transformed.
         """
-        self.tree = tree
 
         def traverse(tree):
             if not tree.children:
@@ -95,7 +90,7 @@ class StandardTree:
                     traverse(child)
                 self._apply_transformations(tree)
 
-        self.standard_tree = deepcopy(self.tree)
+        self.standard_tree = deepcopy(tree)
         traverse(self.standard_tree)
 
         self.status = True

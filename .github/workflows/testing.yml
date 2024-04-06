@@ -1,4 +1,4 @@
-name: Python Application AST Testing with GitHub Actions
+name: Testing with GitHub Actions
 
 on: [push]
 
@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
+        test_suite: [test_ast, test_st]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,9 +29,9 @@ jobs:
         run: |
           make install
 
-      - name: Test with pytest
+      - name: Test with pytest (${{ matrix.test_suite }})
         run: |
-          make test_ast
+          make ${{ matrix.test_suite }}
 
       - name: Cleanup after test
         run: |

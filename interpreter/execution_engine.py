@@ -16,6 +16,7 @@ from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
 from parser.parser_module import Parser
 from parser.build_standard_tree import StandardTree
+from cse_machine.machine import CSEMachine
 import utils.token_printer
 import utils.tree_list
 import utils.tree_printer
@@ -46,6 +47,7 @@ class Evaluator:
         self.screener = Screener()  # Initialize the screener object
         self.parser = Parser()  # Initialize the parser object
         self.standard_tree = StandardTree() # Initialize the standard tree builder object
+        self.cse_machine = CSEMachine()  # Initialize the CSE machine object
         self.tokens = []  # Initialize a list to store tokens
         self.filtered_tokens = []  # Initialize a list to store filtered tokens
         self.parse_ast_tree = None  # Initialize the parse ast tree

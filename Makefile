@@ -38,7 +38,7 @@ PYTEST = pytest
 .DEFAULT_GOAL := all
 
 # Targets
-.PHONY: install run tests test test_ast clean all check_python check_pip
+.PHONY: install run tests test test_ast test_st test_all clean all check_python check_pip
 
 # Default target
 all: install clean test_ast clean
