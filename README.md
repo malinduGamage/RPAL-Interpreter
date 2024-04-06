@@ -1,4 +1,4 @@
-![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/makefile.yml/badge.svg)
+![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/testing.yml/badge.svg)
 
 ## RPAL-Interpreter
 - This project was the culmination of the CS3513-Programming Languages module, which was part of the curriculum offered by the Department of Computer Science & Engineering at the University of Moratuwa. It was completed during the 4th semester of Batch 21.
