@@ -1,8 +1,9 @@
 from errors_handling.error_handler import ErrorHandler
 from cse_machine.control_structure import ControlStructure
-from cse_machine.environment import Environment
-from cse_machine.STlinearizer import Linearizer
+from cse_machine.enviroment import Environment
 from cse_machine.stack import Stack
+from cse_machine.STlinearizer import Linearizer
+
 
 class CSEMachine:
     """
@@ -21,13 +22,24 @@ class CSEMachine:
         Initialize the CSEMachine with necessary components.
         """
         self._error_handler = ErrorHandler()
-        self._linearizer = Linearizer()
-        self._control_structure = ControlStructure(self._linearizer)
-        self._current_environment = Environment()
+        #self._control_structure = ControlStructure()
+        #self._current_environment = Environment()
         self._stack = Stack()
+        self._linearizer = Linearizer()
 
-    # Add more methods for executing RPAL programs, managing control flow, etc.
+    def execute(self, st_tree):
+        """
+        Execute the given Standardized Tree (ST).
 
-
-
-    
+        Args:
+            st_tree (Node): The root node of the Standardized Tree (ST) to execute.
+        """
+        control_structures = self._linearizer.linearize(st_tree)
+        for structure in control_structures:
+            print("delta ", structure.index)
+            for element in structure.elements:
+                if element.type == "lambda" or element.type == "delta":
+                    print(element.value+f"{element.env}",end=" ")
+                else:
+                    print(element.value,end=" ")
+            print("\n")

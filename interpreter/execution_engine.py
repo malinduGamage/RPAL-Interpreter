@@ -46,7 +46,9 @@ class Evaluator:
         self.scanner = Scanner()  # Initialize the scanner object
         self.screener = Screener()  # Initialize the screener object
         self.parser = Parser()  # Initialize the parser object
-        self.standard_tree = StandardTree() # Initialize the standard tree builder object
+        self.standard_tree = (
+            StandardTree()
+        )  # Initialize the standard tree builder object
         self.cse_machine = CSEMachine()  # Initialize the CSE machine object
         self.tokens = []  # Initialize a list to store tokens
         self.filtered_tokens = []  # Initialize a list to store filtered tokens
@@ -73,8 +75,7 @@ class Evaluator:
             # convert the ast tree to standard tree
             self.standard_tree.build_standard_tree(self.parse_ast_tree)
             self.parse_st_tree = self.standard_tree.standard_tree
-            # self.standard_tree.build_standard_tree(self.parse_ast_tree)
-            # self.parse_st_tree = self.standard_tree.standard_tree
+            self.cse_machine.execute(self.parse_st_tree)
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
