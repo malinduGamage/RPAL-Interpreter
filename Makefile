@@ -41,7 +41,7 @@ PYTEST = pytest
 .PHONY: install run tests test test_ast test_st test_all clean all check_python check_pip
 
 # Default target
-all: install clean test_ast clean
+all: install clean test_all clean
 
 # Install dependencies
 install: check_python check_pip requirements.txt

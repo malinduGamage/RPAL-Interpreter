@@ -45,70 +45,74 @@ class CSEMachine:
         self._linearizer.print_control_structures()
         
         self.initialize()
+        print("\nRULE | CONTROL                                                                                        STACK |")
+        print("------------------------------------------------------------------------------------------------------------")
         while not self.control.is_empty():
-            
             control_top = self.control.peek()
-            stack_top = self.stack.peek()   
-            
-            print("\nstack\n----------------------")
-            for element in self.stack.whole_stack():
-                print(element.value)
-            print("----------------------")
-            print("\ncontrol\n----------------------")
-            for element in self.control.whole_stack():
-                print(element.value)
-            print("----------------------")
-            
+            stack_top = self.stack.peek()
+            control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
+            stack_ = " ".join([str(element.value) for element in self.control.whole_stack()][::-1]) 
+  
             if control_top.type == "ID":
+                print("1    ",end="")
                 self.CSErule1()
             elif control_top.type == "lambda":
+                print("2    ",end="")
                 self.CSErule2()
             elif control_top.type == "gamma" and stack_top.type == "lambda":
                 if len(stack_top.bounded_variable) > 1:
+                    print("11   ",end="")
                     self.CSErule11()
                 else:
+                    print("4    ",end="")
                     self.CSErule4()
             elif control_top.type == "env_marker":##################
+                print("5    ",end="")
                 self.CSErule5()
             elif control_top.value in binary_operators and self.stack.size() >= 2:
+                print("6    ",end="")
                 self.CSErule6()
             elif control_top.value in unary_operators and self.stack.size() >= 1:
+                print("7    ",end="")
                 self.CSErule7()
             elif control_top.type == "beta" and self.stack.size() >= 1:
+                print("8    ",end="")
                 self.CSErule8()
             elif control_top.type == "tau":
+                print("9    ",end="")
                 self.CSErule9()
             elif control_top.type == "gamma" and stack_top.type == "tuple":
+                print("10   ",end="")
                 self.CSErule10()
             elif control_top.type in ['ID','STR','INT','bool','tuple']:
+                print("1    ",end="")
                 self.stack.push(self.control.pop())
             else:
-                print("\nstack\n---------------------")
-                for element in self.stack.whole_stack():
-                    print(element.value)
+                control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
+                stack_ = " ".join([str(element.value) for element in self.control.whole_stack()][::-1])
+            
                 
-                print("----------------------------\ncontrol\n---------------------------")
-                for element in self.control.whole_stack():
-                    print(element.value)
-                print("----------------------------")
-                self._error_handler.handle_error("CSE : Invalid control structure")
+                print(f"| {control_:<50} {stack_:>49} |")
+                print("------------------------------------------------------------------------------------------------------------")
+
+            
+            print(f"| {control_:<50} {stack_:>49} |")
+            print("------------------------------------------------------------------------------------------------------------")
                 
                 
-        print("\nstack\n----------------------")
-        for element in self.stack.whole_stack():
-            print(element.value)
-        print("----------------------")
-        print("\ncontrol\n----------------------")
-        for element in self.control.whole_stack():
-            print(element.value)
-        print("----------------------")
+        control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
+        stack_ = " ".join([str(element.value) for element in self.control.whole_stack()][::-1]) 
+ 
+        
+        print(f"     | {control_:<50} {stack_:>49} |")
+        print("------------------------------------------------------------------------------------------------------------")
         
     def var_lookup(self , var_name):
         env_pointer = self.current_env
         while env_pointer.parent != None:
             if var_name in env_pointer._environment:
                 
-                print(var_name,env_pointer._environment[var_name],"==========================")
+                #print(var_name,env_pointer._environment[var_name],"==========================")
                 return env_pointer._environment[var_name]
             env_pointer = env_pointer.parent
         else:
@@ -229,7 +233,6 @@ class CSEMachine:
             self.control.push(element)
         
     def CSErule1(self):
-        print("rule 1")
         var_name = self.control.pop().value
         var = self.var_lookup(var_name)
         var_type = var[0]
@@ -237,13 +240,11 @@ class CSEMachine:
         self.stack.push(ControlStructureElement(var_type,var_val))
         
     def CSErule2(self):
-        print("rule 2")
         lambda_ = self.control.pop()
         lambda_.env = self.current_env
         self.stack.push(lambda_)
         
     def CSErule4(self):
-        print("rule 4")
         self.control.pop()
         lambda_ = self.stack.pop()
         rand = self.stack.pop()
@@ -264,14 +265,12 @@ class CSEMachine:
         self.stack.push(env_marker)
         
     def CSErule5(self):
-        print("rule 5")
         self.control.pop()
         value = self.stack.pop()
         self.stack.pop()
         self.stack.push(value)
         
     def CSErule6(self):
-        print("rule 6")
         binop = self.control.pop().value
         rator = self.stack.pop().value
         rand = self.stack.pop().value
@@ -279,7 +278,6 @@ class CSEMachine:
         self.stack.push(ControlStructureElement("bool",result))
         
     def CSErule7(self):
-        print("rule 7")
         unop = self.control.pop().value
         rator = self.stack.pop().value
         result = self.apply_unary(rator,unop)
@@ -289,7 +287,6 @@ class CSEMachine:
             self.stack.push(ControlStructureElement("INT",result))
             
     def CSErule8(self):
-        print("rule 8")
         if self.stack.pop().value == True :
             self.control.pop()
             self.control.pop()
@@ -304,7 +301,6 @@ class CSEMachine:
                 self.control.push(element)
             
     def CSErule9(self):
-        print("rule 9")
         tau = self.control.pop()
         n = tau.value
         l = []
@@ -313,7 +309,6 @@ class CSEMachine:
         self.stack.push(ControlStructureElement("tuple",l))
         
     def CSErule10(self):
-        print("rule 10")
         self.control.pop()
         l = self.stack.pop()
         index = self.stack.pop()
@@ -321,7 +316,6 @@ class CSEMachine:
         self.stack.push(ControlStructureElement(l[index].type,l[index]))
         
     def CSErule11(self):
-        print("rule 11")
         self.control.pop()
         lambda_ = self.stack.pop()
         var_list = lambda_.bounded_variable

@@ -2,11 +2,7 @@ from utils.stack import Stack
 
 class ControlStructure(Stack):
     def __init__(self, index):
-        self.elements = []
+        super().__init__()
+        self.elements = self.items
         self.index = index
 
-    def push(self, element):
-        self.elements.append(element)
-        
-    def pop(self): 
-        return self.elements.pop()
