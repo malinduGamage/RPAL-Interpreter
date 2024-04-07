@@ -7,3 +7,6 @@ class ControlStructure(Stack):
 
     def push(self, element):
         self.elements.append(element)
+        
+    def pop(self): 
+        return self.elements.pop()

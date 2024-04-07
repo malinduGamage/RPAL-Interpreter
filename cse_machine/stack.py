@@ -10,8 +10,7 @@ class STACK(Stack):
         """
         Initialize an empty stack.
         """
-        super().__init__()
-        self._environments = Stack()  # Stack to store Environment objects
+        self.stack = Stack()  # Stack to store Environment objects
 
     def push(self, item):
         """
@@ -20,9 +19,7 @@ class STACK(Stack):
         If the item is an instance of Environment, it is pushed to the _environments stack;
         otherwise, it is pushed to the main stack.
         """
-        if isinstance(item, Environment):
-            self._environments.push(item)
-        super().push(item)
+        self.stack.push(item)
 
     def pop(self):
         """
@@ -31,26 +28,35 @@ class STACK(Stack):
         If the top item is an Environment object, it is popped from the _environments stack;
         otherwise, it is popped from the main stack.
         """
-        if not self._environments.is_empty():
-            self._environments.pop()
-        return super().pop()
+        return self.stack.pop()
 
-    def get_nearest_environment(self):
+    def current_environment(self):
         """
         Return the nearest Environment object from the stack without removing it.
         """
-        return self._environments.peek()  # Access the top item in the _environments stack
+        for item in reversed(self.stack.items):
+            if item.type == "env_marker":
+                return item.env
     
-    def pop_given_environment(self, env_item):
+    def size(self):
         """
-        Remove and return the given Environment object from the stack.
+        Return the number of items in the stack.
         """
-        # Remove the environment item from the main stack
-        self.items.remove(env_item)
-        
-        # Remove the environment item from the environments stack
-        self._environments.items.remove(env_item)
-        
-        # Return the removed environment item
-        return env_item
+        return self.stack.size()
+    
+    def is_empty(self):
+        """
+        Return whether the stack is empty.
+        """
+        return self.stack.is_empty()
 
+    def peek(self):
+        """
+        Return the item at the top of the stack without removing it.
+        """
+        return self.stack.peek()
+    
+    def whole_stack(self):
+        """
+        """
+        self.stack.whole_stack()

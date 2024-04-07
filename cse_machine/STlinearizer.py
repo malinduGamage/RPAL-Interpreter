@@ -22,7 +22,14 @@ class Linearizer:
             return
         
         if root.data == "lambda":
-            self.control_structures[index].push(ControlStructureElement("lambda", "lambda", self.filter(root.children[0].data)[1], len(self.control_structures)))
+            
+            if root.children[0].data == ",": 
+                var_list = []
+                for child in root.children[0].children:
+                    var_list.append(self.filter(child.data)[1])
+                self.control_structures[index].push(ControlStructureElement("lambda", "lambda", var_list, len(self.control_structures)))
+            else:
+                self.control_structures[index].push(ControlStructureElement("lambda", "lambda", [self.filter(root.children[0].data)[1]], len(self.control_structures)))
             self.preorder_traversal(root.children[1], len(self.control_structures))
             
         elif root.data == "tau":
@@ -51,11 +58,27 @@ class Linearizer:
                 if len(token)>3 and token[1:3] == "ID":
                     output = ["ID", token[4:-1]]
                 elif len(token)>4 and token[1:4] == "INT":
-                    output = ["INT", token[5:-1]]
+                    output = ["INT", int(token[5:-1])]
                 elif len(token)>4 and token[1:4] == "STR":
                     output = ["STR", token[5:-1]]
+                elif token[1:-1] == "true":
+                    output = ["bool",True]
+                elif token[1:-1] == "false":
+                    output = ["bool",False]
                 else:
                     output = [token[1:-1], token[1:-1]]
         else:
             output = [token, token]
         return output
+    
+    def print_control_structures(self):
+        for structure in self.control_structures:
+            print("delta ", structure.index)
+            for element in structure.elements:
+                if element.type == "lambda" or element.type == "delta":
+                    print(element.value+f"{element.control_structure}{element.bounded_variable}",end=" ")
+                elif element.type == "tau":
+                    print(element.type,end=" ")
+                else:
+                    print(element.value,end=" ")
+            print("\n")

@@ -12,7 +12,7 @@ class Node:
 
     A node contains a data field and a list of child nodes.
     """
-    def __init__(self, data):
+    def __init__(self, data ):
         """
         Initialize a new node with the given data.
 
