@@ -4,7 +4,7 @@ class Environment:
         self.index = Environment.index +1
         self._environment = {} #name:[type, value]
         self.children = []
-        self.parent = parent
+        self.previous_environment = parent
         
     def add_var(self, name, type, value):
         self._environment[name] = [type, value]

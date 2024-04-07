@@ -3,6 +3,9 @@ from cse_machine.control_structure import ControlStructure
 from cse_machine.enviroment import Environment
 from cse_machine.stack import Stack
 from cse_machine.STlinearizer import Linearizer
+from cse_machine.util import add_table_data, print_cse_table , var_lookup
+from cse_machine.apply_bin import apply_binary
+from cse_machine.apply_un import apply_unary
 from utils.node import Node	
 from utils.control_structure_element import ControlStructureElement
 
@@ -30,6 +33,22 @@ class CSEMachine:
         self.stack = Stack()
         self.control = Stack()
         self._linearizer = Linearizer()
+        self.table_data = []
+
+    def initialize(self):
+        # Push an environment marker onto the stack and control structures
+        env_marker = ControlStructureElement("env_marker", "env_marker", None, None, self.current_env)
+        self.stack.push(env_marker)
+        self.control.push(env_marker)
+
+        # Push elements from the first control structure onto the control stack
+        if self.control_structures:
+            elements = self.control_structures[0].elements
+            for element in elements:
+                self.control.push(element)
+        else:
+            # Handle the case when control_structures is empty
+            self._error_handler.handle_error("Control structures are empty")
 
     def execute(self, st_tree):
         """
@@ -38,213 +57,68 @@ class CSEMachine:
         Args:
             st_tree (Node): The root node of the Standardized Tree (ST) to execute.
         """
-        binary_operators = ["aug","or","&","+","-","/","**","*","gr","ge","ls","le","eq","ne"]
-        unary_operators = ["not", "neg"]
+        binary_operators = {"+", "-", "/", "*", "**", "eq", "ne", "gr", "ge", "le",">", "<", ">=", "<=", "or", "&", "aug", "ls"}
+        unary_operators =  {
+            "Print", "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null",
+            "Istuple", "Order", "Stern", "Stem", "ItoS", "neg", "not", "$ConcPartial"
+            }
         
         self.control_structures = self._linearizer.linearize(st_tree)
         self._linearizer.print_control_structures()
         
         self.initialize()
-        print("\nRULE | CONTROL                                                                                        STACK |")
-        print("------------------------------------------------------------------------------------------------------------")
+
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
-            control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
-            stack_ = " ".join([str(element.value) for element in self.stack.whole_stack()][::-1]) 
-  
-            if control_top.type == "ID":
-                print("1    ",end="")
+             
+            if control_top.type in ['ID','STR','INT','bool','tuple']:
                 self.CSErule1()
             elif control_top.type == "lambda":
-                print("2    ",end="")
                 self.CSErule2()
             elif control_top.type == "gamma" and stack_top.type == "lambda":
                 if len(stack_top.bounded_variable) > 1:
-                    print("11   ",end="")
                     self.CSErule11()
                 else:
-                    print("4    ",end="")
                     self.CSErule4()
-            elif control_top.type == "env_marker":##################
-                print("5    ",end="")
+            elif control_top.type == "env_marker":
                 self.CSErule5()
             elif control_top.value in binary_operators and self.stack.size() >= 2:
-                print("6    ",end="")
                 self.CSErule6()
             elif control_top.value in unary_operators and self.stack.size() >= 1:
-                print("7    ",end="")
                 self.CSErule7()
             elif control_top.type == "beta" and self.stack.size() >= 1:
-                print("8    ",end="")
                 self.CSErule8()
             elif control_top.type == "tau":
-                print("9    ",end="")
                 self.CSErule9()
             elif control_top.type == "gamma" and stack_top.type == "tuple":
-                print("10   ",end="")
                 self.CSErule10()
-            elif control_top.type in ['ID','STR','INT','bool','tuple']:
-                print("1    ",end="")
-                self.stack.push(self.control.pop())
             else:
-                control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
-                stack_ = " ".join([str(element.value) for element in self.stack.whole_stack()][::-1])
-            
-                
-                print(f"| {control_:<50} {stack_:>49} |")
-                print("------------------------------------------------------------------------------------------------------------")
-
-            
-            print(f"| {control_:<50} {stack_:>49} |")
-            print("------------------------------------------------------------------------------------------------------------")
-                
-                
-        control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
-        stack_ = " ".join([str(element.value) for element in self.stack.whole_stack()][::-1]) 
- 
-        
-        print(f"     | {control_:<50} {stack_:>49} |")
-        print("------------------------------------------------------------------------------------------------------------")
-        
-    def var_lookup(self , var_name):
-        env_pointer = self.current_env
-        while env_pointer.parent != None:
-            if var_name in env_pointer._environment:
-                
-                #print(var_name,env_pointer._environment[var_name],"==========================")
-                return env_pointer._environment[var_name]
-            env_pointer = env_pointer.parent
-        else:
-            self._error_handler.handle_error("CSE : Variable not found in the environment")
-            
-    def apply_binary(self , rator , rand , binop):
-        
-        
-        if binop == "aug":
-            if rator== "nil":
-                if rand == "nil":
-                    return None
-                return rand
-            elif rand == "nil":
-                return rator
-            elif type(rator) == list:
-                rator.append(rand)
-                return rator
-            else:
-                return [rator , rand]
-            
-        elif binop == "or":
-            if type(rator) == bool and type(rand) == bool:
-                return rator or rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-        
-        elif binop == "&":
-            if type(rator) == bool and type(rand) == bool:
-                return rator and rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "+":
-            if type(rator) == int and type(rand) == int:
-                return rator + rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "-":
-            if type(rator) == int and type(rand) == int:
-                return rator - rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "*":
-            if type(rator) == int and type(rand) == int:
-                return rator * rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "/":
-            if type(rator) == int and type(rand) == int:
-                return rator // rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "**":
-            if type(rator) == int and type(rand) == int:
-                return rator ** rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "gr":
-            if type(rator) == int and type(rand) == int:
-                return rator > rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "ge":
-            if type(rator) == int and type(rand) == int:
-                return rator >= rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "ls":
-            if type(rator) == int and type(rand) == int:
-                return rator < rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "le":
-            if type(rator) == int and type(rand) == int:
-                return rator <= rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "eq":
-            if type(rator) == int and type(rand) == int:
-                return rator == rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-        elif binop == "ne":
-            if type(rator) == int and type(rand) == int:
-                return rator != rand
-            else:
-                self._error_handler.handle_error("CSE : Invalid binary operation")
-                
-    def apply_unary(self , rator , unop):
-        
-        if unop == "not":
-            if type(rator) == bool :
-                return not rator
-            else:
-                self._error_handler.handle_error("CSE : Invalid unary operation")
-                
-        elif unop == "neg":
-            if type(rator) == int:
-                return -rator
-            else:
-                self._error_handler.handle_error("CSE : Invalid unary operation")
-        
-    def initialize(self):
-        self.stack.push(ControlStructureElement("env_marker","env_marker",None,None,self.current_env))
-        self.control.push(ControlStructureElement("env_marker","env_marker",None,None,self.current_env))
-        for element in self.control_structures[0].elements:
-            self.control.push(element)
+                pass
+             
         
     def CSErule1(self):
-        var_name = self.control.pop().value
-        var = self.var_lookup(var_name)
-        var_type = var[0]
-        var_val = var[1]
-        self.stack.push(ControlStructureElement(var_type,var_val))
+        self._add_table_data("1")
+        control_top = self.control.peek()
+        if control_top.type in ['STR','INT','bool','tuple']:
+            self.stack.push(self.control.pop())
+        else :
+            var_name = self.control.pop().value
+            var = self._var_lookup(var_name)
+            var_type = var[0]
+            var_val = var[1]
+            self.stack.push(ControlStructureElement(var_type,var_val))
         
     def CSErule2(self):
+        self._add_table_data("2")
         lambda_ = self.control.pop()
         lambda_.env = self.current_env
         self.stack.push(lambda_)
         
+    def CSErule3(self):
+        pass
     def CSErule4(self):
+        self._add_table_data("4")
         self.control.pop()
         lambda_ = self.stack.pop()
         rand = self.stack.pop()
@@ -265,28 +139,32 @@ class CSEMachine:
         self.stack.push(env_marker)
         
     def CSErule5(self):
+        self._add_table_data("5")
         self.control.pop()
         value = self.stack.pop()
         self.stack.pop()
         self.stack.push(value)
-        
+                
     def CSErule6(self):
+        self._add_table_data("6")
         binop = self.control.pop().value
         rator = self.stack.pop().value
         rand = self.stack.pop().value
-        result = self.apply_binary(rator,rand,binop)
+        result = self._apply_binary(rator,rand,binop)
         self.stack.push(ControlStructureElement("bool",result))
         
     def CSErule7(self):
+        self._add_table_data("7")
         unop = self.control.pop().value
         rator = self.stack.pop().value
-        result = self.apply_unary(rator,unop)
+        result = self._apply_unary(rator,unop)
         if type(result) == bool:
             self.stack.push(ControlStructureElement("bool",result))
         else:
             self.stack.push(ControlStructureElement("INT",result))
-            
+                    
     def CSErule8(self):
+        self._add_table_data("8")
         if self.stack.pop().value == True :
             self.control.pop()
             self.control.pop()
@@ -299,23 +177,26 @@ class CSEMachine:
             self.control.pop()
             for element in self.control_structures[delta.control_structure].elements:
                 self.control.push(element)
-            
+                   
     def CSErule9(self):
+        self._add_table_data("9")
         tau = self.control.pop()
         n = tau.value
         l = []
         for i in range(n):
             l.append(self.stack.pop())
         self.stack.push(ControlStructureElement("tuple",l))
-        
+                
     def CSErule10(self):
+        self._add_table_data("10")
         self.control.pop()
         l = self.stack.pop()
         index = self.stack.pop()
 
         self.stack.push(ControlStructureElement(l[index].type,l[index]))
-        
+                
     def CSErule11(self):
+        self._add_table_data("11")
         self.control.pop()
         lambda_ = self.stack.pop()
         var_list = lambda_.bounded_variable
@@ -340,4 +221,21 @@ class CSEMachine:
         
         for element in self.control_structures[k].elements:
             self.control.push(element)
+        
+    def _var_lookup(self , var_name):
+        return var_lookup(self, var_name)
+            
+    def _apply_binary(self , rator , rand , binop):
+        return apply_binary(self, rator, rand, binop)
+                
+    def _apply_unary(self , rator , unop):
+        return apply_unary(self, rator, unop)     
+
+    def _add_table_data(self, rule):
+        add_table_data(self, rule)
+
+    def _print_cse_table(self):
+        print_cse_table(self)
+
+
         

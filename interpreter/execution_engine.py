@@ -76,6 +76,7 @@ class Evaluator:
             self.standard_tree.build_standard_tree(self.parse_ast_tree)
             self.parse_st_tree = self.standard_tree.standard_tree
             self.cse_machine.execute(self.parse_st_tree)
+            self.cse_machine._print_cse_table()
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
