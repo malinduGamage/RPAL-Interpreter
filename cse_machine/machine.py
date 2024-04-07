@@ -51,7 +51,7 @@ class CSEMachine:
             control_top = self.control.peek()
             stack_top = self.stack.peek()
             control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
-            stack_ = " ".join([str(element.value) for element in self.control.whole_stack()][::-1]) 
+            stack_ = " ".join([str(element.value) for element in self.stack.whole_stack()][::-1]) 
   
             if control_top.type == "ID":
                 print("1    ",end="")
@@ -89,7 +89,7 @@ class CSEMachine:
                 self.stack.push(self.control.pop())
             else:
                 control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
-                stack_ = " ".join([str(element.value) for element in self.control.whole_stack()][::-1])
+                stack_ = " ".join([str(element.value) for element in self.stack.whole_stack()][::-1])
             
                 
                 print(f"| {control_:<50} {stack_:>49} |")
@@ -101,7 +101,7 @@ class CSEMachine:
                 
                 
         control_ = " ".join([str(element.value) for element in self.control.whole_stack()])
-        stack_ = " ".join([str(element.value) for element in self.control.whole_stack()][::-1]) 
+        stack_ = " ".join([str(element.value) for element in self.stack.whole_stack()][::-1]) 
  
         
         print(f"     | {control_:<50} {stack_:>49} |")
