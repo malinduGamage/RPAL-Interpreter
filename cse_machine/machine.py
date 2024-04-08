@@ -72,7 +72,7 @@ class CSEMachine:
             control_top = self.control.peek()
             stack_top = self.stack.peek()
 
-            if control_top.type in ['ID','STR','INT','bool','tuple']:
+            if control_top.type in ['ID','STR','INT','bool','tuple','Y*']:
                 self.CSErule1()
             elif control_top.type == "lambda":
                 self.CSErule2()
@@ -93,6 +93,10 @@ class CSEMachine:
                 self.CSErule9()
             elif control_top.type == "gamma" and stack_top.type == "tuple":
                 self.CSErule10()
+            elif control_top.type == "gamma" and stack_top.type == "Y*":
+                self.CSErule12()
+            elif control_top.type == "gamma" and stack_top.type == "eta":
+                self.CSErule13()
             else:
                 self._error_handler.handle_error("CSE : Invalid control structure")
 
@@ -100,14 +104,16 @@ class CSEMachine:
     def CSErule1(self):
         self._add_table_data("1")
         control_top = self.control.peek()
-        if control_top.type in ['STR','INT','bool','tuple']:
+        if control_top.type in ['STR','INT','bool','tuple','Y*']:
             self.stack.push(self.control.pop())
         else :
-            var_name = self.control.pop().value
+            item = self.control.pop()
+            var_name = item.value
             var = self._var_lookup(var_name)
-            var_type = var[0]
-            var_val = var[1]
-            self.stack.push(ControlStructureElement(var_type,var_val))
+            if var[0] == "eta":
+                self.stack.push(var[1])
+            else :
+                self.stack.push(ControlStructureElement(var[0],var[1]))
         
     def CSErule2(self):
         self._add_table_data("2")
@@ -118,13 +124,20 @@ class CSEMachine:
     def CSErule3(self):
         self._add_table_data("3")
         pass
+    
     def CSErule4(self):
         self._add_table_data("4")
         self.control.pop()
         lambda_ = self.stack.pop()
         rand = self.stack.pop()
+        
         new_env = Environment()
-        new_env.add_var(lambda_.bounded_variable[0],rand.type,rand.value)
+        if rand.type  == "eta":
+            new_env.add_var(lambda_.bounded_variable[0],rand.type,rand)
+        elif rand.type in ["tuple","INT","bool","STR"]:
+            new_env.add_var(lambda_.bounded_variable[0],rand.type,rand.value)
+        else:
+            self._error_handler.handle_error("CSE : Invalid type")
         new_env.parent = lambda_.env
         lambda_.env.add_child(new_env)
         
@@ -157,14 +170,24 @@ class CSEMachine:
         rator = self.stack.pop().value
         rand = self.stack.pop().value
         result = self._apply_binary(rator,rand,binop)
-        self.stack.push(ControlStructureElement(type(result),result))
+        res_type = None
+        if type(result) == bool:
+            res_type = "bool"
+        else :
+            res_type = "INT"
+        self.stack.push(ControlStructureElement(res_type,result))
         
     def CSErule7(self):
         self._add_table_data("7")
         unop = self.control.pop().value
         rator_e = self.stack.pop()
         result = self._apply_unary(rator_e,unop)
-        self.stack.push(ControlStructureElement(type(result),result))
+        res_type = None
+        if type(result) == bool:
+            res_type = "bool"
+        else :
+            res_type = "INT"
+        self.stack.push(ControlStructureElement(res_type,result))
                     
     def CSErule8(self):
         self._add_table_data("8")
@@ -188,7 +211,7 @@ class CSEMachine:
         tup = []
         for i in range(n):
             tup.append(self.stack.pop())
-        self.stack.push(ControlStructureElement("tuple",l))
+        self.stack.push(ControlStructureElement("tuple",tup))
                 
     def CSErule10(self):
         self._add_table_data("10")
