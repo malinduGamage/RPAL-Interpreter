@@ -41,7 +41,8 @@ def apply_binary(cse_machine, rator, rand, binop):
             "ls": lambda cse_machine, rator, rand: apply_comparison(cse_machine, rator, rand, lambda a, b: a < b),
             "le": lambda cse_machine, rator, rand: apply_comparison(cse_machine, rator, rand, lambda a, b: a <= b),
             "eq": lambda cse_machine, rator, rand: apply_eq(cse_machine, rator, rand),
-            "ne": lambda cse_machine, rator, rand: apply_ne(cse_machine, rator, rand)
+            "ne": lambda cse_machine, rator, rand: apply_ne(cse_machine, rator, rand),
+            "Conc": lambda cse_machine, rator, rand: apply_conc(cse_machine, rator, rand)
         }
 
     # Get the operation function corresponding to the binary operator
@@ -77,19 +78,14 @@ def apply_aug(cse_machine, rator, rand):
     ValueError
         If the binary operator is not recognized.
     """
-    if rator == "nil":
+    if rator == "nil" or type(rator)==list:
+        if rator == "nil":
+            return ['nil']
         # If the left operand is "nil", return the right operand if it's not "nil", else return None
-        return rand if rand != "nil" else None
-    elif rand == "nil":
-        # If the right operand is "nil", return the left operand
-        return rator
-    elif isinstance(rator, list):
-        # If the left operand is a list, append the right operand to it
-        rator.append(rand)
-        return rator
+        return rator.append(rand)
     else:
         # If neither operand is "nil" and the left operand is not a list, create a list with both operands
-        return [rator, rand]
+        return cse_machine._error_handling.handle_error("Cannot augment a non tuple (2).")
 
 # Function to handle the 'or' binary operator
 def apply_or(cse_machine, rator, rand):
@@ -120,7 +116,7 @@ def apply_or(cse_machine, rator, rand):
         return rator or rand
     else:
         # Otherwise, raise an error
-        raise ValueError("Invalid operands for logical 'or'")
+        raise cse_machine._error_handling.handle_error("Invalid value used in logical expression 'or'")
 
 # Function to handle the 'and' binary operator
 def apply_and(cse_machine, rator, rand):
@@ -151,7 +147,7 @@ def apply_and(cse_machine, rator, rand):
         return rator and rand
     else:
         # Otherwise, raise an error
-        raise ValueError("Invalid operands for logical 'and'")
+        raise ValueError("Illegal Operands for '&'")
 
 # Function to handle the 'eq' binary operator
 def apply_eq(cse_machine, rator, rand):
@@ -182,7 +178,7 @@ def apply_eq(cse_machine, rator, rand):
         return rator == rand
     else:
         # Otherwise, raise an error
-        raise ValueError("Invalid operands for equality comparison")
+        raise cse_machine._error_handling.handle_error("Illegal Operands for 'eq'")
 
 # Function to handle the 'ne' binary operator
 def apply_ne(cse_machine, rator, rand):
@@ -213,7 +209,7 @@ def apply_ne(cse_machine, rator, rand):
         return rator != rand
     else:
         # Otherwise, raise an error
-        raise ValueError("Invalid operands for inequality comparison")
+        raise cse_machine._error_handling.handle_error("Illegal Operands for 'ne'")
 
 # Function to handle arithmetic operations
 def apply_arithmetic(cse_machine, rator, rand, operation):
@@ -246,8 +242,14 @@ def apply_arithmetic(cse_machine, rator, rand, operation):
         return operation(rator, rand)
     else:
         # Otherwise, raise an error
-        raise ValueError("Invalid operands for arithmetic operation")
+        raise cse_machine._error_handler.handle_error("Illegal Operands for Arithmetic Operation")
 
+def apply_conc(cse_machine,rator,rand):
+    if isinstance(rator, str) and isinstance(rand, str):
+        return rator + rand
+    else:
+        raise cse_machine._error_handler.handle_error("Non-strings used in conc call")
+    
 # Function to handle comparison operations
 def apply_comparison(cse_machine, rator, rand, operation):
     """
@@ -274,9 +276,9 @@ def apply_comparison(cse_machine, rator, rand, operation):
     ValueError
         If the operands are not integers or the operation is not a function.
     """
-    if isinstance(rator, int) and isinstance(rand, int):
+    if (isinstance(rator, int) and isinstance(rand, int)) or (isinstance(rator, str) and isinstance(rand, str)):
         # If both operands are integers, apply the specified comparison operation
         return operation(rator, rand)
     else:
         # Otherwise, raise an error
-        raise ValueError("Invalid operands for comparison operation")
+        raise cse_machine._error_handler.handle_error("Illegal Operands for 'gr'")
