@@ -3,7 +3,7 @@ from cse_machine.control_structure import ControlStructure
 from cse_machine.enviroment import Environment
 from cse_machine.stack import Stack
 from cse_machine.STlinearizer import Linearizer
-from cse_machine.util import add_table_data, print_cse_table , var_lookup
+from cse_machine.util import add_table_data, print_cse_table , var_lookup , element_val
 from cse_machine.apply_bin import apply_binary
 from cse_machine.apply_un import apply_unary
 from utils.node import Node	
@@ -71,16 +71,27 @@ class CSEMachine:
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
+            control = " ".join(str(element_val(element)) for element in self.control.whole_stack())
+            stack = " ".join(str(element_val(element)) for element in self.stack.whole_stack())
+            print(f"Control: {control}\n", stack)
 
             if control_top.type in ['ID','STR','INT','bool','tuple','Y*']:
                 self.CSErule1()
             elif control_top.type == "lambda":
                 self.CSErule2()
-            elif control_top.type == "gamma" and stack_top.type == "lambda":
-                if len(stack_top.bounded_variable) > 1:
-                    self.CSErule11()
-                else:
-                    self.CSErule4()
+            elif control_top.type == "gamma" :
+                if stack_top.type == "lambda":
+                    if len(stack_top.bounded_variable) > 1:
+                        self.CSErule11()
+                    else:
+                        self.CSErule4()
+                elif stack_top.value in binary_operators and self.stack.size() >= 2:
+                    self.CSErule6()
+                elif stack_top.value in unary_operators and self.stack.size() >= 1 :
+                    self.CSErule7()
+                else :
+                    self._error_handler.handle_error("CSSE : Invalid control structure")
+
             elif control_top.type == "env_marker":
                 self.CSErule5()
             elif control_top.value in binary_operators and self.stack.size() >= 2:

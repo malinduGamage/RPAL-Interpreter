@@ -1,7 +1,9 @@
 
 def var_lookup(cse_machine , var_name):
     env_pointer = cse_machine.current_env
-    while env_pointer.parent:
+    print(env_pointer._environment)
+    while env_pointer:
+        print(env_pointer.parent)
         if var_name in env_pointer._environment:
             out = env_pointer._environment[var_name]
             if out[0] == 'eta':

@@ -15,7 +15,7 @@ class Environment:
 
     def _initialize_initial_vars(self):
         initial_vars = {
-            "Print": ["function", None],
+            "Print": ["Print", "Print"],
             "Isstring": ["function", None],
             "Isinteger": ["function", None],
             "Istruthvalue": ["function", None],
