@@ -78,13 +78,30 @@ def apply_aug(cse_machine, rator, rand):
     ValueError
         If the binary operator is not recognized.
     """
-    if rator == "nil" or type(rator)==list:
-        if rator == "nil":
-            return ['nil']
+    print(rand ,rator)
+    if rator == None :
+        if rand is None:
+            # If the left operand is "nil", return the right operand if it's not "nil", else return None
+            return [None]
+        elif isinstance(rand, list):
+            return rand
+        else :
+            # If the right operand is "nil", return the left operand
+            return [rand]
+    elif isinstance(rator,list):
+        if rand is None :
+            # If the left operand is "nil", return the right operand if it's not "nil", else return None
+            return rator.append(None)
+        elif isinstance(rand, list):
+            return rator.extend(rand)
+        else :
+            # If the right operand is "nil", return the left operand
+            return rand.append(rand)
         # If the left operand is "nil", return the right operand if it's not "nil", else return None
         return rator.append(rand)
     else:
         # If neither operand is "nil" and the left operand is not a list, create a list with both operands
+        print(type(rand))
         return cse_machine._error_handling.handle_error("Cannot augment a non tuple (2).")
 
 # Function to handle the 'or' binary operator

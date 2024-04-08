@@ -42,7 +42,10 @@ def apply_print(cse_machine, operand):
             k = operand.control_structure
 
             return "[lambda closure: " + x + ": " + k + "]"
+        elif element == None:
+            return "nil"
         else:
+            print(element)
             raise TypeError("Unknown element type.")
 
     # Print the operand
