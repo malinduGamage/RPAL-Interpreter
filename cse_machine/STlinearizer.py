@@ -68,6 +68,8 @@ class Linearizer:
                     output = ["bool",True]
                 elif token[1:-1] == "false":
                     output = ["bool",False]
+                elif token[1:-1] == "nil":
+                    output = ["nil",None]
                 else:
                     output = [token[1:-1], token[1:-1]]
         else:

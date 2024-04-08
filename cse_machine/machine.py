@@ -73,7 +73,7 @@ class CSEMachine:
             control_top = self.control.peek()
             stack_top = self.stack.peek()
 
-            if control_top.type in ['ID','STR','INT','bool','tuple','Y*']:
+            if control_top.type in ['ID','STR','INT','bool','tuple','Y*','nil']:
                 self.CSErule1()
             elif control_top.type == "lambda":
                 self.CSErule2()
@@ -105,7 +105,7 @@ class CSEMachine:
     def CSErule1(self):
         self._add_table_data("1")
         control_top = self.control.peek()
-        if control_top.type in ['STR','INT','bool','tuple','Y*']:
+        if control_top.type in ['STR','INT','bool','tuple','Y*','nil']:
             self.stack.push(self.control.pop())
         else :
             item = self.control.pop()
@@ -135,7 +135,7 @@ class CSEMachine:
         new_env = Environment()
         if rand.type  == "eta":
             new_env.add_var(lambda_.bounded_variable[0],rand.type,rand)
-        elif rand.type in ["tuple","INT","bool","STR"]:
+        elif rand.type in ["tuple","INT","bool","STR","nil"]:
             new_env.add_var(lambda_.bounded_variable[0],rand.type,rand.value)
         else:
             self._error_handler.handle_error("CSE : Invalid type")

@@ -1,1 +1,1 @@
-Print( 1 )
+Print( Isstring nil )
