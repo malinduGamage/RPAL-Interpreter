@@ -9,7 +9,7 @@ def apply_unary(cse_machine, rator_e, unop):
             "Isfunction": lambda cse_machine, operand: callable(operand.value),
             "Null": lambda cse_machine, operand: operand is None,
             "Istuple": lambda cse_machine, operand: isinstance(operand.value, list),
-            "Order": lambda cse_machine, operand: apply_order(cse_machine, operand.value),
+            "Order": lambda cse_machine, operand: len(operand.value) if isinstance(operand.value, tuple) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
             "Stern": lambda cse_machine, operand: apply_stern(cse_machine, operand.value),
             "Stem": lambda cse_machine, operand: apply_stem(cse_machine, operand.value),
             "ItoS": lambda cse_machine, operand: str(operand.value),
