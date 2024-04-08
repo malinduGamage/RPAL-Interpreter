@@ -56,11 +56,14 @@ class Linearizer:
         output = []
         if token[0] == "<":
                 if len(token)>3 and token[1:3] == "ID":
-                    output = ["ID", token[4:-1]]
+                    if token[4:-1] in ["Conc","Print","Stern","Stem","Isstring","Isinteger","Istruthvalue","Isfunction","Null","Istuple","Order","ItoS"]:
+                        output = [token[4:-1], token[4:-1]]
+                    else:
+                        output = ["ID", token[4:-1]]
                 elif len(token)>4 and token[1:4] == "INT":
                     output = ["INT", int(token[5:-1])]
                 elif len(token)>4 and token[1:4] == "STR":
-                    output = ["STR", token[5:-1]]
+                    output = ["STR", token[6:-2]]
                 elif token[1:-1] == "true":
                     output = ["bool",True]
                 elif token[1:-1] == "false":

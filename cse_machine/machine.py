@@ -34,6 +34,11 @@ class CSEMachine:
         self.control = Stack()
         self._linearizer = Linearizer()
         self.table_data = []
+        self.binary_operator = {"+", "-", "/", "*", "**", "eq", "ne", "gr", "ge", "le",">", "<", ">=", "<=", "or", "&", "aug", "ls", "Conc"}
+        self.unary_operators =  {
+            "Print", "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null",
+            "Istuple", "Order", "Stern", "Stem", "ItoS", "neg", "not", "$ConcPartial"
+            }
 
     def initialize(self):
         # Push an environment marker onto the stack and control structures
@@ -57,11 +62,7 @@ class CSEMachine:
         Args:
             st_tree (Node): The root node of the Standardized Tree (ST) to execute.
         """
-        binary_operators = {"+", "-", "/", "*", "**", "eq", "ne", "gr", "ge", "le",">", "<", ">=", "<=", "or", "&", "aug", "ls"}
-        unary_operators =  {
-            "Print", "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null",
-            "Istuple", "Order", "Stern", "Stem", "ItoS", "neg", "not", "$ConcPartial"
-            }
+        
         
         self.control_structures = self._linearizer.linearize(st_tree)
         self._linearizer.print_control_structures()
@@ -71,9 +72,6 @@ class CSEMachine:
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
-            control = " ".join(str(element_val(element)) for element in self.control.whole_stack())
-            stack = " ".join(str(element_val(element)) for element in self.stack.whole_stack())
-            print(f"Control: {control}\n", stack)
 
             if control_top.type in ['ID','STR','INT','bool','tuple','Y*']:
                 self.CSErule1()
@@ -85,18 +83,18 @@ class CSEMachine:
                         self.CSErule11()
                     else:
                         self.CSErule4()
-                elif stack_top.value in binary_operators and self.stack.size() >= 2:
+                elif stack_top.value in self.binary_operator and self.stack.size() >= 2:
                     self.CSErule6()
-                elif stack_top.value in unary_operators and self.stack.size() >= 1 :
+                elif stack_top.value in self.unary_operators and self.stack.size() >= 1 :
                     self.CSErule7()
                 else :
-                    self._error_handler.handle_error("CSSE : Invalid control structure")
+                    self._error_handler.handle_error("CSE : Invalid control structure")
 
             elif control_top.type == "env_marker":
                 self.CSErule5()
-            elif control_top.value in binary_operators and self.stack.size() >= 2:
+            elif control_top.value in self.binary_operator and self.stack.size() >= 2:
                 self.CSErule6()
-            elif control_top.value in unary_operators and self.stack.size() >= 1:
+            elif control_top.value in self.unary_operators and self.stack.size() >= 1:
                 self.CSErule7()
             elif control_top.type == "beta" and self.stack.size() >= 1:
                 self.CSErule8()
@@ -111,7 +109,6 @@ class CSEMachine:
             else:
                 self._error_handler.handle_error("CSE : Invalid control structure")
 
-        
     def CSErule1(self):
         self._add_table_data("1")
         control_top = self.control.peek()
@@ -184,9 +181,15 @@ class CSEMachine:
         res_type = None
         if type(result) == bool:
             res_type = "bool"
+        elif type(result) == str:
+            res_type = "STR"
         else :
             res_type = "INT"
+        if binop == "Conc":
+            while self.control.peek().type == "gamma":
+                self.control.pop()
         self.stack.push(ControlStructureElement(res_type,result))
+        
         
     def CSErule7(self):
         self._add_table_data("7")
@@ -196,8 +199,13 @@ class CSEMachine:
         res_type = None
         if type(result) == bool:
             res_type = "bool"
+        elif type(result) == str:
+            res_type = "STR"
         else :
             res_type = "INT"
+        if unop not in ["not","neg"]:
+            while self.control.peek().type == "gamma":
+                self.control.pop()
         self.stack.push(ControlStructureElement(res_type,result))
                     
     def CSErule8(self):

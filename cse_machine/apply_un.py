@@ -31,8 +31,10 @@ def apply_print(cse_machine, operand):
     # Define the covertToString function
     def covert_to_string(element):
         if isinstance(element, list):
-            data = [covert_to_string(sub_element) for sub_element in element]
-            return "(" + ", ".join(data) + ")"
+            out = "( "
+            for el in element:
+                out += str(el.value) + " , "
+            return out[:-2]+")"
         elif isinstance(element, str) or isinstance(element, int):
             return str(element)
         elif element == "lambda":
@@ -40,20 +42,19 @@ def apply_print(cse_machine, operand):
             k = operand.control_structure
 
             return "[lambda closure: " + x + ": " + k + "]"
-        #elif isinstance(element, Value):
-        #    return element.value
         else:
             raise TypeError("Unknown element type.")
 
     # Print the operand
-    print(covert_to_string(operand))
+    print("output = "+covert_to_string(element))
     
     # Return a dummy value
-    return None
+    return "dummy"
 
 
 # Function to apply the Order unary operator
 def apply_order(cse_machine, operand):
+    operand = operand.value
     if isinstance(operand, str):
         return ord(operand[0])
     else:
@@ -61,12 +62,14 @@ def apply_order(cse_machine, operand):
 
 # Function to apply the Stern unary operator
 def apply_stern(cse_machine, operand):
+    operand = operand.value
     if isinstance(operand, str) and len(operand) >= 1:
         return operand[0]
     else:
         cse_machine._error_handler.handle_error("CSE : Invalid unary operation")
 
 def apply_stem(cse_machine, operand):
+    operand = operand.value
     if isinstance(operand, str) and len(operand) >= 1:
         return operand[1:]
     else:
