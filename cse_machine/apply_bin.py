@@ -1,5 +1,5 @@
 # This file contains functions to apply unary and binary operations to operands in the CSE machine.
-
+from utils.control_structure_element import ControlStructureElement
 
 def apply_binary(cse_machine, rator, rand, binop):
     """
@@ -78,30 +78,23 @@ def apply_aug(cse_machine, rator, rand):
     ValueError
         If the binary operator is not recognized.
     """
-    print(rand ,rator)
-    if rator == None :
-        if rand is None:
+    if rator.type == "nil" :
+        if rand.type == "nil":
             # If the left operand is "nil", return the right operand if it's not "nil", else return None
-            return [None]
-        elif isinstance(rand, list):
-            return rand
+            return ControlStructureElement("nil", None)
         else :
             # If the right operand is "nil", return the left operand
-            return [rand]
-    elif isinstance(rator,list):
-        if rand is None :
-            # If the left operand is "nil", return the right operand if it's not "nil", else return None
-            return rator.append(None)
-        elif isinstance(rand, list):
-            return rator.extend(rand)
-        else :
-            # If the right operand is "nil", return the left operand
-            return rand.append(rand)
-        # If the left operand is "nil", return the right operand if it's not "nil", else return None
-        return rator.append(rand)
+            return ControlStructureElement("tuple",[rand])
+    elif rand.type == "nil":
+        return rator
+    elif rator.type in ["tuple","ID","INT","STR","bool"] and rand.type in ["tuple","ID","INT","STR","bool"]:
+        if isinstance(rator.value, list) :
+            rator.value.append(rand)
+            ls = rator.value
+            res = ControlStructureElement("tuple", ls)
+            return res
+        return ControlStructureElement("tuple", [rator, rand])
     else:
-        # If neither operand is "nil" and the left operand is not a list, create a list with both operands
-        print(type(rand))
         return cse_machine._error_handling.handle_error("Cannot augment a non tuple (2).")
 
 # Function to handle the 'or' binary operator

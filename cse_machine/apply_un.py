@@ -1,3 +1,4 @@
+from utils.control_structure_element import ControlStructureElement
 def apply_unary(cse_machine, rator_e, unop):
     rator = rator_e.value
     # Dictionary mapping binary operators to their corresponding functions

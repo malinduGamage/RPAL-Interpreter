@@ -40,10 +40,8 @@ def print_cse_table(cse_machine):
         
 def element_val(element):
     if element.type == "tuple":
-        output = []
-        for el in element.value:
-            output.append(el.value)
-        return output
+        output = ""
+        return convert_list(element.value,output)
     elif element.type == "env_marker":
         return f"e{element.env.index}"
     elif element.type == "lambda":
@@ -60,3 +58,19 @@ def element_val(element):
         return f"tau[{element.value}]"
     else:
         return element.value   
+    
+def convert_list(element,out):
+    if isinstance(element, list):
+        out += "("
+        for el in element:
+            out = convert_list(el,out)
+        out = out[:-1] +  ")"
+    else:
+        if isinstance(element.value, list):
+            out += "("
+            for el in element.value:
+                out = convert_list(el,out)
+            out = out[:-1] +  "),"
+        else:
+            out += str(element.value) + ","
+    return out

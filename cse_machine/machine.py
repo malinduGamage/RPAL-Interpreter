@@ -68,7 +68,7 @@ class CSEMachine:
         self._linearizer.print_control_structures()
         
         self.initialize()
-
+        
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
@@ -166,20 +166,25 @@ class CSEMachine:
     def CSErule6(self):
         self._add_table_data("6")
         binop = self.control.pop().value
-        rator = self.stack.pop().value
-        rand = self.stack.pop().value
-        result = self._apply_binary(rator,rand,binop)
-        res_type = None
-        if type(result) == bool:
-            res_type = "bool"
-        elif type(result) == str:
-            res_type = "STR"
-        else :
-            res_type = "INT"
-        if binop == "Conc":
-            while self.control.peek().type == "gamma":
-                self.control.pop()
-        self.stack.push(ControlStructureElement(res_type,result))
+        if binop == "aug":
+            rator = self.stack.pop()
+            rand = self.stack.pop()
+            self.stack.push(self._apply_binary(rator,rand,binop))
+        else:
+            rator = self.stack.pop().value
+            rand = self.stack.pop().value
+            result = self._apply_binary(rator,rand,binop)
+            res_type = None
+            if type(result) == bool:
+                res_type = "bool"
+            elif type(result) == str:
+                res_type = "STR"
+            else :
+                res_type = "INT"
+            if binop == "Conc":
+                while self.control.peek().type == "gamma":
+                    self.control.pop()
+            self.stack.push(ControlStructureElement(res_type,result))
         
         
     def CSErule7(self):
@@ -216,11 +221,13 @@ class CSEMachine:
     def CSErule9(self):
         self._add_table_data("9")
         tau = self.control.pop()
+        print("sdf")
         n = tau.value
         tup = []
         for i in range(n):
             tup.append(self.stack.pop())
         self.stack.push(ControlStructureElement("tuple",tup))
+        print("sdf")
                 
     def CSErule10(self):
         self._add_table_data("10")
