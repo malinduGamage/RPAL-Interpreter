@@ -77,12 +77,6 @@ class CSEMachine:
                 self.CSErule1()
             elif control_top.type == "lambda":
                 self.CSErule2()
-            elif control_top.type == "gamma" :
-                if stack_top.type == "lambda":
-                    if len(stack_top.bounded_variable) > 1:
-                        self.CSErule11()
-                    else:
-                        self.CSErule4()
             elif control_top.type == "env_marker":
                 self.CSErule5()
             elif control_top.value in self.binary_operator and self.stack.size() >= 2:
@@ -99,6 +93,12 @@ class CSEMachine:
                 self.CSErule12()
             elif control_top.type == "gamma" and stack_top.type == "eta":
                 self.CSErule13()
+            elif control_top.type == "gamma" :
+                if stack_top.type == "lambda":
+                    if len(stack_top.bounded_variable) > 1:
+                        self.CSErule11()
+                    else:
+                        self.CSErule4()
             else:
                 self._error_handler.handle_error("CSE : Invalid control structure")
 
