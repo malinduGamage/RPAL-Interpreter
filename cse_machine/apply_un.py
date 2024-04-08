@@ -31,10 +31,8 @@ def apply_print(cse_machine, operand):
     # Define the covertToString function
     def covert_to_string(element):
         if isinstance(element, list):
-            out = "( "
-            for el in element:
-                out += str(el.value) + " , "
-            return out[:-2]+")"
+            out = ""
+            return convert_list(element,out)
         elif isinstance(element, str) or isinstance(element, int):
             return str(element)
         elif element == "lambda":
@@ -42,11 +40,24 @@ def apply_print(cse_machine, operand):
             k = operand.control_structure
 
             return "[lambda closure: " + x + ": " + k + "]"
-        elif element == None:
-            return "nil"
         else:
-            print(element)
             raise TypeError("Unknown element type.")
+        
+    def convert_list(element,out):
+        if isinstance(element, list):
+            out += "("
+            for el in element:
+                out = convert_list(el,out)
+            out = out[:-1] +  ")"
+        else:
+            if isinstance(element.value, list):
+                out += "("
+                for el in element.value:
+                    out = convert_list(el,out)
+                out = out[:-1] +  "),"
+            else:
+                out += str(element.value) + ","
+        return out
 
     # Print the operand
     print("output = "+covert_to_string(element))
