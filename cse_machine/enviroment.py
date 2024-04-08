@@ -2,6 +2,7 @@ class Environment:
     index = -1
     def __init__(self , parent = None):
         self.index = Environment.index +1
+        Environment.index = self.index
         self._environment = {} #name:[type, value]
         self.children = []
         self.previous_environment = parent

@@ -25,8 +25,8 @@ def print_cse_table(cse_machine):
     print("-" * total_width)
     for data in table_data:
         rule = f"{data[0]:<2} |"
-        control = " ".join(str(element.value) for element in data[1])
-        stack = " ".join(str(element.value) for element in data[2][::-1])
+        control = " ".join(str(element_val(element)) for element in data[1])
+        stack = " ".join(str(element_val(element)) for element in data[2][::-1])
         env = f" {data[-1][0]}"
         
         control_str = f"{control[:control_width]:<{control_width}}"
@@ -34,3 +34,24 @@ def print_cse_table(cse_machine):
         
         print(f"  {rule} {control_str} | {stack_str} | {env}")
         print("-" * total_width )
+        
+def element_val(element):
+    if element.type == "tuple":
+        output = []
+        for el in element.value:
+            output.append(el.value)
+        return output
+    elif element.type == "env_marker":
+        return f"e{element.env.index}"
+    elif element.type == "lambda":
+        return f"λ_{element.control_structure}{element.bounded_variable}"
+    elif element.type == "delta":
+        return f"δ_{element.control_structure}"
+    elif element.type == "gamma":
+        return "γ"
+    elif element.type == "beta":
+        return "β"
+    elif element.type == "tau":
+        return f"tau[{element.value}]"
+    else:
+        return element.value   

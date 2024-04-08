@@ -71,7 +71,7 @@ class CSEMachine:
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
-             
+
             if control_top.type in ['ID','STR','INT','bool','tuple']:
                 self.CSErule1()
             elif control_top.type == "lambda":
@@ -95,7 +95,7 @@ class CSEMachine:
                 self.CSErule10()
             else:
                 pass
-             
+
         
     def CSErule1(self):
         self._add_table_data("1")
@@ -144,6 +144,11 @@ class CSEMachine:
         value = self.stack.pop()
         self.stack.pop()
         self.stack.push(value)
+        
+        for element in reversed(self.stack.whole_stack()):
+            if element.type == "env_marker":
+                self.current_env = element.env
+                break
                 
     def CSErule6(self):
         self._add_table_data("6")

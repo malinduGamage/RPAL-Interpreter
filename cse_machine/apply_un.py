@@ -1,4 +1,4 @@
-def apply_unary(cse_machine, rator, rand, unop):
+def apply_unary(cse_machine, rator, unop):
     # Dictionary mapping binary operators to their corresponding functions
     unary_operators = {
             "Print": lambda cse_machine, operand: apply_print(cse_machine, operand),
@@ -20,7 +20,7 @@ def apply_unary(cse_machine, rator, rand, unop):
     operation_function = unary_operators.get(unop)
     if operation_function:
         # Apply the operation function with the provided operands
-        return operation_function(cse_machine, rator, rand)
+        return operation_function(cse_machine, rator)
     else:
         # If the binary operator is not recognized, raise an error
         raise ValueError("Invalid binary operation: " + unop)
