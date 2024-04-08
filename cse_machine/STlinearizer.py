@@ -72,13 +72,18 @@ class Linearizer:
         return output
     
     def print_control_structures(self):
+        print('\n')
         for structure in self.control_structures:
-            print("delta ", structure.index)
+            print(f"δ_{structure.index} = ",end="")
             for element in structure.elements:
-                if element.type == "lambda" or element.type == "delta":
-                    print(element.value+f"{element.control_structure}{element.bounded_variable}",end=" ")
+                if element.type == "lambda":
+                    print(f"λ_{element.control_structure}{element.bounded_variable}",end=" ")
+                elif element.type == "delta":
+                    print(f"δ_{element.control_structure}",end=" ")
                 elif element.type == "tau":
-                    print(element.type,end=" ")
+                    print(f"{element.type}[{element.value}]",end=" ")
+                elif element.type == "gamma":
+                    print("γ",end=" ")
                 else:
                     print(element.value,end=" ")
             print("\n")
