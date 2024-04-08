@@ -1,14 +1,17 @@
 
 def var_lookup(cse_machine , var_name):
     env_pointer = cse_machine.current_env
-    while env_pointer.parent != None:
+    while env_pointer.parent:
         if var_name in env_pointer._environment:
-            
-            print(var_name,env_pointer._environment[var_name],"==========================")
-            return env_pointer._environment[var_name]
+            out = env_pointer._environment[var_name]
+            if out[0] == 'eta':
+                print(var_name,f"['eta',η_{out[1].control_structure}{out[1].bounded_variable}]")
+            else:
+                print(var_name,out)
+            return out
         env_pointer = env_pointer.parent
     else:
-        cse_machine._error_handler.handle_error("CSE : Variable not found in the environment")
+        cse_machine._error_handler.handle_error(f"CSE : Variable [{var_name}] not found in the environment")
 
 def add_table_data(cse_machine,rule):
     table_data = cse_machine.table_data
@@ -51,6 +54,8 @@ def element_val(element):
         return "γ"
     elif element.type == "beta":
         return "β"
+    elif element.type == "eta":
+        return f"η_{element.control_structure}[{element.bounded_variable}]"
     elif element.type == "tau":
         return f"tau[{element.value}]"
     else:

@@ -8,7 +8,7 @@ class Environment:
         self.index = Environment.index
         self._environment = defaultdict(lambda: [None, None])  # name: [type, value]
         self.children = []
-        self.previous_environment = parent
+        self.parent = parent
 
         if self.index == 0:
             self._initialize_initial_vars()
