@@ -39,13 +39,13 @@ def apply_order(cse_machine, operand):
 
 # Function to apply the Stern unary operator
 def apply_stern(cse_machine, operand):
-    if isinstance(operand, tuple) and len(operand) >= 1:
-        return operand[-1]
+    if isinstance(operand, str) and len(operand) >= 1:
+        return operand[0]
     else:
         cse_machine._error_handler.handle_error("CSE : Invalid unary operation")
 
 def apply_stem(cse_machine, operand):
-    if isinstance(operand, tuple) and len(operand) >= 1:
-        return operand[:-1]
+    if isinstance(operand, str) and len(operand) >= 1:
+        return operand[1:]
     else:
         cse_machine._error_handler.handle_error("CSE : Invalid unary operation")

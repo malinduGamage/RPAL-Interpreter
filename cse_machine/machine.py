@@ -94,7 +94,7 @@ class CSEMachine:
             elif control_top.type == "gamma" and stack_top.type == "tuple":
                 self.CSErule10()
             else:
-                pass
+                self._error_handler.handle_error("CSE : Invalid control structure")
 
         
     def CSErule1(self):
@@ -226,7 +226,21 @@ class CSEMachine:
         
         for element in self.control_structures[k].elements:
             self.control.push(element)
+            
+    def CSErule12(self):
+        self.control.pop()
+        self.stack.pop()
+        lambda_ = self.stack.pop()
+        if lambda_.type != "lambda":
+            self._error_handler.handle_error("CSE : expected lambda")
+        eta = ControlStructureElement("eta","eta",lambda_.bounded_variable,lambda_.control_structure,lambda_.env)
+        self.stack.push(eta)
         
+    def CSErule13(self):
+        self.control.push(ControlStructureElement("gamma","gamma"))
+        eta = self.stack.peek()
+        self.stack.push(ControlStructureElement("lambda","lambda",eta.bounded_variable,eta.control_structure,eta.env))
+                
     def _var_lookup(self , var_name):
         return var_lookup(self, var_name)
             
