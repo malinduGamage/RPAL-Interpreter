@@ -56,7 +56,7 @@ class Linearizer:
         output = []
         if token[0] == "<":
                 if len(token)>3 and token[1:3] == "ID":
-                    if token[4:-1] in ["Conc","Print","Stern","Stem","Isstring","Isinteger","Istruthvalue","Isfunction","Null","Istuple","Order","ItoS"]:
+                    if token[4:-1] in ["Conc","Print","Stern","Stem","Isstring","Isinteger","Istruthvalue","Isfunction","Null","Istuple","Order","ItoS","not","neg"	]:
                         output = [token[4:-1], token[4:-1]]
                     else:
                         output = ["ID", token[4:-1]]

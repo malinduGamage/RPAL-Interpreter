@@ -72,7 +72,6 @@ class CSEMachine:
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
-
             if control_top.type in ['ID','STR','INT','bool','tuple','Y*','nil']:
                 self.CSErule1()
             elif control_top.type == "lambda":
@@ -93,8 +92,7 @@ class CSEMachine:
                 self.CSErule12()
             elif control_top.type == "gamma" and stack_top.type == "eta":
                 self.CSErule13()
-            elif control_top.type == "gamma" :
-                if stack_top.type == "lambda":
+            elif control_top.type == "gamma"  and stack_top.type == "lambda":
                     if len(stack_top.bounded_variable) > 1:
                         self.CSErule11()
                     else:
@@ -196,9 +194,8 @@ class CSEMachine:
             res_type = "STR"
         else :
             res_type = "INT"
-        if unop not in ["not","neg"]:
-            while self.control.peek().type == "gamma":
-                self.control.pop()
+        while self.control.peek().type == "gamma":
+            self.control.pop()
         self.stack.push(ControlStructureElement(res_type,result))
                     
     def CSErule8(self):
