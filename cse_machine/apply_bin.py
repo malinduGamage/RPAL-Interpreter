@@ -89,8 +89,8 @@ def apply_aug(cse_machine, rator, rand):
         return rator
     elif rator.type in ["tuple","ID","INT","STR","bool"] and rand.type in ["tuple","ID","INT","STR","bool"]:
         if isinstance(rator.value, list) :
-            rator.value.append(rand)
-            ls = rator.value
+            ls = rator.value.copy()
+            ls.append(rand)
             res = ControlStructureElement("tuple", ls)
             return res
         return ControlStructureElement("tuple", [rator, rand])

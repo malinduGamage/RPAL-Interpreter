@@ -221,13 +221,11 @@ class CSEMachine:
     def CSErule9(self):
         self._add_table_data("9")
         tau = self.control.pop()
-        print("sdf")
         n = tau.value
         tup = []
         for i in range(n):
             tup.append(self.stack.pop())
         self.stack.push(ControlStructureElement("tuple",tup))
-        print("sdf")
                 
     def CSErule10(self):
         self._add_table_data("10")
