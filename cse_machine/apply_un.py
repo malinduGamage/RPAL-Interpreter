@@ -54,7 +54,6 @@ def apply_print(cse_machine, operand):
 
 # Function to apply the Order unary operator
 def apply_order(cse_machine, operand):
-    operand = operand.value
     if isinstance(operand, str):
         return ord(operand[0])
     else:
@@ -62,14 +61,12 @@ def apply_order(cse_machine, operand):
 
 # Function to apply the Stern unary operator
 def apply_stern(cse_machine, operand):
-    operand = operand.value
     if isinstance(operand, str) and len(operand) >= 1:
         return operand[0]
     else:
         cse_machine._error_handler.handle_error("CSE : Invalid unary operation")
 
 def apply_stem(cse_machine, operand):
-    operand = operand.value
     if isinstance(operand, str) and len(operand) >= 1:
         return operand[1:]
     else:

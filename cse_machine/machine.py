@@ -83,13 +83,6 @@ class CSEMachine:
                         self.CSErule11()
                     else:
                         self.CSErule4()
-                elif stack_top.value in self.binary_operator and self.stack.size() >= 2:
-                    self.CSErule6()
-                elif stack_top.value in self.unary_operators and self.stack.size() >= 1 :
-                    self.CSErule7()
-                else :
-                    self._error_handler.handle_error("CSE : Invalid control structure")
-
             elif control_top.type == "env_marker":
                 self.CSErule5()
             elif control_top.value in self.binary_operator and self.stack.size() >= 2:
