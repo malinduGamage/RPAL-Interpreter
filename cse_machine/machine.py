@@ -116,6 +116,7 @@ class CSEMachine:
         self.stack.push(lambda_)
         
     def CSErule3(self):
+        self._add_table_data("3")
         pass
     def CSErule4(self):
         self._add_table_data("4")
@@ -156,17 +157,14 @@ class CSEMachine:
         rator = self.stack.pop().value
         rand = self.stack.pop().value
         result = self._apply_binary(rator,rand,binop)
-        self.stack.push(ControlStructureElement("bool",result))
+        self.stack.push(ControlStructureElement(type(result),result))
         
     def CSErule7(self):
         self._add_table_data("7")
         unop = self.control.pop().value
-        rator = self.stack.pop().value
-        result = self._apply_unary(rator,unop)
-        if type(result) == bool:
-            self.stack.push(ControlStructureElement("bool",result))
-        else:
-            self.stack.push(ControlStructureElement("INT",result))
+        rator_e = self.stack.pop()
+        result = self._apply_unary(rator_e,unop)
+        self.stack.push(ControlStructureElement(type(result),result))
                     
     def CSErule8(self):
         self._add_table_data("8")
@@ -187,9 +185,9 @@ class CSEMachine:
         self._add_table_data("9")
         tau = self.control.pop()
         n = tau.value
-        l = []
+        tup = []
         for i in range(n):
-            l.append(self.stack.pop())
+            tup.append(self.stack.pop())
         self.stack.push(ControlStructureElement("tuple",l))
                 
     def CSErule10(self):
@@ -228,6 +226,7 @@ class CSEMachine:
             self.control.push(element)
             
     def CSErule12(self):
+        self._add_table_data("12")
         self.control.pop()
         self.stack.pop()
         lambda_ = self.stack.pop()
@@ -237,6 +236,7 @@ class CSEMachine:
         self.stack.push(eta)
         
     def CSErule13(self):
+        self._add_table_data("13")
         self.control.push(ControlStructureElement("gamma","gamma"))
         eta = self.stack.peek()
         self.stack.push(ControlStructureElement("lambda","lambda",eta.bounded_variable,eta.control_structure,eta.env))
