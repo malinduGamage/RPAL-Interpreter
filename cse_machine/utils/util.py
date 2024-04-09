@@ -59,7 +59,7 @@ def print_cse_table(cse_machine):
     print("-" * total_width)
     for data in table_data:
         rule = f"{data[0]:<2} |"
-        control = " ".join(str(element_val(element)) for element in data[1])
+        control = " ".join(str(element_val(element)) for element in data[1][::-1])
         stack = " ".join(str(element_val(element)) for element in data[2][::-1])
         env = f" {data[-1][0]}"
         
