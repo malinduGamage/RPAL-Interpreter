@@ -150,7 +150,7 @@ class CSEMachine:
     def CSErule4(self):
         #print("rule 4")
         self._add_table_data("4")
-        if self.current_env.index >= 1000:
+        if self.current_env.index >= 2000:
             self._error_handler.handle_error("CSE : Environment limit exceeded")
         self.control.pop()
         lambda_ = self.stack.pop()
