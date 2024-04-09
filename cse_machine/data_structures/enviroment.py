@@ -73,3 +73,9 @@ class Environment:
         self.parent = parent
         # Update the parent reference in the _environment dictionary
         self._environment['__parent__'] = parent._environment if parent else None
+
+    def reset_index(self):
+        """
+        Reset the index of the environment.
+        """
+        Environment.index = -1

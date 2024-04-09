@@ -17,6 +17,7 @@ from screener.token_screener import Screener
 from parser.parser_module import Parser
 from parser.build_standard_tree import StandardTree
 from cse_machine.machine import CSEMachine
+from cse_machine.data_structures.enviroment import Environment
 import utils.token_printer
 import utils.tree_list
 import utils.tree_printer
@@ -83,7 +84,7 @@ class Evaluator:
             self.cse_machine._print_cse_table()
             print("Raw Output:", self.raw_output)
             print("Output:", self.output)
-            
+            Environment().reset_index()
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
