@@ -31,7 +31,7 @@ def apply_unary(cse_machine, rator_e, unop):
             "Istruthvalue": lambda cse_machine, operand: operand.type == "bool",
             "Isfunction": lambda cse_machine, operand: operand.type == "lambda",
             "Null": lambda cse_machine, operand: operand.type == "nil",
-            "Istuple": lambda cse_machine, operand: isinstance(operand.value, list),
+            "Istuple": lambda cse_machine, operand: isinstance(operand.value, list) or operand.type == "nil",
             "Order": lambda cse_machine, operand: apply_order(cse_machine, operand),
             "Stern": lambda cse_machine, operand: apply_stern(cse_machine, operand.value),
             "Stem": lambda cse_machine, operand: apply_stem(cse_machine, operand.value),
