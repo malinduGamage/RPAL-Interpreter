@@ -113,6 +113,8 @@ class CSEMachine:
                     else:
                         self.CSErule4()
                         #print("out of rule 4")
+            elif control_top.type == "gamma" and stack_top.type == "ConcPartial":
+                self.Concpartial()
             else:
                 self._error_handler.handle_error("CSE : Invalid control structure")
 
@@ -201,6 +203,12 @@ class CSEMachine:
                 result =self._apply_binary(rator.value,rand.value,binop)
                 #print("rator=",rator.value,"rand=",rand.value,"result=",result)
                 self.stack.push(ControlStructureElement("STR",result))
+                while self.control.peek().type == "gamma":
+                    self.control.pop()
+            elif rator.type == "STR":
+                rator.type = "ConcPartial"
+                self.stack.push(rand)
+                self.stack.push(rator)
                 while self.control.peek().type == "gamma":
                     self.control.pop()
             else:
@@ -324,7 +332,19 @@ class CSEMachine:
         self.control.push(ControlStructureElement("gamma","gamma"))
         eta = self.stack.peek()
         self.stack.push(ControlStructureElement("lambda","lambda",eta.bounded_variable,eta.control_structure,eta.env))
-                
+    
+    def Concpartial(self):
+        rator = self.stack.pop()
+        rand = self.stack.pop()
+        if rand.type == "STR":
+            result = self._apply_binary(rator.value,rand.value,"Conc")
+            self.stack.push(ControlStructureElement("STR",result))
+            while self.control.peek().type == "gamma":
+                    self.control.pop()
+        else:
+            self._error_handler.handle_error("CSE : Invalid type for concatenation")
+            
+    
     def _var_lookup(self , var_name):
         return var_lookup(self, var_name)
             
