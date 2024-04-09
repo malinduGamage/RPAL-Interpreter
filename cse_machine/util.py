@@ -4,8 +4,15 @@ def var_lookup(cse_machine , var_name):
     while env_pointer:
         if var_name in env_pointer._environment:
             out = env_pointer._environment[var_name]
-            if out[0] == 'eta':
-                print(var_name,f"['eta',η_{out[1].control_structure}{out[1].bounded_variable}]")
+            if out[0] == 'eta' :
+                print(var_name,f"['{out[0]}',η_{out[1].control_structure}{out[1].bounded_variable}]")
+            elif out[0] == 'lambda':
+                print(var_name,f"['{out[0]}',λ_{out[1].control_structure}{out[1].bounded_variable}]")
+            elif out[0] == 'tuple':
+                l = []
+                for e in out[1]:
+                    l.append(e.value)
+                print(var_name,f"['{out[0]}',{l}]")
             else:
                 print(var_name,out)
             return out
@@ -21,7 +28,7 @@ def print_cse_table(cse_machine):
     table_data = cse_machine.table_data
     cse_machine._add_table_data("")
     control_width = 60
-    stack_width = 55
+    stack_width = 60
     total_width = control_width + stack_width + 16
     print("\nCSE TABLE")
     print("\nRULE | CONTROL" +  " " * (control_width-6) + "|"+" "*(stack_width-5)+" STACK " + "| ENV")

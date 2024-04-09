@@ -72,6 +72,7 @@ class CSEMachine:
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
+
             if control_top.type in ['ID','STR','INT','bool','tuple','Y*','nil']:
                 self.CSErule1()
             elif control_top.type == "lambda":
@@ -109,7 +110,7 @@ class CSEMachine:
             item = self.control.pop()
             var_name = item.value
             var = self._var_lookup(var_name)
-            if var[0] == "eta":
+            if var[0] == "eta" or var[0] == "lambda":
                 self.stack.push(var[1])
             else :
                 self.stack.push(ControlStructureElement(var[0],var[1]))
@@ -131,7 +132,7 @@ class CSEMachine:
         rand = self.stack.pop()
         
         new_env = Environment()
-        if rand.type  == "eta":
+        if rand.type  == "eta" or rand.type == "lambda":
             new_env.add_var(lambda_.bounded_variable[0],rand.type,rand)
         elif rand.type in ["tuple","INT","bool","STR","nil"]:
             new_env.add_var(lambda_.bounded_variable[0],rand.type,rand.value)
@@ -232,8 +233,10 @@ class CSEMachine:
         self.control.pop()
         l = self.stack.pop()
         index = self.stack.pop()
-
-        self.stack.push(ControlStructureElement(l[index].type,l[index]))
+        if index.type != "INT":
+            self._error_handler.handle_error("CSE : Invalid index")
+        index  = index.value-1
+        self.stack.push(l.value[index])
                 
     def CSErule11(self):
         self._add_table_data("11")
