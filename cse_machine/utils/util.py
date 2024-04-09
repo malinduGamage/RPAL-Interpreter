@@ -17,6 +17,7 @@ def var_lookup(cse_machine , var_name):
     while env_pointer:
         if var_name in env_pointer._environment:
             out = env_pointer._environment[var_name]
+            # print(out)
             # if out[0] == 'eta' :
             #     print(var_name,f"['{out[0]}',η_{out[1].control_structure}{out[1].bounded_variable}] e{env_pointer.index}")
             # elif out[0] == 'lambda':

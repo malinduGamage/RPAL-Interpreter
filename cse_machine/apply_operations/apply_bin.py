@@ -79,13 +79,12 @@ def apply_aug(cse_machine, rator, rand):
         If the binary operator is not recognized.
     """
     if rator.type == "nil" :
-        if rand.type == "nil":
-            # If the left operand is "nil", return the right operand if it's not "nil", else return None
-            return ControlStructureElement("nil", None)
-        else :
-            # If the right operand is "nil", return the left operand
-            return ControlStructureElement("tuple",[rand])
+        return ControlStructureElement("tuple", [rand])
     elif rand.type == "nil":
+        if rator.type == "tuple":
+            # If the right operand is "nil", return the left operand
+            rator.value.append(rand)
+            return rator
         return rator
     elif rator.type in ["tuple","ID","INT","STR","bool"] and rand.type in ["tuple","ID","INT","STR","bool"]:
         if isinstance(rator.value, list) :

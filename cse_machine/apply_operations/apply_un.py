@@ -26,10 +26,10 @@ def apply_unary(cse_machine, rator_e, unop):
     # Dictionary mapping binary operators to their corresponding functions
     unary_operators = {
             "Print": lambda cse_machine, operand: apply_print(cse_machine, operand),
-            "Isstring": lambda cse_machine, operand: isinstance(operand.value, str),
-            "Isinteger": lambda cse_machine, operand: isinstance(operand.value, int) and not isinstance(operand.value, bool),
-            "Istruthvalue": lambda cse_machine, operand: isinstance(operand.value, bool),
-            "Isfunction": lambda cse_machine, operand: "lambda"==operand.type,
+            "Isstring": lambda cse_machine, operand: operand.type == "STR",
+            "Isinteger": lambda cse_machine, operand: operand.type == "INT" ,
+            "Istruthvalue": lambda cse_machine, operand: operand.type == "bool",
+            "Isfunction": lambda cse_machine, operand: operand.type == "lambda",
             "Null": lambda cse_machine, operand: operand.type == "nil",
             "Istuple": lambda cse_machine, operand: isinstance(operand.value, list),
             "Order": lambda cse_machine, operand: apply_order(cse_machine, operand),
@@ -74,6 +74,8 @@ def apply_print(cse_machine, operand):
             k = operand.control_structure
 
             return "[lambda closure: " + x + ": " + k + "]"
+        elif element == None:
+            return "nil"
         else:
             raise TypeError("Unknown element type.")
         
@@ -139,7 +141,7 @@ def apply_stern(cse_machine, operand):
         ValueError: If the operand is not a string or is empty.
     """
     if isinstance(operand, str) and len(operand) >= 1:
-        return operand[0]
+        return operand[1:]
     else:
         cse_machine._error_handler.handle_error("CSE : Invalid unary operation")
 
@@ -158,6 +160,6 @@ def apply_stem(cse_machine, operand):
         ValueError: If the operand is not a string or is empty.
     """
     if isinstance(operand, str) and len(operand) >= 1:
-        return operand[1:]
+        return operand[0]
     else:
         cse_machine._error_handler.handle_error("CSE : Invalid unary operation")

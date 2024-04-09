@@ -1,1 +1,2 @@
-Print ( Conc 'a' 'b' )
+Print ( Isinteger ((nil , nil ,  1) 3) )
+

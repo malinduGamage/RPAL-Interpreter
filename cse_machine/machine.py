@@ -69,72 +69,91 @@ class CSEMachine:
         
         
         self.control_structures = self._linearizer.linearize(st_tree)
-        #self._linearizer.print_control_structures()
+        self._linearizer.print_control_structures()
         
         self.initialize()
         
         while not self.control.is_empty():
             control_top = self.control.peek()
             stack_top = self.stack.peek()
-
-            if control_top.type in ['ID','STR','INT','bool','tuple','Y*','nil']:
+            #self._print_cse_table()
+            if control_top.type in ['ID','STR','INT','bool','tuple','Y*','nil','dummy']:
                 self.CSErule1()
             elif control_top.type == "lambda":
                 self.CSErule2()
+                #print("out of rule 2")
             elif control_top.type == "env_marker":
                 self.CSErule5()
+                #print("out of rule 5")
             elif control_top.value in self.binary_operator and self.stack.size() >= 2:
                 self.CSErule6()
+                #print("out of rule 6")
             elif control_top.value in self.unary_operators and self.stack.size() >= 1:
                 self.CSErule7()
+                #print("out of rule 7")
             elif control_top.type == "beta" and self.stack.size() >= 1:
                 self.CSErule8()
+                #print("out of rule 8")
             elif control_top.type == "tau":
                 self.CSErule9()
+                #print("out of rule 9")
             elif control_top.type == "gamma" and stack_top.type == "tuple":
                 self.CSErule10()
+                #print("out of rule 10")
             elif control_top.type == "gamma" and stack_top.type == "Y*":
                 self.CSErule12()
+                #print("out of rule 12")
             elif control_top.type == "gamma" and stack_top.type == "eta":
                 self.CSErule13()
+                #print("out of rule 13") 
             elif control_top.type == "gamma"  and stack_top.type == "lambda":
                     if len(stack_top.bounded_variable) > 1:
                         self.CSErule11()
+                        #print("out of rule 11")
                     else:
                         self.CSErule4()
+                        #print("out of rule 4")
             else:
                 self._error_handler.handle_error("CSE : Invalid control structure")
 
     def CSErule1(self):
+        #print("rule 1")
         self._add_table_data("1")
         control_top = self.control.peek()
-        if control_top.type in ['STR','INT','bool','tuple','Y*','nil']:
+        if control_top.type in ['STR','INT','bool','tuple','Y*','nil','dummy']:
             self.stack.push(self.control.pop())
         else :
             item = self.control.pop()
             var_name = item.value
+            #print("hey")
             var = self._var_lookup(var_name)
             if var[0] == "eta" or var[0] == "lambda":
                 self.stack.push(var[1])
             else :
                 self.stack.push(ControlStructureElement(var[0],var[1]))
+        #print("out of rule 1")
         
     def CSErule2(self):
+        #print("rule 2")
         self._add_table_data("2")
         lambda_ = self.control.pop()
         lambda_.env = self.current_env
         self.stack.push(lambda_)
         
     def CSErule3(self):
+        #print("rule 3")
         self._add_table_data("3")
         pass
     
     def CSErule4(self):
+        #print("rule 4")
         self._add_table_data("4")
+        if self.current_env.index >= 1000:
+            self._error_handler.handle_error("CSE : Environment limit exceeded")
         self.control.pop()
         lambda_ = self.stack.pop()
         rand = self.stack.pop()
-        
+        #print("rand=",rand,"lambda=",lambda_.bounded_variable[0])
         new_env = Environment()
         if rand.type  == "eta" or rand.type == "lambda":
             new_env.add_var(lambda_.bounded_variable[0],rand.type,rand)
@@ -143,7 +162,7 @@ class CSEMachine:
         else:
             self._error_handler.handle_error("CSE : Invalid type")
         new_env.parent = lambda_.env
-        
+
         self.current_env = new_env
         
         env_marker = ControlStructureElement("env_marker","env_marker",None,None,new_env)
@@ -156,6 +175,7 @@ class CSEMachine:
         self.stack.push(env_marker)
         
     def CSErule5(self):
+        #print("rule 5")
         self._add_table_data("5")
         env = self.control.pop().env
         value = self.stack.pop()
@@ -169,6 +189,7 @@ class CSEMachine:
             self._error_handler.handle_error("CSE : Invalid environment")
                 
     def CSErule6(self):
+        #print("rule 6")
         self._add_table_data("6")
         binop = self.control.pop().value
         rator = self.stack.pop()
@@ -177,7 +198,9 @@ class CSEMachine:
             self.stack.push(self._apply_binary(rator,rand,binop))
         elif binop == "Conc":
             if rator.type == "STR" and rand.type == "STR":
-                self.stack.push(self._apply_binary(rator.value,rand.value,binop))
+                result =self._apply_binary(rator.value,rand.value,binop)
+                #print("rator=",rator.value,"rand=",rand.value,"result=",result)
+                self.stack.push(ControlStructureElement("STR",result))
                 while self.control.peek().type == "gamma":
                     self.control.pop()
             else:
@@ -186,20 +209,21 @@ class CSEMachine:
             rator = rator.value
             rand = rand.value
             result = self._apply_binary(rator,rand,binop)
-            res_type = None
+            typ  = None
             if type(result) == bool:
-                res_type = "bool"
-            elif type(result) == str:
-                res_type = "STR"
-            else :
-                res_type = "INT"
-            self.stack.push(ControlStructureElement(res_type,result))
+                typ = "bool"
+            else:
+                typ = "INT"
+            #print("rator=",rator,"rand=",rand,"result=",result)
+            self.stack.push(ControlStructureElement(typ,result))
         
         
     def CSErule7(self):
+        #print("rule 7")
         self._add_table_data("7")
         unop = self.control.pop().value
         rator_e = self.stack.pop()
+        #print(unop,rator_e.type)
         result = self._apply_unary(rator_e,unop)
         res_type = None
         if type(result) == bool:
@@ -210,24 +234,30 @@ class CSEMachine:
             res_type = "INT"
         while self.control.peek().type == "gamma":
             self.control.pop()
+        #print("rator=",rator_e.value,"unop",unop,"result=",result)
         self.stack.push(ControlStructureElement(res_type,result))
                     
     def CSErule8(self):
+        #print("rule 8")
         self._add_table_data("8")
-        if self.stack.pop().value == True :
+        val = self.stack.pop().value
+        if val == True :
             self.control.pop()
             self.control.pop()
             delta = self.control.pop()
             for element in self.control_structures[delta.control_structure].elements:
                 self.control.push(element)
-        else :
+        elif val == False:
             self.control.pop()
             delta = self.control.pop()
             self.control.pop()
             for element in self.control_structures[delta.control_structure].elements:
                 self.control.push(element)
-                   
+        else:
+            self._error_handler.handle_error("CSE : Invalid type for condition")
+
     def CSErule9(self):
+        #print("rule 9")
         self._add_table_data("9")
         tau = self.control.pop()
         n = tau.value
@@ -237,6 +267,7 @@ class CSEMachine:
         self.stack.push(ControlStructureElement("tuple",tup))
                 
     def CSErule10(self):
+        #print("rule 10")
         self._add_table_data("10")
         self.control.pop()
         l = self.stack.pop()
@@ -247,6 +278,7 @@ class CSEMachine:
         self.stack.push(l.value[index])
                 
     def CSErule11(self):
+        #print("rule 11")
         self._add_table_data("11")
         self.control.pop()
         lambda_ = self.stack.pop()
@@ -261,7 +293,10 @@ class CSEMachine:
             self._error_handler.handle_error("CSE : Invalid number of arguments")
             
         for i in range(len(var_list)):
-            new_env.add_var(var_list[i],rand.value[i].type,rand.value[i].value)
+            if rand.value[i].type == "eta" or rand.value[i].type == "lambda":
+                new_env.add_var(var_list[i],rand.value[i].type,rand.value[i])
+            else:
+                new_env.add_var(var_list[i],rand.value[i].type,rand.value[i].value)
         
         new_env.parent = c
         self.current_env = new_env
@@ -273,6 +308,7 @@ class CSEMachine:
             self.control.push(element)
             
     def CSErule12(self):
+        #print("rule 12")
         self._add_table_data("12")
         self.control.pop()
         self.stack.pop()
@@ -283,6 +319,7 @@ class CSEMachine:
         self.stack.push(eta)
         
     def CSErule13(self):
+        #print("rule 13")
         self._add_table_data("13")
         self.control.push(ControlStructureElement("gamma","gamma"))
         eta = self.stack.peek()
