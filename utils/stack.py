@@ -50,4 +50,10 @@ class Stack:
         Return the number of items in the stack.
         """
         return len(self.items)
+    
+    def whole_stack(self):
+        """
+        Return the whole stack.
+        """
+        return self.items
 

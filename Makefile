@@ -41,7 +41,7 @@ PYTEST = pytest
 .PHONY: install run tests test test_ast test_st test_all clean all check_python check_pip
 
 # Default target
-all: install clean test_ast clean
+all: install clean test_all clean
 
 # Install dependencies
 install: check_python check_pip requirements.txt
@@ -77,7 +77,7 @@ run: install main.py test.txt
 # Run normal tests
 test: 
 	@echo "Running tests...$(OS)"
-	@if [ "$(OS)" = "Windows" ] && [ "$(R)" = "" ]; then \
+	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = "" ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests_with_rpal_exe.py ; \
 		else \
@@ -134,6 +134,9 @@ test_all:
 		echo "=========================================================================================================="; \
 		echo "Running tests for Standardized Syntax Tree (ST):"; \
 		$(PYTHON) -m pytest -q rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests:"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_tests_with_rpal_exe.py ; \
 	else \
 		echo "=========================================================================================================="; \
 		echo "Running tests for Abstract Syntax Tree (AST):"; \
@@ -141,6 +144,9 @@ test_all:
 		echo "=========================================================================================================="; \
 		echo "Running tests for Standardized Syntax Tree (ST):"; \
 		$(PYTHON) -m pytest -q rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests :"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_tests.py ; \
 	fi
 
 # Clean up generated files

@@ -26,9 +26,10 @@ Returns:
 
 # Parametrize the test cases dynamically
 test_cases = list(zip(test_programs, out))
+@pytest.mark.timeout(1)
 @pytest.mark.parametrize("program_name", test_programs)
 def test_program(program_name):
-    """ # Get the current directory
+    # Get the current directory
     current_directory = os.path.dirname(os.path.abspath(__file__))
 
     # Construct the full path to the source file
@@ -41,8 +42,8 @@ def test_program(program_name):
 
      # Execution: Obtain actual output by interpreting the program using the Evaluator
     evaluator = Evaluator()
-    actual_output = evaluator.interpret(source_file_path) """
-    actual_output = "15\n"
+    evaluator.interpret(source_file_path)
+    actual_output = evaluator.get_output()
     expected_output = out[test_programs.index(program_name)]
     assert actual_output == expected_output
 
