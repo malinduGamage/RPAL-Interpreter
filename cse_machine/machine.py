@@ -68,7 +68,7 @@ class CSEMachine:
         
         
         self.control_structures = self._linearizer.linearize(st_tree)
-        self._linearizer.print_control_structures()
+        #self._linearizer.print_control_structures()
         
         self.initialize()
         
@@ -142,7 +142,6 @@ class CSEMachine:
         else:
             self._error_handler.handle_error("CSE : Invalid type")
         new_env.parent = lambda_.env
-        lambda_.env.add_child(new_env)
         
         self.current_env = new_env
         
@@ -157,26 +156,34 @@ class CSEMachine:
         
     def CSErule5(self):
         self._add_table_data("5")
-        self.control.pop()
+        env = self.control.pop().env
         value = self.stack.pop()
-        self.stack.pop()
-        self.stack.push(value)
-        
-        for element in reversed(self.stack.whole_stack()):
-            if element.type == "env_marker":
-                self.current_env = element.env
-                break
+        if env == self.stack.pop().env:
+            self.stack.push(value)
+            for element in reversed(self.stack.whole_stack()):
+                if element.type == "env_marker":
+                    self.current_env = element.env
+                    break
+        else:
+            self._error_handler.handle_error("CSE : Invalid environment")
                 
     def CSErule6(self):
         self._add_table_data("6")
         binop = self.control.pop().value
+        rator = self.stack.pop()
+        rand = self.stack.pop()
         if binop == "aug":
-            rator = self.stack.pop()
-            rand = self.stack.pop()
             self.stack.push(self._apply_binary(rator,rand,binop))
+        elif binop == "Conc":
+            if rator.type == "STR" and rand.type == "STR":
+                self.stack.push(self._apply_binary(rator.value,rand.value,binop))
+                while self.control.peek().type == "gamma":
+                    self.control.pop()
+            else:
+                self._error_handler.handle_error("CSE : Invalid type for concatenation")
         else:
-            rator = self.stack.pop().value
-            rand = self.stack.pop().value
+            rator = rator.value
+            rand = rand.value
             result = self._apply_binary(rator,rand,binop)
             res_type = None
             if type(result) == bool:
@@ -185,9 +192,6 @@ class CSEMachine:
                 res_type = "STR"
             else :
                 res_type = "INT"
-            if binop == "Conc":
-                while self.control.peek().type == "gamma":
-                    self.control.pop()
             self.stack.push(ControlStructureElement(res_type,result))
         
         
@@ -259,7 +263,6 @@ class CSEMachine:
             new_env.add_var(var_list[i],rand.value[i].type,rand.value[i].value)
         
         new_env.parent = c
-        c.add_child(new_env)
         self.current_env = new_env
         env_marker = ControlStructureElement("env_marker","env_marker",None,None,new_env)
         self.stack.push(env_marker)

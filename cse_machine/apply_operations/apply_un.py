@@ -32,7 +32,7 @@ def apply_unary(cse_machine, rator_e, unop):
             "Isfunction": lambda cse_machine, operand: "lambda"==operand.type,
             "Null": lambda cse_machine, operand: operand.type == "nil",
             "Istuple": lambda cse_machine, operand: isinstance(operand.value, list),
-            "Order": lambda cse_machine, operand: len(operand.value) if isinstance(operand.value, list) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
+            "Order": lambda cse_machine, operand: apply_order(cse_machine, operand),
             "Stern": lambda cse_machine, operand: apply_stern(cse_machine, operand.value),
             "Stem": lambda cse_machine, operand: apply_stem(cse_machine, operand.value),
             "ItoS": lambda cse_machine, operand: str(operand.value) if isinstance(operand.value, int) and not isinstance(operand.value, bool) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
@@ -115,8 +115,10 @@ def apply_order(cse_machine, operand):
     Raises:
         ValueError: If the operand is not a string.
     """
-    if isinstance(operand, str):
-        return ord(operand[0])
+    if isinstance(operand.value, list):
+        return len(operand.value)
+    elif operand.type == "nil":
+        return 0
     else:
         cse_machine._error_handler.handle_error("CSE : Invalid unary operation")
 

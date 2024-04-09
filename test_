@@ -1,4 +1,1 @@
-let Message = 'HELLO'
-   in Print ( Conc Message '!',
-              'dflsdfiuh',
-              'dkgh')
+Print ( Conc 'CIS')

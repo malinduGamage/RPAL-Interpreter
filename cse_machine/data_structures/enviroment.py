@@ -30,7 +30,6 @@ class Environment:
         Environment.index += 1
         self.index = Environment.index
         self._environment = defaultdict(lambda: [None, None])  # name: [type, value]
-        self.children = []
         self.parent = parent
 
         # Initialize initial variables if this is the root environment

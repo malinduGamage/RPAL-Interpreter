@@ -17,17 +17,17 @@ def var_lookup(cse_machine , var_name):
     while env_pointer:
         if var_name in env_pointer._environment:
             out = env_pointer._environment[var_name]
-            if out[0] == 'eta' :
-                print(var_name,f"['{out[0]}',η_{out[1].control_structure}{out[1].bounded_variable}]")
-            elif out[0] == 'lambda':
-                print(var_name,f"['{out[0]}',λ_{out[1].control_structure}{out[1].bounded_variable}]")
-            elif out[0] == 'tuple':
-                l = []
-                for e in out[1]:
-                    l.append(e.value)
-                print(var_name,f"['{out[0]}',{l}]")
-            else:
-                print(var_name,out)
+            # if out[0] == 'eta' :
+            #     print(var_name,f"['{out[0]}',η_{out[1].control_structure}{out[1].bounded_variable}] e{env_pointer.index}")
+            # elif out[0] == 'lambda':
+            #     print(var_name,f"['{out[0]}',λ_{out[1].control_structure}{out[1].bounded_variable}] e{env_pointer.index}")
+            # elif out[0] == 'tuple':
+            #     l = []
+            #     for e in out[1]:
+            #         l.append(e.value)
+            #     print(var_name,f"['{out[0]}',{l}] e{env_pointer.index}")
+            # else:
+            #     print(var_name,out,f"e{env_pointer.index}")
             return out
         env_pointer = env_pointer.parent
     else:
