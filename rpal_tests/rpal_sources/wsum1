@@ -14,7 +14,7 @@ let WS IS = PWS IS 1 0
 		    |  x + y
       
 in Print (
-//	   WS (nil aug 2),
+//	   WS (nil aug 2)
 	   WS (1,(1,(nil,nil),2),3)
 //	   WS 1
 //	   WS nil

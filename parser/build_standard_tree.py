@@ -50,22 +50,7 @@ class StandardTree:
         self.error_handler = ErrorHandler()
 
         # Operators and unary operators for tree transformation
-        self.binary_operators = [
-            "aug",
-            "or",
-            "&",
-            "+",
-            "-",
-            "/",
-            "",
-            "gr",
-            "ge",
-            "ls",
-            "le",
-            "eq",
-            "ne",
-            "and",
-        ]
+        self.binary_operators = ["aug","or","&","+","-","/","**","gr","ge","ls","le","eq","ne","and"]
         self.unary_operators = ["not", "neg"]
 
         # Placeholder for the standard tree

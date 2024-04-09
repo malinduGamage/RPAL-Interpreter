@@ -2,7 +2,7 @@
 # This script serves as the main entry point for interpreting RPAL programs. It provides functionality to interpret RPAL code, print Abstract Syntax Trees (ASTs), tokens, and filtered tokens, as well as execute the original RPAL interpreter on a file and print the AST.
 
 # Usage:
-# python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] file_name
+# python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] [-ct] file_name
 
 # Arguments:
 # file_name: The name of the RPAL file to interpret.
@@ -14,6 +14,7 @@
 # -st: Print the Standard Tree for the given RPAL program. (Not yet implemented)
 # -r: Execute the original RPAL interpreter on the given RPAL program file (file should be in rpal_tests/rpal_source).
 # -rast: Execute the original RPAL interpreter on the given RPAL program file and print the AST. (file should be in rpal_tests/rpal_source)
+# -ct : Print the cse table for the given RPAL program.
 
 # Examples:
 # To interpret an RPAL program:
@@ -27,6 +28,7 @@
 # -r: python main.py -r file_name
 # -rast: python main.py -rast file_name
 # -rst: python main.py -rst file_name
+# -CT: python main.py -ct file_name
 
 import sys
 import platform
@@ -56,7 +58,7 @@ def main():
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
         print(
-            "Usage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] file_name ")
+            "Usage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] [-ct] file_name ")
         return
 
     # Get the filename from the command-line arguments
@@ -91,8 +93,7 @@ def main():
             try:
                 handle_original_rpal_eval(file_name)
             except:
-                print(
-                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
         elif sys.argv[1] == "-rast":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
             try:
@@ -105,17 +106,18 @@ def main():
             try:
                 handle_original_rpal_st(file_name)
             except:
-                print(
-                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+        elif sys.argv[1] == "-ct":
+            # Print the CSE table
+            try:
+                handle_cse_table_option(evaluator)
+            except:
+                print("Error in printing CSE table")
 
     else:
         # Default behavior: Evaluate the program
-        # handle_default_behavior(evaluator)
-        print("Not yet implemented")
-    """ l = []
-    for program in test_programs:
-        l.append(rpal_exe(program,True))
-    print(l) """
+        handle_default_behavior(evaluator)
+
 
 
 def handle_ast_option(evaluator):
@@ -160,7 +162,7 @@ def handle_default_behavior(evaluator):
 
     """
     # Your code for default behavior
-    print("Not yet implemented")
+    evaluator.print_output()
 
 
 def handle_tokens_option(evaluator):
@@ -239,6 +241,20 @@ def handle_original_rpal_st(file_name):
         rpal_exe(file_name, "st")
     else:
         print("Original RPAL ST generation is not supported on this operating system.")
+
+def handle_cse_table_option(evaluator):
+    """
+    Prints the CSE table for the given file.
+
+    Args:
+        evaluator (Evaluator): An instance of the Evaluator class.
+
+    Returns:
+        None
+
+    """
+    # Your code to print the CSE table
+    evaluator.print_cse_table()
 
 
 if __name__ == "__main__":

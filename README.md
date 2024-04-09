@@ -1,6 +1,7 @@
-![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/makefile.yml/badge.svg)
+![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/testing.yml/badge.svg)
 
 ## RPAL-Interpreter
+
 - This project was the culmination of the CS3513-Programming Languages module, which was part of the curriculum offered by the Department of Computer Science & Engineering at the University of Moratuwa. It was completed during the 4th semester of Batch 21.
 
 ## Table of Contents
@@ -10,31 +11,35 @@
 - [Usage](#usage)
 - [Features](#features)
 - [Project Structure](#project-structure)
-- - [Lexical Analyzer](#lexical-analyzer)
-- - [Screener](#screener)
-- - [Parser](#parser)
-- - [CSE Machine](#cse-machine)
+  - [Lexical Analyzer](#lexical-analyzer)
+  - [Screener](#screener)
+  - [Parser](#parser)
+  - [CSE Machine](#cse-machine)
 - [Project Structure](#project-structure)
 - [Contributors](#contributors)
 - [License](#license)
-  
+
 ## Problem Requirements
-- Implement a lexical analyzer and a parser for the RPAL (Right-reference Pedagogic Algorithmic Language). Refer the [RPAL_Lex](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Lex.pdf) for the lexical rules and [RPAL_Grammar](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Grammar.pdf) for the grammar details.Additionally, refer to [About RPAL](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/About%20RPAL.pdf)  for information about the RPAL language.
+
+- Implement a lexical analyzer and a parser for the RPAL (Right-reference Pedagogic Algorithmic Language). Refer the [RPAL_Lex](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Lex.pdf) for the lexical rules and [RPAL_Grammar](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Grammar.pdf) for the grammar details.Additionally, refer to [About RPAL](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/About%20RPAL.pdf) for information about the RPAL language.
 - The output of the parser should be the Abstract Syntax Tree (AST) for the given input program.
-Implement an algorithm to convert the Abstract Syntax Tree (AST) in to Standardize Tree (ST) and implement CSE machine.Refer to the [semantics](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/semantics.pdf) document, which contains the rules for transforming the AST into the ST
+  Implement an algorithm to convert the Abstract Syntax Tree (AST) in to Standardize Tree (ST) and implement CSE machine.Refer to the [semantics](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/semantics.pdf) document, which contains the rules for transforming the AST into the ST
 - Program should be able to read an input file which contains a RPAL program and return Output which should match the output of rpal.exe for the relevant program.
 - For more details, refer the [Project_Requirements](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/ProgrammingProject.pdf) document.
 
 ## About our solution
 
 - **Programming Language**:python
-- **Development & Testing**:  Visual Studio Code, Command Line, Cygwin, Pytest, GitHub Actions
+- **Development & Testing**: Visual Studio Code, Command Line, Cygwin, Pytest, GitHub Actions
 
 ## Usage
 
 To use the RPAL-Interpreter, follow these steps:
+
 > ### Prerequisites
+>
 > Your local machine must have Python and pip installed.
+
 1. Clone the repository to your local machine or download the project source code as a ZIP file.
 2. Navigate to the root directory of the project in the command line interface.
 3. Install the dependencies by running the following command in the project directory:
@@ -44,7 +49,7 @@ pip install -r requirements.txt
 ```
 
 4. Put your RPAL test programs in the root directory. We had added the [test.txt](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/test.txt) to the root directory, which contains the sample input program of the [Project_Requirements](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/ProgrammingProject.pdf) document.
-Run the main script `main.py` with the file name as an argument:
+   Run the main script `main.py` with the file name as an argument:
 
 ```bash
 python main.py file_name
@@ -78,6 +83,12 @@ To generate the Standardized Tree:
 python main.py -st file_name
 ```
 
+To generate the CSE table:
+
+```bash
+python main.py -ct file_name
+```
+
 #### Using Make Commands (Alternative Method)
 
 **Your local machine must be able to run make command**
@@ -86,7 +97,7 @@ python main.py -st file_name
 
 > For Windows users, for make commad [Cygwin](https://www.cygwin.com/install.html) or similar unix like env tools for execution.
 
-Alternatively, you can use the following make commands: 
+Alternatively, you can use the following make commands:
 
 **Install Dependencies:**
 
@@ -101,24 +112,25 @@ make run
 ```
 
 **Run Tests:**  
-Run all tests :
+Run all tests (in rpal_tests/rpal_sources/) :
 
 ```bash
 make test_all
 ```
-Run tests for final result:
+
+Run tests for final result (in rpal_tests/rpal_sources/) :
 
 ```bash
 make test
 ```
 
-Run tests for AST result:
+Run tests for AST result (in rpal_tests/rpal_sources/):
 
 ```bash
 make test_ast
 ```
 
-Run tests for ST result:
+Run tests for ST result (in rpal_tests/rpal_sources/):
 
 ```bash
 make test_st
@@ -129,7 +141,9 @@ make test_st
 ```bash
 make all
 ```
+
 > #### Note for Python 3 Users
+>
 > If you have both Python 2 and Python 3 installed, you may need to use python3 instead of python in the commands above. Similarly, use pip3 instead of pip for installing packages.
 
 ## Features
@@ -141,6 +155,7 @@ make all
 - Executes the RPAL program and produces the output
 
 The interpreter consists of the following main components:
+
 ## Project Structure
 
 The RPAL interpreter project is structured into several components, each responsible for specific functionalities related to lexical analysis, parsing, interpretation, and error handling. Below is an overview of the project structure and its key components:
@@ -198,7 +213,6 @@ The RPAL interpreter project is structured into several components, each respons
 
 ```bash
 RPAL-Interpreter/
-|
 ├── main.py                             # Main entry point of the application
 |
 ├── lexical_analyzer/                   # Package for lexical analysis functionality
@@ -212,6 +226,23 @@ RPAL-Interpreter/
 ├── parser/                             # Package for parsing functionality
 │   ├── build_standard_tree.py          # Module for converting AST to standard tree
 │   ├── parser_module.py                # Module containing parser logic (filter token to AST)
+│   └── __init__.py                     # Marks the directory as a Python package
+|
+├── cse_machine/                        # Package for parsing functionality
+│   ├── apply_operations/
+│   │   ├── apply_bi.py
+│   │   ├── apply_un.py
+│   │   └── __init__.py                 # Marks the directory as a Python package
+│   ├── data_structures/
+│   │   ├── enviroment.py
+│   │   ├── stack.py
+│   │   ├── control_structure.py
+│   │   └── __init__.py
+│   ├── utils/
+│   │   ├── STlinearlizer.py
+│   │   ├── util.py
+│   │   └── __init__.py                 # Marks the directory as a Python package
+│   ├── machine.py
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── interpreter/                        # Package for interpreter functionality
@@ -234,8 +265,8 @@ RPAL-Interpreter/
 │   ├── node.py                         # Module containing node data structure class definition
 │   ├── stack.py                        # Module containing stack class definition
 │   ├── token_printer.py                # Module containing token printing function (for debugging purposes)
-│   ├── tree_printer.py                  # Module containing tree printing function (for debugging purposes)
-│   ├── tree_list.py                     # Module for listing tree elements
+│   ├── tree_printer.py                 # Module containing tree printing function (for debugging purposes)
+│   ├── tree_list.py                    # Module for listing tree elements
 │   ├── file_handler.py                 # Module containing file handling functions
 │   └── __init__.py                     # Marks the directory as a Python package
 |
@@ -266,8 +297,6 @@ RPAL-Interpreter/
 ├── Makefile                            # Makefile for automating tasks such as installation, running tests, and cleaning up
 |
 └── __init__.py                         # Marks the directory as a Python package
-
-
 
 ```
 
