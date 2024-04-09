@@ -71,9 +71,10 @@ def apply_print(cse_machine, operand):
             x = "".join(x for x in operand.bounded_variable)
             k = str(operand.control_structure)
             return "[lambda closure: " + x + ": " + k + "]"
+        elif isinstance(element, bool):
+            return "true" if element else "false"
         elif isinstance(element, str) or isinstance(element, int):
             return str(element)
-        
         elif element == None:
             return "nil"
         else:
