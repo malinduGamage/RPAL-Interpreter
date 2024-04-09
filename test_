@@ -1,1 +1,4 @@
-Print( nil aug 2 aug (1,2,3) aug 5 )
+let Message = 'HELLO'
+   in Print ( Conc Message '!',
+              'dflsdfiuh',
+              'dkgh')

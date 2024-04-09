@@ -7,7 +7,7 @@
 # This module can be imported and used to create a linearizer class for the CSE machine.
 
 
-from cse_machine.control_structure import ControlStructure
+from cse_machine.data_structures.control_structure import ControlStructure
 from utils.control_structure_element import ControlStructureElement
 
 
