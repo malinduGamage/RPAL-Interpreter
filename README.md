@@ -115,7 +115,7 @@ make run
 Run all tests (in rpal_tests/rpal_sources/) :
 
 ```bash
-make test_all (in rpal_tests/rpal_sources/) :
+make test_all
 ```
 
 Run tests for final result (in rpal_tests/rpal_sources/) :
