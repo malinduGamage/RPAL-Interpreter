@@ -94,6 +94,7 @@ def apply_print(cse_machine, operand):
         return out
 
     # Print the operand
+    cse_machine._outputs.append(covert_to_string(element))
     print("output = "+covert_to_string(element))
     
     # Return a dummy value

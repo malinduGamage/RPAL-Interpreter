@@ -60,10 +60,10 @@ def print_cse_table(cse_machine):
     for data in table_data:
         rule = f"{data[0]:<2} |"
         control = " ".join(str(element_val(element)) for element in data[1][::-1])
-        stack = " ".join(str(element_val(element)) for element in data[2][::-1])
+        stack = " ".join(str(element_val(element)) for element in data[2])
         env = f" {data[-1][0]}"
         
-        control_str = f"{control[:control_width]:<{control_width}}"
+        control_str = f"{control[control_width:]:<{control_width}}"
         stack_str = f"{stack[:stack_width]:>{stack_width}}"
         
         print(f"  {rule} {control_str} | {stack_str} | {env}")
@@ -122,3 +122,6 @@ def convert_list(element,out):
         else:
             out += str(element.value) + ","
     return out
+
+def raw(string):
+    return string.encode('unicode_escape').decode()

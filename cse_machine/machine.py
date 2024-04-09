@@ -6,7 +6,7 @@ from cse_machine.data_structures.control_structure import ControlStructure
 from cse_machine.data_structures.enviroment import Environment
 from cse_machine.data_structures.stack import Stack
 from cse_machine.utils.STlinearizer import Linearizer
-from cse_machine.utils.util import add_table_data, print_cse_table , var_lookup , element_val
+from cse_machine.utils.util import add_table_data, print_cse_table , var_lookup , raw
 from cse_machine.apply_operations.apply_bin import apply_binary
 from cse_machine.apply_operations.apply_un import apply_unary
 from utils.node import Node	
@@ -36,6 +36,7 @@ class CSEMachine:
         self.stack = Stack()
         self.control = Stack()
         self._linearizer = Linearizer()
+        self._outputs = []
         self.table_data = []
         self.binary_operator = {"+", "-", "/", "*", "**", "eq", "ne", "gr", "ge", "le",">", "<", ">=", "<=", "or", "&", "aug", "ls", "Conc"}
         self.unary_operators =  {
@@ -301,3 +302,9 @@ class CSEMachine:
 
     def _print_cse_table(self):
         print_cse_table(self)
+
+    def _generate_output(self):
+        return "".join(self._outputs)+"\n"
+    
+    def _generate_raw_output(self):
+        return raw(self._generate_output()) 
