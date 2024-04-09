@@ -42,7 +42,7 @@ def test_program(program_name):
      # Execution: Obtain actual output by interpreting the program using the Evaluator
     evaluator = Evaluator()
     evaluator.interpret(source_file_path)
-    actual_output = evaluator.get_raw_output()
+    actual_output = evaluator.get_output()
     expected_output = out[test_programs.index(program_name)]
     assert actual_output == expected_output
 
