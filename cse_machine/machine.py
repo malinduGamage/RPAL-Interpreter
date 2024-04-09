@@ -1,11 +1,14 @@
-from errors_handling.error_handler import ErrorHandler
-from cse_machine.control_structure import ControlStructure
-from cse_machine.enviroment import Environment
-from cse_machine.stack import Stack
-from cse_machine.STlinearizer import Linearizer
-from cse_machine.util import add_table_data, print_cse_table , var_lookup , element_val
-from cse_machine.apply_bin import apply_binary
-from cse_machine.apply_un import apply_unary
+#cse_machine/machine.py
+
+
+from errors_handling.cse_error_handler import CseErrorHandler
+from cse_machine.data_structures.control_structure import ControlStructure
+from cse_machine.data_structures.enviroment import Environment
+from cse_machine.data_structures.stack import Stack
+from cse_machine.utils.STlinearizer import Linearizer
+from cse_machine.utils.util import add_table_data, print_cse_table , var_lookup , element_val
+from cse_machine.apply_operations.apply_bin import apply_binary
+from cse_machine.apply_operations.apply_un import apply_unary
 from utils.node import Node	
 from utils.control_structure_element import ControlStructureElement
 
@@ -26,7 +29,7 @@ class CSEMachine:
         """
         Initialize the CSEMachine with necessary components.
         """
-        self._error_handler = ErrorHandler()
+        self._error_handler = CseErrorHandler(self)
         self.control_structures = None
         self.environment_tree = Environment()
         self.current_env = self.environment_tree
@@ -295,6 +298,3 @@ class CSEMachine:
 
     def _print_cse_table(self):
         print_cse_table(self)
-
-
-        
