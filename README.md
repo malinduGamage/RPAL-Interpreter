@@ -1,4 +1,4 @@
-![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/makefile.yml/badge.svg)
+![Tests](https://github.com/malinduGamage/RPAL-Interpreter/actions/workflows/testing.yml/badge.svg)
 
 ## RPAL-Interpreter
 
@@ -11,10 +11,10 @@
 - [Usage](#usage)
 - [Features](#features)
 - [Project Structure](#project-structure)
-- [Lexical Analyzer](#lexical-analyzer)
-- [Screener](#screener)
-- [Parser](#parser)
-- [CSE Machine](#cse-machine)
+  - [Lexical Analyzer](#lexical-analyzer)
+  - [Screener](#screener)
+  - [Parser](#parser)
+  - [CSE Machine](#cse-machine)
 - [Project Structure](#project-structure)
 - [Contributors](#contributors)
 - [License](#license)
@@ -83,15 +83,21 @@ To generate the Standardized Tree:
 python main.py -st file_name
 ```
 
+To generate the CSE table:
+
+```bash
+python main.py -ct file_name
+```
+
 #### Using Make Commands (Alternative Method)
 
 **Your local machine must be able to run make command**
 
 > #### Note for Windows Users
 
-Alternatively, you can use the following make commands:
-
 > For Windows users, for make commad [Cygwin](https://www.cygwin.com/install.html) or similar unix like env tools for execution.
+
+Alternatively, you can use the following make commands:
 
 **Install Dependencies:**
 
@@ -106,25 +112,25 @@ make run
 ```
 
 **Run Tests:**  
-Run all tests :
+Run all tests (in rpal_tests/rpal_sources/) :
 
 ```bash
-make test_all
+make test_all (in rpal_tests/rpal_sources/) :
 ```
 
-Run tests for final result:
+Run tests for final result (in rpal_tests/rpal_sources/) :
 
 ```bash
 make test
 ```
 
-Run tests for AST result:
+Run tests for AST result (in rpal_tests/rpal_sources/):
 
 ```bash
 make test_ast
 ```
 
-Run tests for ST result:
+Run tests for ST result (in rpal_tests/rpal_sources/):
 
 ```bash
 make test_st
@@ -207,7 +213,6 @@ The RPAL interpreter project is structured into several components, each respons
 
 ```bash
 RPAL-Interpreter/
-|
 ├── main.py                             # Main entry point of the application
 |
 ├── lexical_analyzer/                   # Package for lexical analysis functionality
@@ -221,6 +226,23 @@ RPAL-Interpreter/
 ├── parser/                             # Package for parsing functionality
 │   ├── build_standard_tree.py          # Module for converting AST to standard tree
 │   ├── parser_module.py                # Module containing parser logic (filter token to AST)
+│   └── __init__.py                     # Marks the directory as a Python package
+|
+├── cse_machine/                        # Package for parsing functionality
+│   ├── apply_operations/
+│   │   ├── apply_bi.py
+│   │   ├── apply_un.py
+│   │   └── __init__.py                 # Marks the directory as a Python package
+│   ├── data_structures/
+│   │   ├── enviroment.py
+│   │   ├── stack.py
+│   │   ├── control_structure.py
+│   │   └── __init__.py
+│   ├── utils/
+│   │   ├── STlinearlizer.py
+│   │   ├── util.py
+│   │   └── __init__.py                 # Marks the directory as a Python package
+│   ├── machine.py
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── interpreter/                        # Package for interpreter functionality
@@ -243,8 +265,8 @@ RPAL-Interpreter/
 │   ├── node.py                         # Module containing node data structure class definition
 │   ├── stack.py                        # Module containing stack class definition
 │   ├── token_printer.py                # Module containing token printing function (for debugging purposes)
-│   ├── tree_printer.py                  # Module containing tree printing function (for debugging purposes)
-│   ├── tree_list.py                     # Module for listing tree elements
+│   ├── tree_printer.py                 # Module containing tree printing function (for debugging purposes)
+│   ├── tree_list.py                    # Module for listing tree elements
 │   ├── file_handler.py                 # Module containing file handling functions
 │   └── __init__.py                     # Marks the directory as a Python package
 |
@@ -275,8 +297,6 @@ RPAL-Interpreter/
 ├── Makefile                            # Makefile for automating tasks such as installation, running tests, and cleaning up
 |
 └── __init__.py                         # Marks the directory as a Python package
-
-
 
 ```
 
