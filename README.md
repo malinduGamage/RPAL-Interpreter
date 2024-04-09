@@ -198,7 +198,6 @@ The RPAL interpreter project is structured into several components, each respons
 
 ```bash
 RPAL-Interpreter/
-|
 ├── main.py                             # Main entry point of the application
 |
 ├── lexical_analyzer/                   # Package for lexical analysis functionality
@@ -212,6 +211,23 @@ RPAL-Interpreter/
 ├── parser/                             # Package for parsing functionality
 │   ├── build_standard_tree.py          # Module for converting AST to standard tree
 │   ├── parser_module.py                # Module containing parser logic (filter token to AST)
+│   └── __init__.py                     # Marks the directory as a Python package
+|
+├── cse_machine/                        # Package for parsing functionality
+│   ├── apply_operations/  
+│   │   ├── apply_bi.py  
+│   │   ├── apply_un.py  
+│   │   └── __init__.py                 # Marks the directory as a Python package
+│   ├── data_structures/              
+│   │   ├── enviroment.py  
+│   │   ├── stack.py  
+│   │   ├── control_structure.py  
+│   │   └── __init__.py   
+│   ├── utils/  
+│   │   ├── STlinearlizer.py  
+│   │   ├── util.py  
+│   │   └── __init__.py                 # Marks the directory as a Python package
+│   ├── machine.py
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── interpreter/                        # Package for interpreter functionality
@@ -234,8 +250,8 @@ RPAL-Interpreter/
 │   ├── node.py                         # Module containing node data structure class definition
 │   ├── stack.py                        # Module containing stack class definition
 │   ├── token_printer.py                # Module containing token printing function (for debugging purposes)
-│   ├── tree_printer.py                  # Module containing tree printing function (for debugging purposes)
-│   ├── tree_list.py                     # Module for listing tree elements
+│   ├── tree_printer.py                 # Module containing tree printing function (for debugging purposes)
+│   ├── tree_list.py                    # Module for listing tree elements
 │   ├── file_handler.py                 # Module containing file handling functions
 │   └── __init__.py                     # Marks the directory as a Python package
 |
@@ -266,8 +282,6 @@ RPAL-Interpreter/
 ├── Makefile                            # Makefile for automating tasks such as installation, running tests, and cleaning up
 |
 └── __init__.py                         # Marks the directory as a Python package
-
-
 
 ```
 
