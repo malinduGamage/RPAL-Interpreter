@@ -40,7 +40,7 @@ def print_cse_table(cse_machine):
     """
     table_data = cse_machine.table_data
     cse_machine._add_table_data("")
-    control_width = 60
+    control_width = 80
     stack_width = 60
     total_width = control_width + stack_width + 16
     print("\nCSE TABLE")

@@ -103,15 +103,18 @@ class CSEMachine:
             st_tree (Node): The root node of the Standardized Tree (ST) to execute.
         """
         
-        
+        # Get the linearized control structures from the ST
         self.control_structures = self._linearizer.linearize(st_tree)
-        self._linearizer.print_control_structures()
         
+        # Initialize the CSE machine
         self.initialize()
         
+        # Execute the ST
         while not self.control.is_empty():
+
             control_top = self.control.peek()
             stack_top = self.stack.peek()
+
             if control_top.type in ['ID','STR','INT','bool','tuple','Y*','nil','dummy']:
                 self.CSErule1()
             elif control_top.type == "lambda":
@@ -162,7 +165,6 @@ class CSEMachine:
                 self.stack.push(var[1])
             else :
                 self.stack.push(ControlStructureElement(var[0],var[1]))
-        #print("out of rule 1")
         
     def CSErule2(self):
         """
@@ -261,7 +263,6 @@ class CSEMachine:
         elif binop == "Conc":
             if rator.type == "STR" and rand.type == "STR":
                 result =self._apply_binary(rator.value,rand.value,binop)
-                #print("rator=",rator.value,"rand=",rand.value,"result=",result)
                 self.stack.push(ControlStructureElement("STR",result))
                 while self.control.peek().type == "gamma":
                     self.control.pop()

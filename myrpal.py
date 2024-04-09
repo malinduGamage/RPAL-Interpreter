@@ -162,7 +162,7 @@ def handle_default_behavior(evaluator):
 
     """
     # Your code for default behavior
-    print("Not yet implemented")
+    evaluator.print_output()
 
 
 def handle_tokens_option(evaluator):

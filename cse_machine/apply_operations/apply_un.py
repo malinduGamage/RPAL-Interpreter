@@ -74,7 +74,6 @@ def apply_print(cse_machine, operand):
         elif isinstance(element, bool):
             return "true" if element else "false"
         elif isinstance(element, str):
-            print(element)
             return element
         elif isinstance(element, int):
             return str(element)
@@ -98,11 +97,8 @@ def apply_print(cse_machine, operand):
             else:
                 out += str(element.value) + ", "
         return out
-
-    # Print the operand
-    print(covert_to_string(element))
+    # convert the element to a string
     cse_machine._outputs.append(covert_to_string(element).replace("\\n", "\n").replace("\\t", "\t"))
-    #print("output = "+covert_to_string(element))
     
     # Return a dummy value
     return "dummy"

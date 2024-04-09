@@ -1,1 +1,0 @@
-let Abs N = N in Print(Abs 3)
