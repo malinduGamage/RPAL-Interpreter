@@ -23,7 +23,7 @@ Returns:
 # Parametrize the test cases dynamically
 @pytest.mark.parametrize("program_name", test_programs)
 def test_program(program_name):
-    actual_program ,original_program = program(program_name,"ast")
+    actual_program ,original_program = program(program_name)
     assert actual_program == original_program
 
 

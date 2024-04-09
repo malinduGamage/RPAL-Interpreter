@@ -78,10 +78,10 @@ class Evaluator:
             self.standard_tree.build_standard_tree(self.parse_ast_tree)
             self.parse_st_tree = self.standard_tree.standard_tree
             self.cse_machine.execute(self.parse_st_tree)
-            self.raw_output = self.cse_machine._generate_raw_output()
+            #self.raw_output = self.cse_machine._generate_raw_output()
             self.output = self.cse_machine._generate_output()
             self.cse_machine._print_cse_table()
-            print("Raw Output:", self.raw_output)
+            #print("Raw Output:", self.raw_output)
             print("Output:", self.output)
 
         except FileNotFoundError:

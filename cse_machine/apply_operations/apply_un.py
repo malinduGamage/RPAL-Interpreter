@@ -73,7 +73,10 @@ def apply_print(cse_machine, operand):
             return "[lambda closure: " + x + ": " + k + "]"
         elif isinstance(element, bool):
             return "true" if element else "false"
-        elif isinstance(element, str) or isinstance(element, int):
+        elif isinstance(element, str):
+            print(element)
+            return element
+        elif isinstance(element, int):
             return str(element)
         elif element == None:
             return "nil"
@@ -97,8 +100,9 @@ def apply_print(cse_machine, operand):
         return out
 
     # Print the operand
-    cse_machine._outputs.append(covert_to_string(element))
-    print("output = "+covert_to_string(element))
+    print(covert_to_string(element))
+    cse_machine._outputs.append(covert_to_string(element).replace("\\n", "\n"))
+    #print("output = "+covert_to_string(element))
     
     # Return a dummy value
     return "dummy"

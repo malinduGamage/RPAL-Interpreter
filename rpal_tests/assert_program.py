@@ -43,7 +43,7 @@ def program(source_file_name,flag=None):
         print("\nactual output :\n",actual_output, "\n")
     else:
         # Manually set the actual output for testing purposes
-        actual_output = evaluator.get_raw_output()
+        actual_output = evaluator.get_output()
         print("\nactual output :\n",actual_output,"raw version",repr(actual_output), "\n") 
     
     # Assertion: Compare original output with actual output
