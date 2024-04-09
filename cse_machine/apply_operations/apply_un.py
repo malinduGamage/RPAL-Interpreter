@@ -84,15 +84,15 @@ def apply_print(cse_machine, operand):
             out += "("
             for el in element:
                 out = convert_list(el,out)
-            out = out[:-1] +  ")"
+            out = out[:-2] +  ")"
         else:
             if isinstance(element.value, list):
                 out += "("
                 for el in element.value:
                     out = convert_list(el,out)
-                out = out[:-1] +  "),"
+                out = out[:-2] +  "), "
             else:
-                out += str(element.value) + ","
+                out += str(element.value) + ", "
         return out
 
     # Print the operand
