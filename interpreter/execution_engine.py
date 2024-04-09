@@ -113,6 +113,12 @@ class Evaluator:
         else:
             print("Scanning failed. Filtered tokens cannot be printed.")
 
+    def print_cse_table(self):
+        """
+        Print the CSE table.
+        """
+        self.cse_machine._print_cse_table()
+
     def print_AST(self):
         """
         Prints the Abstract Syntax Tree (AST) of the program.

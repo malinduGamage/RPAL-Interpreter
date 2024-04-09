@@ -134,6 +134,9 @@ test_all:
 		echo "=========================================================================================================="; \
 		echo "Running tests for Standardized Syntax Tree (ST):"; \
 		$(PYTHON) -m pytest -q rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests:"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_tests_with_rpal_exe.py ; \
 	else \
 		echo "=========================================================================================================="; \
 		echo "Running tests for Abstract Syntax Tree (AST):"; \
@@ -141,6 +144,9 @@ test_all:
 		echo "=========================================================================================================="; \
 		echo "Running tests for Standardized Syntax Tree (ST):"; \
 		$(PYTHON) -m pytest -q rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests :"; \
+		$(PYTHON) -m pytest -q rpal_tests/test_generate_tests.py ; \
 	fi
 
 # Clean up generated files
