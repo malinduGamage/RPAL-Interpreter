@@ -91,8 +91,7 @@ def main():
             try:
                 handle_original_rpal_eval(file_name)
             except:
-                print(
-                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
         elif sys.argv[1] == "-rast":
             # Print the original RPAL evaluation(file should be in rpal_test/rpal_source file)
             try:
@@ -105,17 +104,12 @@ def main():
             try:
                 handle_original_rpal_st(file_name)
             except:
-                print(
-                    "Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
+                print("Error in original RPAL evaluation\n(file should be in rpal_test/rpal_source file)")
 
     else:
         # Default behavior: Evaluate the program
-        # handle_default_behavior(evaluator)
-        print("Not yet implemented")
-    """ l = []
-    for program in test_programs:
-        l.append(rpal_exe(program,True))
-    print(l) """
+        handle_default_behavior(evaluator)
+
 
 
 def handle_ast_option(evaluator):
