@@ -11,10 +11,12 @@
 - [Usage](#usage)
 - [Features](#features)
 - [Project Structure](#project-structure)
-  - [Lexical Analyzer](#lexical-analyzer)
-  - [Screener](#screener)
-  - [Parser](#parser)
-  - [CSE Machine](#cse-machine)
+
+   - [Lexical Analyzer](#lexical-analyzer)
+   - [Screener](#screener)
+   - [Parser](#parser)
+   - [CSE Machine](#cse-machine)
+
 - [Project Structure](#project-structure)
 - [Contributors](#contributors)
 - [License](#license)
@@ -115,7 +117,7 @@ make run
 Run all tests (in rpal_tests/rpal_sources/) :
 
 ```bash
-make test_all
+make test_all (in rpal_tests/rpal_sources/) :
 ```
 
 Run tests for final result (in rpal_tests/rpal_sources/) :
