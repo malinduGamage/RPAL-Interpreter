@@ -10,10 +10,10 @@
 - [Usage](#usage)
 - [Features](#features)
 - [Project Structure](#project-structure)
-- - [Lexical Analyzer](#lexical-analyzer)
-- - [Screener](#screener)
-- - [Parser](#parser)
-- - [CSE Machine](#cse-machine)
+   - [Lexical Analyzer](#lexical-analyzer)
+   - [Screener](#screener)
+   - [Parser](#parser)
+   - [CSE Machine](#cse-machine)
 - [Project Structure](#project-structure)
 - [Contributors](#contributors)
 - [License](#license)
@@ -101,24 +101,24 @@ make run
 ```
 
 **Run Tests:**  
-Run all tests :
+Run all tests (in rpal_tests/rpal_sources/) :
 
 ```bash
-make test_all
+make test_all (in rpal_tests/rpal_sources/) :
 ```
-Run tests for final result:
+Run tests for final result (in rpal_tests/rpal_sources/) :
 
 ```bash
 make test
 ```
 
-Run tests for AST result:
+Run tests for AST result (in rpal_tests/rpal_sources/):
 
 ```bash
 make test_ast
 ```
 
-Run tests for ST result:
+Run tests for ST result (in rpal_tests/rpal_sources/):
 
 ```bash
 make test_st
