@@ -67,13 +67,13 @@ def apply_print(cse_machine, operand):
         if isinstance(element, list):
             out = ""
             return convert_list(element,out)
+        elif element == "lambda":
+            x = "".join(x for x in operand.bounded_variable)
+            k = str(operand.control_structure)
+            return "[lambda closure: " + x + ": " + k + "]"
         elif isinstance(element, str) or isinstance(element, int):
             return str(element)
-        elif element == "lambda":
-            x = operand.bounded_variable
-            k = operand.control_structure
-
-            return "[lambda closure: " + x + ": " + k + "]"
+        
         elif element == None:
             return "nil"
         else:
