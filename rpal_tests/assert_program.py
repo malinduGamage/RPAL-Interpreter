@@ -44,6 +44,7 @@ def program(source_file_name,flag=None):
     else:
         # Manually set the actual output for testing purposes
         actual_output = evaluator.get_output()
+        evaluator.print_cse_table()
         print("\nactual output :\n",actual_output,"raw version",repr(actual_output), "\n") 
     
     # Assertion: Compare original output with actual output
