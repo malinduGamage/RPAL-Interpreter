@@ -95,7 +95,7 @@ def apply_print(cse_machine, operand):
                     out = convert_list(el,out)
                 out = out[:-2] +  "), "
             else:
-                out += str(element.value) + ", "
+                out += covert_to_string(element.value) + ", "
         return out
     # convert the element to a string
     cse_machine._outputs.append(covert_to_string(element).replace("\\n", "\n").replace("\\t", "\t"))
