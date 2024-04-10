@@ -12,16 +12,19 @@
 # If scanning fails due to invalid characters or tokens, the interpreter will raise a ScannerError.
 # If the RPAL file is not found, the interpreter will print a corresponding error message.
 
+# importing the necessary modules
+
 from lexical_analyzer.scanner import Scanner
 from screener.token_screener import Screener
 from parser.parser_module import Parser
 from parser.build_standard_tree import StandardTree
 from cse_machine.machine import CSEMachine
+
 from cse_machine.data_structures.enviroment import Environment
-import utils.token_printer
-import utils.tree_list
-import utils.tree_printer
-import utils.file_handler
+import utils.token_printer as Token_printer
+import utils.tree_list as Tree_list
+import utils.tree_printer as Tree_printer
+import utils.file_handler as File_handler
 
 
 class Evaluator:
@@ -47,12 +50,11 @@ class Evaluator:
         self.scanner = Scanner()  # Initialize the scanner object
         self.screener = Screener()  # Initialize the screener object
         self.parser = Parser()  # Initialize the parser object
-        self.standard_tree = (
-            StandardTree()
-        )  # Initialize the standard tree builder object
+        self.standard_tree = StandardTree()  # Initialize the standard tree builder object
         self.cse_machine = CSEMachine()  # Initialize the CSE machine object
-        self.tokens = []  # Initialize a list to store tokens
-        self.filtered_tokens = []  # Initialize a list to store filtered tokens
+
+        self.tokens = list()  # Initialize a list to store tokens
+        self.filtered_tokens = list()  # Initialize a list to store filtered tokens
         self.parse_ast_tree = None  # Initialize the parse ast tree
         self.parse_st_tree = None  # Initialize the parse st tree
         self.raw_output = None  # Initialize the raw output
@@ -67,7 +69,7 @@ class Evaluator:
         """
         try:
             # Read content from the file
-            str_content = utils.file_handler.read_file_content(file_name)
+            str_content = File_handler.read_file_content(file_name)
 
             # Tokenize the content
             self.tokens = self.scanner.token_scan(str_content)
@@ -76,12 +78,12 @@ class Evaluator:
             self.filtered_tokens = self.screener.screener(self.tokens)
 
             # Parse the filtered tokens
-            self.parser.parse(self.filtered_tokens.copy())
-            self.parse_ast_tree = self.parser.stack.peek()
+            self.parser.parse(self.filtered_tokens)
+            self.parse_ast_tree = self.parser.get_ast_tree()
 
             # convert the ast tree to standard tree
             self.standard_tree.build_standard_tree(self.parse_ast_tree)
-            self.parse_st_tree = self.standard_tree.standard_tree
+            self.parse_st_tree = self.standard_tree.get_standard_tree()
 
             # evaluate the standard tree
             self.cse_machine.execute(self.parse_st_tree)
@@ -92,6 +94,7 @@ class Evaluator:
 
             # Reset the environment index
             Environment().reset_index()
+            
 
         except FileNotFoundError:
             print(f"File '{file_name}' not found.")
@@ -108,7 +111,7 @@ class Evaluator:
         Print the tokens.
         """
         if self.scanner.status:
-            utils.token_printer.print_tokens(self.tokens)
+            Token_printer.print_tokens(self.tokens)
         else:
             print("Scanning failed. Tokens cannot be printed.")
 
@@ -117,7 +120,7 @@ class Evaluator:
         Print the filtered tokens.
         """
         if self.scanner.status:
-            utils.token_printer.print_tokens(self.filtered_tokens)
+            Token_printer.print_tokens(self.filtered_tokens)
         else:
             print("Scanning failed. Filtered tokens cannot be printed.")
 
@@ -138,7 +141,7 @@ class Evaluator:
             None: If the AST is printed.
         """
         if self.parser.status:
-            utils.tree_printer.print_tree(self.parse_ast_tree)
+            Tree_printer.print_tree(self.parse_ast_tree)
         else:
             print("AST cannot be printed.")
 
@@ -152,7 +155,7 @@ class Evaluator:
         # Check if parsing was successful
         if self.parser.status:
             # Call the list_AST function to generate AST list
-            return utils.tree_list.list_tree(self.parse_ast_tree)
+            return Tree_list.list_tree(self.parse_ast_tree)
         else:
             # Print a message indicating that AST cannot be printed
             return []
@@ -168,7 +171,7 @@ class Evaluator:
             None: If the ST is printed.
         """
         if self.standard_tree.status:
-            utils.tree_printer.print_tree(self.parse_st_tree)
+            Tree_printer.print_tree(self.parse_st_tree)
         else:
             print("ST cannot be printed.")
 
@@ -182,7 +185,7 @@ class Evaluator:
         # Check if parsing was successful
         if self.standard_tree.status:
             # Call the list_AST function to generate AST list
-            return utils.tree_list.list_tree(self.parse_st_tree)
+            return Tree_list.list_tree(self.parse_st_tree)
         else:
             # Print a message indicating that AST cannot be printed
             return []

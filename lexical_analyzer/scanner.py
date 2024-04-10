@@ -49,11 +49,20 @@ class Scanner:
         Raises:
             None
         """
+        # Initialize the scanner with character map, FSA table, and accept states
         self.error = ErrorHandler().handle_error
         self.charMap = CharMap().charMap
         self.fsaTable = FSATable().fsaTable
         self.acceptStates = AcceptStates().acceptStates
         self.status = False
+
+        # Initialize the scanner state variables and output list variables
+        self.token = ""
+        self.currState = 0
+        self.output = []
+        self.i = 0
+        self.lineNum = 1
+
 
     # function to scan the input string and return the tokens
     def token_scan(self, str):

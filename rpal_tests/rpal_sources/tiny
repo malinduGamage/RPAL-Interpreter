@@ -30,7 +30,7 @@ let Head i = i 1
 in
 let Tail T = Rtail T (Order T)
 		    where rec Rtail T N =
-                                N eq 1 -> nil |
+                                N eq 1 -> true |
                                    (Rtail T (N-1) aug (T N))
 in
 let rec EE E (m,i,o) =
@@ -98,7 +98,7 @@ in
 Print (
         PP ('program',
 		   (';',
-		      (':=', 'x',5),
+		      (':=', 'x',999999),
 		      ('print', 'x')
                    )
 	   ) (nil aug 3)

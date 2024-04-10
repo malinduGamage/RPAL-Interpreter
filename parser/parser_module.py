@@ -34,6 +34,7 @@ class Parser:
         Initialize the Parser class by creating a stack and setting the status to False
         """
         self.stack = Stack()
+        self.token_list = list()
         self.status = False
 
     #   recursive descent parser
@@ -48,6 +49,8 @@ class Parser:
         Returns:
             None
         """
+        self.token_list = token_list.copy()
+        token_list = self.token_list
         next_token = token_list.pop(0)
 
         # function to build the tree
@@ -613,3 +616,12 @@ class Parser:
                     "PARSER : all the tokens are not used ")
         else:
             ErrorHandler.handle_error("PARSER : AST has not created properly ")
+
+    def get_ast_tree(self):
+        """
+        Returns the root of the AST.
+        
+        Returns:
+            Node: The root node of the Abstract Syntax Tree (AST).
+        """
+        return self.stack.peek()

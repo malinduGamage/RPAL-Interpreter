@@ -60,20 +60,36 @@ class CSEMachine:
         """
         Initialize the CSEMachine with necessary components.
         """
+        # Initialize the error handler
         self._error_handler = CseErrorHandler(self)
+
+        # Initialize the linearizer for converting the ST to linear form
+        self._linearizer = Linearizer()
+
+        # Initialize the control structures, environment, and stacks
         self.control_structures = None
         self.environment_tree = Environment()
         self.current_env = self.environment_tree
         self.stack = Stack()
         self.control = Stack()
-        self._linearizer = Linearizer()
-        self._outputs = []
-        self.table_data = []
-        self.binary_operator = {"+", "-", "/", "*", "**", "eq", "ne", "gr", "ge", "le",">", "<", ">=", "<=", "or", "&", "aug", "ls", "Conc"}
+        
+        # Initialize the output and table data
+        self._outputs = list()
+        self.table_data = list()
+
+        # binary operators supported by RPAL and inbuilt functions(Conc)
+        self.binary_operator = {
+                                "+", "-", "/", "*", "**", 
+                                "eq", "ne", "gr", "ge", "le",
+                                ">", "<", ">=", "<=",  
+                                "or", "&", "aug", "ls", "Conc"
+                                }
+        
+        # unary operators supported by RPAL and inbuilt functions
         self.unary_operators =  {
-            "Print", "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null",
-            "Istuple", "Order", "Stern", "Stem", "ItoS", "neg", "not", "$ConcPartial"
-            }
+                                "Print", "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null",
+                                "Istuple", "Order", "Stern", "Stem", "ItoS", "neg", "not", "$ConcPartial"
+                                }
 
     def initialize(self):
         """

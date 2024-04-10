@@ -343,3 +343,12 @@ class StandardTree:
             tree.data = "gamma"
             tree.children = [Node("gamma"), e2]
             tree.children[0].children = [n, e1]
+
+    def get_standard_tree(self):
+        """
+        Get the transformed standard tree.
+
+        Returns:
+            Node: The transformed standard tree.
+        """
+        return self.standard_tree
