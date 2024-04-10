@@ -34,10 +34,7 @@ import sys
 import platform
 from interpreter.execution_engine import Evaluator
 from rpal_tests.rpal_exe import rpal_exe
-from parser.build_standard_tree import StandardTree
-from utils.node import Node
-from utils.tree_printer import print_tree
-
+import time
 
 
 def main():
@@ -62,7 +59,9 @@ def main():
         return
 
     # Get the filename from the command-line arguments
-    if len(sys.argv) >= 3:
+    if len(sys.argv) >= 4:
+        file_name = sys.argv[3]
+    elif len(sys.argv) >= 3:
         file_name = sys.argv[2]
     else:
         file_name = sys.argv[1]
@@ -74,7 +73,16 @@ def main():
     evaluator.interpret(file_name)
 
     # Check if the -ast switch is provided
-    if len(sys.argv) >= 3:
+    if len(sys.argv) >= 4:
+        if sys.argv[1] == "-ast" and sys.argv[2] == "-st":
+            handle_ast_option(evaluator)
+            handle_standard_tree_option(evaluator)
+            handle_default_behavior(evaluator)
+        elif sys.argv[1] == "-st" and sys.argv[2] == "-ast":
+            handle_ast_option(evaluator)
+            handle_standard_tree_option(evaluator)
+            handle_default_behavior(evaluator)
+    elif len(sys.argv) >= 3:
         if sys.argv[1] == "-ast":
             # Print the Abstract Syntax Tree
             handle_ast_option(evaluator)
