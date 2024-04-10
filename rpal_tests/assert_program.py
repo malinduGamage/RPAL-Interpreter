@@ -32,6 +32,7 @@ def program(source_file_name,flag=None):
      # Execution: Obtain actual output by interpreting the program using the Evaluator
     evaluator = Evaluator()
     evaluator.interpret(source_file_path) 
+    evaluator.interpret(source_file_path) 
 
     if flag == "ast":
         actual_output = "\n".join(evaluator.get_ast_list())
