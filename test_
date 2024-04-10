@@ -1,0 +1,6 @@
+let Tail T = Rtail T (Order T)
+where rec Rtail T N =
+N eq 1 -> nil |
+(Rtail T (N-1) aug (T N))
+in
+Print(Tail (1,2,3,4,5,nil))

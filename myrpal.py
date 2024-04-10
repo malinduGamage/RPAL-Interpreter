@@ -28,7 +28,7 @@
 # -r: python main.py -r file_name
 # -rast: python main.py -rast file_name
 # -rst: python main.py -rst file_name
-# -CT: python main.py -ct file_name
+# -ct: python main.py -ct file_name
 
 import sys
 import platform

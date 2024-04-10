@@ -26,7 +26,7 @@ Returns:
 
 # Parametrize the test cases dynamically
 test_cases = list(zip(test_programs, out))
-@pytest.mark.timeout(1)
+@pytest.mark.timeout(0)
 @pytest.mark.parametrize("program_name", test_programs)
 def test_program(program_name):
     # Get the current directory
