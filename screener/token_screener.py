@@ -33,6 +33,7 @@ class Screener:
         # Retrieve keywords from the Keywords class
         self.keywords = Keywords().keywords
 
+    # Method to filter unwanted tokens from the input list of tokens
     def screener(self, tokens):
         """
         Remove unwanted tokens from the input list of tokens.

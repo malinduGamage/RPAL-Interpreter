@@ -78,17 +78,31 @@ class CSEMachine:
         self.table_data = list()
 
         # binary operators supported by RPAL and inbuilt functions(Conc)
+
         self.binary_operator = {
+                                # Arithmetic operators
                                 "+", "-", "/", "*", "**", 
-                                "eq", "ne", "gr", "ge", "le",
-                                ">", "<", ">=", "<=",  
-                                "or", "&", "aug", "ls", "Conc"
+                                # Operators for comparison and logical operations
+                                "eq", "ne", "gr", "ge", "le","ls",
+                                # Relational operators 
+                                ">", "<", ">=", "<=", 
+                                # Logical operators 
+                                "or", "&", "aug",  
+                                # Operators for string concatenation (RPAL inbuilt function)
+                                "Conc"
                                 }
         
         # unary operators supported by RPAL and inbuilt functions
+
         self.unary_operators =  {
-                                "Print", "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null",
-                                "Istuple", "Order", "Stern", "Stem", "ItoS", "neg", "not", "$ConcPartial"
+                                # Unary operators
+                                "neg", "not",
+                                # print inbuilt functions
+                                "Print", 
+                                # type checking inbuilt functions
+                                "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null","Istuple",
+                                # String manipulation inbuilt functions
+                                "Order", "Stern", "Stem", "ItoS", "$ConcPartial"
                                 }
 
     def initialize(self):
@@ -128,8 +142,12 @@ class CSEMachine:
         # Execute the ST
         while not self.control.is_empty():
 
+            # get the top of the control stack
             control_top = self.control.peek()
+            # get the top of the stack
             stack_top = self.stack.peek()
+
+            # check the type of the control structure and apply the corresponding rule
 
             if control_top.type in ['ID','STR','INT','bool','tuple','Y*','nil','dummy']:
                 self.CSErule1()

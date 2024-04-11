@@ -19,8 +19,6 @@ class STACK(Stack):
         Initialize an empty stack.
         """
         super().__init__()
-        #self._environments = Stack()  # Stack to store Environment objects
-        #self.stack = Stack()  # Stack to store Environment objects
 
     def current_environment(self):
         """

@@ -15,10 +15,10 @@ class Environment:
 
     # List of initial variables
     INITIAL_VARIABLES = [
-        "Print", "Isstring", "Isinteger", "Istruthvalue",
-        "Istuple", "Isfunction", "Null", "Order", "Stern",
-        "Stem", "ItoS", "neg", "not", "Conc"
-    ]
+                            "Print", "Isstring", "Isinteger", "Istruthvalue",
+                            "Istuple", "Isfunction", "Null", "Order", "Stern",
+                            "Stem", "ItoS", "neg", "not", "Conc"
+                         ]
 
     def __init__(self, parent=None):
         """

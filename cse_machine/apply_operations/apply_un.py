@@ -25,19 +25,19 @@ def apply_unary(cse_machine, rator_e, unop):
     rator = rator_e.value
     # Dictionary mapping binary operators to their corresponding functions
     unary_operators = {
-            "Print": lambda cse_machine, operand: apply_print(cse_machine, operand),
-            "Isstring": lambda cse_machine, operand: operand.type == "STR",
-            "Isinteger": lambda cse_machine, operand: operand.type == "INT" ,
+            "Print"       : lambda cse_machine, operand: apply_print(cse_machine, operand),
+            "Isstring"    : lambda cse_machine, operand: operand.type == "STR",
+            "Isinteger"   : lambda cse_machine, operand: operand.type == "INT" ,
             "Istruthvalue": lambda cse_machine, operand: operand.type == "bool",
-            "Isfunction": lambda cse_machine, operand: operand.type == "lambda",
-            "Null": lambda cse_machine, operand: operand.type == "nil",
-            "Istuple": lambda cse_machine, operand: isinstance(operand.value, list) or operand.type == "nil",
-            "Order": lambda cse_machine, operand: apply_order(cse_machine, operand),
-            "Stern": lambda cse_machine, operand: apply_stern(cse_machine, operand.value),
-            "Stem": lambda cse_machine, operand: apply_stem(cse_machine, operand.value),
-            "ItoS": lambda cse_machine, operand: str(operand.value) if isinstance(operand.value, int) and not isinstance(operand.value, bool) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
-            "neg": lambda cse_machine, operand: -operand.value if isinstance(operand.value, int) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
-            "not": lambda cse_machine, operand: not operand.value if isinstance(operand.value, bool) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
+            "Isfunction"  : lambda cse_machine, operand: operand.type == "lambda",
+            "Null"        : lambda cse_machine, operand: operand.type == "nil",
+            "Istuple"     : lambda cse_machine, operand: isinstance(operand.value, list) or operand.type == "nil",
+            "Order"       : lambda cse_machine, operand: apply_order(cse_machine, operand),
+            "Stern"       : lambda cse_machine, operand: apply_stern(cse_machine, operand.value),
+            "Stem"        : lambda cse_machine, operand: apply_stem(cse_machine, operand.value),
+            "ItoS"        : lambda cse_machine, operand: str(operand.value) if isinstance(operand.value, int) and not isinstance(operand.value, bool) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
+            "neg"         : lambda cse_machine, operand: -operand.value if isinstance(operand.value, int) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
+            "not"         : lambda cse_machine, operand: not operand.value if isinstance(operand.value, bool) else cse_machine._error_handler.handle_error("CSE : Invalid unary operation"),
         }
     # Get the operation function corresponding to the binary operator
     operation_function = unary_operators.get(unop)

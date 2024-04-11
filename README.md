@@ -63,6 +63,10 @@ To generate the Abstract Syntax Tree:
 python main.py -ast file_name
 ```
 
+> #### screenshot about the switches
+
+Screenshots of functioning switches can be found in the [docs/working_switches](https://github.com/malinduGamage/RPAL-Interpreter/tree/main/docs/working_switches) directory
+
 #### Additional Switches for Analysis (Debugging):
 
 To generate the token list from the lexical analyzer:
@@ -110,6 +114,12 @@ make install
 ```bash
 make run
 ```
+
+> #### About Testing
+>
+> To conduct testing, locate the program within the [rpal_tests](https://github.com/malinduGamage/RPAL-Interpreter/tree/main/rpal_tests) folder. Within this directory, you'll find 56 RPAL programs tailored for testing purposes, situated specifically in the [rpal_tests/rpal_sources](https://github.com/malinduGamage/RPAL-Interpreter/tree/main/rpal_tests/rpal_sources) directory. These tests span across three categories: abstract tree evaluation (test_ast), standard tree evaluation (test_st), and default evaluation (test). In total, you'll execute 56 tests for each category, resulting in 168 tests overall.
+
+After manually executing the tests, capture a screenshot displaying the passed test cases. This screenshot should be saved in the [doc/test_case_pass](https://github.com/malinduGamage/RPAL-Interpreter/tree/main/docs/test_case_pass) directory.
 
 **Run Tests:**  
 Run all tests (in rpal_tests/rpal_sources/) :

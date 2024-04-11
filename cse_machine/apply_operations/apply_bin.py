@@ -28,22 +28,22 @@ def apply_binary(cse_machine, rator, rand, binop):
     """
     # Dictionary mapping binary operators to their corresponding functions
     binary_operators = {
-            "aug": lambda cse_machine, rator, rand: apply_aug(cse_machine, rator, rand),
-            "or": lambda cse_machine, rator, rand: apply_or(cse_machine, rator, rand),
-            "&": lambda cse_machine, rator, rand: apply_and(cse_machine, rator, rand),
-            "+": lambda cse_machine, rator, rand: apply_arithmetic(cse_machine, rator, rand, lambda a, b: a + b),
-            "-": lambda cse_machine, rator, rand: apply_arithmetic(cse_machine, rator, rand, lambda a, b: a - b),
-            "*": lambda cse_machine, rator, rand: apply_arithmetic(cse_machine, rator, rand, lambda a, b: a * b),
-            "/": lambda cse_machine, rator, rand: apply_arithmetic(cse_machine, rator, rand, lambda a, b: a // b),
-            "**": lambda cse_machine, rator, rand: apply_arithmetic(cse_machine, rator, rand, lambda a, b: a ** b),
-            "gr": lambda cse_machine, rator, rand: apply_comparison(cse_machine, rator, rand, lambda a, b: a > b),
-            "ge": lambda cse_machine, rator, rand: apply_comparison(cse_machine, rator, rand, lambda a, b: a >= b),
-            "ls": lambda cse_machine, rator, rand: apply_comparison(cse_machine, rator, rand, lambda a, b: a < b),
-            "le": lambda cse_machine, rator, rand: apply_comparison(cse_machine, rator, rand, lambda a, b: a <= b),
-            "eq": lambda cse_machine, rator, rand: apply_eq(cse_machine, rator, rand),
-            "ne": lambda cse_machine, rator, rand: apply_ne(cse_machine, rator, rand),
-            "Conc": lambda cse_machine, rator, rand: apply_conc(cse_machine, rator, rand)
-        }
+            "aug" : lambda cse_machine, rator, rand : apply_aug(cse_machine, rator, rand),
+            "or"  : lambda cse_machine, rator, rand : apply_or(cse_machine, rator, rand),
+            "&"   : lambda cse_machine, rator, rand : apply_and(cse_machine, rator, rand),
+            "+"   : lambda cse_machine, rator, rand : apply_arithmetic(cse_machine, rator, rand, lambda a, b: a + b),
+            "-"   : lambda cse_machine, rator, rand : apply_arithmetic(cse_machine, rator, rand, lambda a, b: a - b),
+            "*"   : lambda cse_machine, rator, rand : apply_arithmetic(cse_machine, rator, rand, lambda a, b: a * b),
+            "/"   : lambda cse_machine, rator, rand : apply_arithmetic(cse_machine, rator, rand, lambda a, b: a // b),
+            "**"  : lambda cse_machine, rator, rand : apply_arithmetic(cse_machine, rator, rand, lambda a, b: a ** b),
+            "gr"  : lambda cse_machine, rator, rand : apply_comparison(cse_machine, rator, rand, lambda a, b: a > b),
+            "ge"  : lambda cse_machine, rator, rand : apply_comparison(cse_machine, rator, rand, lambda a, b: a >= b),
+            "ls"  : lambda cse_machine, rator, rand : apply_comparison(cse_machine, rator, rand, lambda a, b: a < b),
+            "le"  : lambda cse_machine, rator, rand : apply_comparison(cse_machine, rator, rand, lambda a, b: a <= b),
+            "eq"  : lambda cse_machine, rator, rand : apply_eq(cse_machine, rator, rand),
+            "ne"  : lambda cse_machine, rator, rand : apply_ne(cse_machine, rator, rand),
+            "Conc": lambda cse_machine, rator, rand : apply_conc(cse_machine, rator, rand)
+                    }
 
     # Get the operation function corresponding to the binary operator
     operation_function = binary_operators.get(binop)

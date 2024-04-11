@@ -1,1 +1,7 @@
-Print(nil aug 3)
+let c = ((fn x.Istruthvalue x) ,3)
+in
+let f = c 1
+in
+let x = c 2
+in
+Print(f x)

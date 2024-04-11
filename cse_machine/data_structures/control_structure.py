@@ -26,6 +26,7 @@ class ControlStructure(Stack):
         Args:
             index (int): Index of the control structure.
         """
+        # Initialize the control structure
         super().__init__()
         self.elements = self.items  # Alias for the items attribute inherited from Stack
         self.index = index
