@@ -126,7 +126,8 @@ class Linearizer:
         """
         Print the control structures.
         """
-        print('\n')
+        print()
+        print('Control Structures',end="\n\n")
         for structure in self.control_structures:
             print(f"δ_{structure.index} = ",end="")
             for element in structure.elements:

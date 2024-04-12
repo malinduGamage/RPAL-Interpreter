@@ -494,6 +494,7 @@ class CSEMachine:
         add_table_data(self, rule)
 
     def _print_cse_table(self):
+        self._linearizer.print_control_structures()
         print_cse_table(self)
 
     def _generate_output(self):

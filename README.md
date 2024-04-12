@@ -49,10 +49,10 @@ pip install -r requirements.txt
 ```
 
 4. Put your RPAL test programs in the root directory. We had added the [test.txt](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/test.txt) to the root directory, which contains the sample input program of the [Project_Requirements](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/ProgrammingProject.pdf) document.
-   Run the main script `main.py` with the file name as an argument:
+   Run the main script `myrpal.py` with the file name as an argument:
 
 ```bash
-python main.py file_name
+python .\myrpal.py file_name
 ```
 
 The following sequence of commands can be used in the root of the project directory to compile the program and execute RPAL programs:
@@ -60,7 +60,7 @@ The following sequence of commands can be used in the root of the project direct
 To generate the Abstract Syntax Tree:
 
 ```bash
-python main.py -ast file_name
+python .\myrpal.py -ast file_name
 ```
 
 > #### screenshot about the switches
@@ -72,25 +72,25 @@ Screenshots of functioning switches can be found in the [docs/working_switches](
 To generate the token list from the lexical analyzer:
 
 ```bash
-python main.py -t file_name
+python .\myrpal.py -t file_name
 ```
 
 To generate the filtered token list from the screen:
 
 ```bash
-python main.py -ft file_name
+python .\myrpal.py -ft file_name
 ```
 
 To generate the Standardized Tree:
 
 ```bash
-python main.py -st file_name
+python .\myrpal.py -st file_name
 ```
 
 To generate the CSE table:
 
 ```bash
-python main.py -ct file_name
+python .\myrpal.py -ct file_name
 ```
 
 #### Using Make Commands (Alternative Method)
@@ -223,7 +223,7 @@ The RPAL interpreter project is structured into several components, each respons
 
 ```bash
 RPAL-Interpreter/
-├── main.py                             # Main entry point of the application
+├── myrpal.py                             # Main entry point of the application
 |
 ├── lexical_analyzer/                   # Package for lexical analysis functionality
 │   ├── scanner.py                      # Module containing lexical scanner logic

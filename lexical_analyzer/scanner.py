@@ -84,6 +84,12 @@ class Scanner:
         ScannerError
             If an invalid character or token is encountered.
         """
+        # check if the input string ends with a newline character 
+        # and if so, print a warning message 
+        if str[-1] != '\n':
+            line = len(str.split('\n'))
+            print("Potential parse problem--tokens remain.")
+            print(f"Remaining tokens begin at line {line}.")
 
         token = ''
         currState = 0

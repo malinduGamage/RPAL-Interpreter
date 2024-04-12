@@ -49,7 +49,6 @@ class Screener:
         for token in tokens:
             # Remove tokens marked for deletion or EOF tokens
             if token.get_type() == 'DELETE':
-                # print(token.get_type())
                 continue
             # Remove IDENTIFIER tokens if they match any keywords
             elif token.get_type() == 'ID' and token.get_value() in self.keywords:
