@@ -617,6 +617,10 @@ class Parser:
         else:
             ErrorHandler.handle_error("PARSER : AST has not created properly ")
 
+    #############################################################################################################
+    # helper functions
+    #############################################################################################################
+
     # get the AST tree
     def get_ast_tree(self):
         """

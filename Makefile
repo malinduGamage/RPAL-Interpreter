@@ -7,11 +7,17 @@
 # - `make install`: Installs project dependencies.
 # - `make run`: Executes the RPAL interpreter.
 # - `make test`: Executes all test cases.
-# - `make test F=...`: Executes a specific test case.
+# - `make test F=...`: Executes a specific test case.(in rpal_tests/rpal_sources)
 # - `make test_ast`: Executes all test cases related to Abstract Syntax Tree (AST).
-# - `make test_ast F=...`: Executes a specific test case related to AST.
+# - `make test_ast F=...`: Executes a specific test case related to AST. (in rpal_tests/rpal_sources)
+# - `make test_st : Executes all test cases related to Standardized Syntax Tree (ST).
+# - `make test_st F=...`: Executes a specific test case related to ST. (in rpal_tests/rpal_sources)
 # - `make clean`: Cleans up generated files.
 # - `make all`: Installs dependencies, runs the RPAL interpreter, runs tests, and cleans up.
+
+############################################################################################################
+# define variables for the RPAL interpreter
+############################################################################################################
 
 ifeq ($(GITHUB_ACTIONS),true)
   ifeq ($(OS),Windows_NT)
@@ -21,6 +27,9 @@ ifeq ($(GITHUB_ACTIONS),true)
   endif
 endif
 
+###########################################################################################################
+# OS detection
+###########################################################################################################
 # Variables
 ifeq ($(OS),Windows_NT)
 	PYTHON := python
@@ -42,12 +51,20 @@ PYTEST = pytest
 
 # Default target
 all: install clean test_all clean
-
+############################################################################################################
+# define install target for the RPAL interpreter
+############################################################################################################
 # Install dependencies
 install: check_python check_pip requirements.txt
 	@echo "Installing dependencies..."
 	$(PYTHON) -m $(PIP) install -r requirements.txt
+############################################################################################################
+# end of install target for the RPAL interpreter
+############################################################################################################
 
+############################################################################################################
+# check targets for the RPAL interpreter to check if Python and pip are installed correctly and their versions 
+############################################################################################################
 # Check if Python is installed
 check_python:
 	@echo "Checking Python installation..."
@@ -69,10 +86,24 @@ check_pip:
 		echo "$(PIP) is installed at $(shell command -v $(PIP))"; \
 	fi
 
+############################################################################################################
+# end of check targets for the RPAL interpreter
+############################################################################################################
+############################################################################################################
+# define run target for the RPAL interpreter
+############################################################################################################
+
 # Run the RPAL interpreter
-run: install main.py test.txt
+run: install myrpal.py test.txt
 	@echo "Running RPAL interpreter..."
-	$(PYTHON) main.py test.txt
+	$(PYTHON) myrpal.py test.txt
+############################################################################################################
+# end of run target for the RPAL interpreter
+############################################################################################################
+############################################################################################################
+# define test targets for the RPAL interpreter
+############################################################################################################
+
 
 # Run normal tests
 test: 
@@ -149,6 +180,14 @@ test_all:
 		$(PYTHON) -m pytest -q rpal_tests/test_generate_tests.py ; \
 	fi
 
+############################################################################################################
+# end of test targets for the RPAL interpreter
+############################################################################################################
+
+############################################################################################################
+# cleanup targets for the RPAL interpreter  and check for requirements file existence
+############################################################################################################
+
 # Clean up generated files
 clean:
 	@echo "Cleaning up..."
@@ -160,6 +199,9 @@ clean:
 requirements.txt:
 	@echo "Error: requirements.txt file not found."
 	@exit 1
+############################################################################################################
+# end of makefile for the RPAL interpreter
+############################################################################################################
 
 
 

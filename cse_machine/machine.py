@@ -31,12 +31,11 @@ from cse_machine.data_structures.control_structure import ControlStructure
 from cse_machine.data_structures.enviroment import Environment
 from cse_machine.data_structures.stack import Stack
 from cse_machine.utils.STlinearizer import Linearizer
-from cse_machine.utils.util import add_table_data, print_cse_table , var_lookup , raw
+from cse_machine.utils.util import add_table_data, print_cse_table , var_lookup , raw , add_table_data_decorator 
 from cse_machine.apply_operations.apply_bin import apply_binary
 from cse_machine.apply_operations.apply_un import apply_unary
 from utils.node import Node	
 from utils.control_structure_element import ControlStructureElement
-
 
 class CSEMachine:
     """
@@ -179,6 +178,7 @@ class CSEMachine:
             else:
                 self._error_handler.handle_error("CSE : Invalid control structure")
 
+    @add_table_data_decorator("1")
     def CSErule1(self):
         """
         CSE rule 1: If the top of the control stack is a variable, constant, or tuple,
@@ -187,7 +187,6 @@ class CSEMachine:
         look up its value in the environment and push it onto the stack. If it is a
         lambda expression, push it onto the stack.
         """
-        self._add_table_data("1")
         control_top = self.control.peek()
         if control_top.type in ['STR','INT','bool','tuple','Y*','nil','dummy']:
             self.stack.push(self.control.pop())
@@ -200,26 +199,26 @@ class CSEMachine:
             else :
                 self.stack.push(ControlStructureElement(var[0],var[1]))
         
+    @add_table_data_decorator("2") 
     def CSErule2(self):
         """
         CSE rule 2: If the top of the control stack is a lambda expression,
         push it onto the stack. Set the environment of the lambda expression to the current environment.
         """
-        self._add_table_data("2")
         lambda_ = self.control.pop()
         lambda_.env = self.current_env
         self.stack.push(lambda_)
         
+    @add_table_data_decorator("3")
     def CSErule3(self):
-        self._add_table_data("3")
         pass
     
+    @add_table_data_decorator("4")
     def CSErule4(self):
         """
         CSE rule 4: If the top of the control stack is a lambda expression,
         push it onto the stack. Set the environment of the lambda expression to the current environment.
         """
-        self._add_table_data("4")
         if self.current_env.index >= 2000:
             self._error_handler.handle_error("CSE : Environment limit exceeded")
         self.control.pop()
@@ -245,6 +244,7 @@ class CSEMachine:
             
         self.stack.push(env_marker)
         
+    @add_table_data_decorator("5")
     def CSErule5(self):
         """
         CSE rule 5: If the top of the control stack is an environment marker,
@@ -264,7 +264,6 @@ class CSEMachine:
         Raises:
             CseError: If the environments do not match
         """
-        self._add_table_data("5")
         env = self.control.pop().env
         value = self.stack.pop()
         if env == self.stack.pop().env:
@@ -276,6 +275,7 @@ class CSEMachine:
         else:
             self._error_handler.handle_error("CSE : Invalid environment")
                 
+    @add_table_data_decorator("6")
     def CSErule6(self):
         """
         CSE rule 6: If the top of the control stack is a binary operation,
@@ -288,7 +288,6 @@ class CSEMachine:
         If one of the two elements is not of type "STR", replace the element with type "ConcPartial" and push the other element back onto the stack.
         If both elements are not of type "STR", raise an error.
         """
-        self._add_table_data("6")
         binop = self.control.pop().value
         rator = self.stack.pop()
         rand = self.stack.pop()
@@ -319,7 +318,7 @@ class CSEMachine:
                 typ = "INT"
             self.stack.push(ControlStructureElement(typ,result))
         
-        
+    @add_table_data_decorator("7")    
     def CSErule7(self):
         """
         CSE rule 7: If the top of the control stack is a unary operation,
@@ -329,8 +328,6 @@ class CSEMachine:
         apply the negation operator to the popped element, and push the result back onto the stack.
         If the top of the control stack is "not", pop one element from the stack,
         """
-
-        self._add_table_data("7")
         unop = self.control.pop().value
         rator_e = self.stack.pop()
         result = self._apply_unary(rator_e,unop)
@@ -345,6 +342,7 @@ class CSEMachine:
             self.control.pop()
         self.stack.push(ControlStructureElement(res_type,result))
                     
+    @add_table_data_decorator("8")
     def CSErule8(self):
         """
         CSE rule 8: If the top of the control stack is a boolean value,
@@ -358,7 +356,6 @@ class CSEMachine:
         with the elements from the control structure. Then, pop the second element off the stack
         and push it back on. If the first element is not a control structure, raise an error.
         """
-        self._add_table_data("8")
         val = self.stack.pop().value
         if val == True :
             self.control.pop()
@@ -375,27 +372,27 @@ class CSEMachine:
         else:
             self._error_handler.handle_error("CSE : Invalid type for condition")
 
+    @add_table_data_decorator("9")
     def CSErule9(self):
         """
         CSE rule 9: If the top of the control stack is a "tau" node,
         pop it off the stack and create a new tuple with the next "n" elements
         on the stack. Push the tuple back onto the stack.
         """
-        self._add_table_data("9")
         tau = self.control.pop()
         n = tau.value
         tup = []
         for i in range(n):
             tup.append(self.stack.pop())
         self.stack.push(ControlStructureElement("tuple",tup))
-                
+
+    @add_table_data_decorator("10")   
     def CSErule10(self):
         """
         CSE rule 10: If the top of the control stack is a tuple, pop it off the stack,
         retrieve the index from the stack, and retrieve the element at the given index from the tuple.
         If the index is out of bounds, raise an error. Push the retrieved element back onto the stack.
         """
-        self._add_table_data("10")
         self.control.pop()
         l = self.stack.pop()
         index = self.stack.pop()
@@ -404,6 +401,7 @@ class CSEMachine:
         index  = index.value-1
         self.stack.push(l.value[index])
                 
+    @add_table_data_decorator("11")
     def CSErule11(self):
         """
         CSE rule 11: If the top of the control stack is a lambda expression,
@@ -415,7 +413,6 @@ class CSEMachine:
         Push an environment marker onto the stack with the new environment as its environment.
         Push the elements from the control structure associated with the lambda expression onto the control stack.
         """
-        self._add_table_data("11")
         self.control.pop()
         lambda_ = self.stack.pop()
         var_list = lambda_.bounded_variable
@@ -442,14 +439,14 @@ class CSEMachine:
         
         for element in self.control_structures[k].elements:
             self.control.push(element)
-            
+
+    @add_table_data_decorator("12")       
     def CSErule12(self):
         """
         CSE rule 12: If the top of the control stack is a "tau" node,
         pop it off the stack and create a new tuple with the next "n" elements
         on the stack. Push the tuple back onto the stack.
         """
-        self._add_table_data("12")
         self.control.pop()
         self.stack.pop()
         lambda_ = self.stack.pop()
@@ -458,13 +455,13 @@ class CSEMachine:
         eta = ControlStructureElement("eta","eta",lambda_.bounded_variable,lambda_.control_structure,lambda_.env)
         self.stack.push(eta)
         
+    @add_table_data_decorator("13")
     def CSErule13(self):
         """
         CSE rule 13: If the top of the control stack is a "tau" node,
         pop it off the stack and create a new tuple with the next "n" elements
         on the stack. Push the tuple back onto the stack.
         """
-        self._add_table_data("13")
         self.control.push(ControlStructureElement("gamma","gamma"))
         eta = self.stack.peek()
         self.stack.push(ControlStructureElement("lambda","lambda",eta.bounded_variable,eta.control_structure,eta.env))
@@ -479,8 +476,14 @@ class CSEMachine:
                     self.control.pop()
         else:
             self._error_handler.handle_error("CSE : Invalid type for concatenation")
+
             
+    ##############################################################################################################
+    # helper functions
+    ##############################################################################################################
     
+    def _var_lookup(self , var_name):
+        return var_lookup(self, var_name)
     def _var_lookup(self , var_name):
         return var_lookup(self, var_name)
             
@@ -502,3 +505,6 @@ class CSEMachine:
     
     def _generate_raw_output(self):
         return raw(self._generate_output()) 
+    
+
+

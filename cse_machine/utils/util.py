@@ -114,3 +114,13 @@ def convert_list(element,out):
 
 def raw(string):
     return string.encode('unicode_escape').decode()
+
+import functools
+def add_table_data_decorator(table_entry):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(self, *args, **kwargs):
+            self._add_table_data(table_entry)
+            return func(self, *args, **kwargs)
+        return wrapper
+    return decorator

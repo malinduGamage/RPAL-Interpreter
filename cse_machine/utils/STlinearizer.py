@@ -122,6 +122,10 @@ class Linearizer:
             output = [token, token]
         return output
     
+    ################################################################################################
+    # helper functions for debugging
+    ################################################################################################
+    
     def print_control_structures(self):
         """
         Print the control structures.

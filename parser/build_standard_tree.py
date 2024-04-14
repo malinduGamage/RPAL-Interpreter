@@ -344,6 +344,9 @@ class StandardTree:
             tree.children = [Node("gamma"), e2]
             tree.children[0].children = [n, e1]
 
+    #############################################################################################################
+    # Getters 
+    #############################################################################################################
     def get_standard_tree(self):
         """
         Get the transformed standard tree.

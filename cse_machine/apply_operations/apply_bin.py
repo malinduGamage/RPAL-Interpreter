@@ -254,6 +254,23 @@ def apply_arithmetic(cse_machine, rator, rand, operation):
         raise cse_machine._error_handler.handle_error("Illegal Operands for Arithmetic Operation")
 
 def apply_conc(cse_machine,rator,rand):
+    """
+    This function applies a binary operation to two operands, based on the specified binary operator.
+    
+    Parameters
+    ----------
+    cse_machine : CSEMachine
+    rator : object
+    rand : object
+    
+    Returns
+    -------
+    str
+    Raises
+    ------
+    ValueError
+    """
+    
     if isinstance(rator, str) and isinstance(rand, str):
         return rator + rand
     else:

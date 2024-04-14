@@ -15,6 +15,8 @@
 # -r: Execute the original RPAL interpreter on the given RPAL program file (file should be in rpal_tests/rpal_source).
 # -rast: Execute the original RPAL interpreter on the given RPAL program file and print the AST. (file should be in rpal_tests/rpal_source)
 # -ct : Print the cse table for the given RPAL program.
+# -l : Print the source code for the given RPAL program.
+# -noout: Default behavior, evaluate the program and print the output.
 
 # Examples:
 # To interpret an RPAL program:
@@ -29,13 +31,13 @@
 # -rast: python main.py -rast file_name
 # -rst: python main.py -rst file_name
 # -ct: python main.py -ct file_name
+# -l: python main.py -l file_name
+# -noout: python main.py -noout file_name
 
 import sys
 import platform
 from interpreter.execution_engine import Evaluator
 from rpal_tests.rpal_exe import rpal_exe
-import time
-
 
 def main():
     """
@@ -54,8 +56,8 @@ def main():
 
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
-        print(
-            "Usage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] [-ct] file_name ")
+        print("[Version 1.0 by Malindu & Harshana 4/12/2024]")
+        print("\nUsage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] [-ct] [-l] [-noout] file_name ")
         return
 
     # Get the filename from the command-line arguments
@@ -121,12 +123,19 @@ def main():
                 handle_cse_table_option(evaluator)
             except:
                 print("Error in printing CSE table")
+        elif sys.argv[1] == "-l":
+            # Print the lexical analysis
+            handle_get_source_code(evaluator)
+        elif sys.argv[1] == "-noout":
+            handle_default_behavior(evaluator)
 
     else:
         # Default behavior: Evaluate the program
         handle_default_behavior(evaluator)
 
-
+################################################################################################
+# switch handlers for different options for different switches in the command line arguments 
+################################################################################################
 
 def handle_ast_option(evaluator):
     """
@@ -263,6 +272,20 @@ def handle_cse_table_option(evaluator):
     """
     # Your code to print the CSE table
     evaluator.print_cse_table()
+
+def handle_get_source_code(evaluator):
+    """
+    Prints the source code for the given file.
+
+    Args:
+        evaluator (Evaluator): An instance of the Evaluator class.
+
+    Returns:
+        None
+
+    """
+    # Your code to print the source code
+    print(evaluator.str_content,end="")
 
 
 if __name__ == "__main__":
