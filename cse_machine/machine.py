@@ -65,10 +65,12 @@ class CSEMachine:
         # Initialize the linearizer for converting the ST to linear form
         self._linearizer = Linearizer()
 
+        # Initialize the primitive environment (e0) for the machine
+        self.primitive_environment = Environment()
+
         # Initialize the control structures, environment, and stacks
         self.control_structures = None
-        self.environment_tree = Environment()
-        self.current_env = self.environment_tree
+        self.current_env = self.primitive_environment
         self.stack = Stack()
         self.control = Stack()
         

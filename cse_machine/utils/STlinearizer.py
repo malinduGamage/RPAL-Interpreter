@@ -89,6 +89,10 @@ class Linearizer:
             if len(root.children) > 1:
                 self.preorder_traversal(root.children[1], index)
     
+    ################################################################################################
+    # helper functions
+    ################################################################################################
+
     def filter(self,token):
         """
         Filter the input tokens.
@@ -99,7 +103,7 @@ class Linearizer:
         Returns:
             list[str]: The filtered tokens.
         """
-        output = []
+        output = list()
         if token[0] == "<":
                 if len(token)>3 and token[1:3] == "ID":
                     if token[4:-1] in ["Conc","Print","Stern","Stem","Isstring","Isinteger","Istruthvalue","Isfunction","Null","Istuple","Order","ItoS","not","neg"	]:
@@ -123,7 +127,7 @@ class Linearizer:
         return output
     
     ################################################################################################
-    # helper functions for debugging
+    # helper functions for debugging purposes (print control structures)
     ################################################################################################
     
     def print_control_structures(self):

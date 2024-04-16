@@ -98,7 +98,7 @@ in
 Print (
         PP ('program',
 		   (';',
-		      (':=', 'x',999999),
+		      (':=', 'x',11),
 		      ('print', 'x')
                    )
 	   ) (nil aug 3)

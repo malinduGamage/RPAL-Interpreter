@@ -57,21 +57,20 @@ class Scanner:
         self.status = False
 
         # Initialize the scanner state variables and output list variables
-        self.token = ""
-        self.currState = 0
-        self.output = []
-        self.i = 0
-        self.lineNum = 1
+        self.current_token = str()
+        self.current_state = 0
+        self.output_tokens = list()
+        self.index = 0
+        self.line_number = 1
 
 
-    # function to scan the input string and return the tokens
-    def token_scan(self, str):
+    def token_scan(self, input_string):
         """
         Scans the input string and returns a list of tokens.
 
         Parameters
         ----------
-        str : str
+        input_string : str
             The input string to be scanned.
 
         Returns
@@ -84,65 +83,83 @@ class Scanner:
         ScannerError
             If an invalid character or token is encountered.
         """
-        # check if the input string ends with a newline character 
-        # and if so, print a warning message 
-        if str[-1] != '\n':
-            line = len(str.split('\n'))
-            print("Potential parse problem--tokens remain.")
-            print(f"Remaining tokens begin at line {line}.")
+        self.input_string = input_string
+        
+        # Check if the input string ends with a newline character
+        # and if not, print a warning message
+        check_ending_newline(input_string)
 
-        token = ''
-        currState = 0
-        output = []
-        i = 0
-        lineNum = 1
+        while self.index < len(input_string):
+            character = input_string[self.index]
+            input_index = self.charMap.get(character, -1)
 
-        while i < len(str):
-            chr = str[i]
-            inputIndex = self.charMap.get(chr, -1)
+            # Track line number
+            if character == "\n":
+                self.line_number += 1
 
-            # track line number
-            if chr == "\n":
-                lineNum += 1
-
-            # if the character is not in the charMap, throw an error
-            if inputIndex == -1:
+            # If the character is not in the charMap, throw an error
+            if input_index == -1:
                 self.error(
-                    f"SCANNER : {chr} at line {lineNum} is not a valid character.")
+                    f"SCANNER : {character} at line {self.line_number} is not a valid character.")
                 return
 
-            nextState = self.fsaTable[currState][inputIndex]
+            next_state = self.fsaTable[self.current_state][input_index]
 
-            # if the next state is unacceptable and the current state is an accept state, add the token to the output and go back to the start state
-            if nextState == -1 and currState in self.acceptStates:
-                output.append(Token(token, self.acceptStates[currState]))
-                token = ''
-                currState = 0
+            # If the next state is unacceptable and the current state is an accept state,
+            # add the token to the output and go back to the start state
+            if next_state == -1 and self.current_state in self.acceptStates:
+                self.output_tokens.append(Token(self.current_token, self.acceptStates[self.current_state]))
+                self.current_token = ''
+                self.current_state = 0
 
-                if chr == '\n':
-                    lineNum -= 1
+                if character == '\n':
+                    self.line_number -= 1
 
-            # if the next state is unacceptable and the current state is not an accept state, throw an error
-            elif nextState == -1 and currState not in self.acceptStates:
+            # If the next state is unacceptable and the current state is not an accept state, throw an error
+            elif next_state == -1 and self.current_state not in self.acceptStates:
                 self.error(
-                    f"SCANNER : {token+chr} at line {lineNum} is not a valid token.")
+                    f"SCANNER : {self.current_token + character} at line {self.line_number} is not a valid token.")
                 return
             else:
-                token += chr
-                i = i+1
-                currState = nextState
+                self.current_token += character
+                self.index += 1
+                self.current_state = next_state
 
-        if currState in self.acceptStates:
-            output.append(Token(token, self.acceptStates[currState]))
+        if self.current_state in self.acceptStates:
+            self.output_tokens.append(Token(self.current_token, self.acceptStates[self.current_state]))
 
-        # if a comment is at the end of the file without EoL, it will not be considered as an error
-        elif token[0:2] == '//':
-            output.append(Token(token, 'DELETE'))
+        # If a comment is at the end of the file without EoL, it will not be considered as an error
+        elif self.current_token[0:2] == '//':
+            self.output_tokens.append(Token(self.current_token, 'DELETE'))
 
         else:
             self.error(
-                f"SCANNER : {token} at line {lineNum} is not a valid token.")
+                f"SCANNER : {self.current_token} at line {self.line_number} is not a valid token.")
             return
 
         self.status = True
-        return output
+        return self.output_tokens
+
+
+##################################################################################################
+# Helper functions (parser errors detection)
+##################################################################################################
+
+def check_ending_newline(input_string):
+    """
+    Checks if the input string ends with a new line character. If not, it raises a potential parsing error.
+
+    Parameters:
+        self (Scanner object): The Scanner object.
+
+    Returns:
+        None
+
+    Raises:
+        ScannerError: If the input string does not end with a new line character.
+    """
+    if input_string[-1] != '\n':
+        line = len(input_string.split('\n'))
+        print("Potential parse problem -- tokens remain.")
+        print(f"Remaining tokens begin at line {line}.")
+

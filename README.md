@@ -29,7 +29,7 @@
 
 ## About our solution
 
-- **Programming Language**:python
+- **Programming Language**: python
 - **Development & Testing**: Visual Studio Code, Command Line, Cygwin, Pytest, GitHub Actions
 
 ## Usage
@@ -125,7 +125,7 @@ After manually executing the tests, capture a screenshot displaying the passed t
 Run all tests (in rpal_tests/rpal_sources/) :
 
 ```bash
-make test_all (in rpal_tests/rpal_sources/) :
+make test_all
 ```
 
 Run tests for final result (in rpal_tests/rpal_sources/) :
@@ -159,9 +159,13 @@ make all
 ## Features
 
 - Tokenizes a given RPAL program
+- Filter the tokenization
+- Additional functions to print tokens and filtered tokens
 - Constructs the Abstract Syntax Tree (AST) and Standard Tree (ST)
 - Additional functions to print AST and ST
+- Linearlize the Standard Tree (ST)
 - Generates Control Structures
+- Additional functions to print the cse table
 - Executes the RPAL program and produces the output
 
 The interpreter consists of the following main components:
@@ -239,20 +243,20 @@ RPAL-Interpreter/
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── cse_machine/                        # Package for parsing functionality
-│   ├── apply_operations/
-│   │   ├── apply_bi.py
-│   │   ├── apply_un.py
+│   ├── apply_operations/               # Package for applying operations
+│   │   ├── apply_bi.py                 # Module for applying binary operations
+│   │   ├── apply_un.py                 # Module for applying unary operations
 │   │   └── __init__.py                 # Marks the directory as a Python package
-│   ├── data_structures/
-│   │   ├── enviroment.py
-│   │   ├── stack.py
-│   │   ├── control_structure.py
-│   │   └── __init__.py
-│   ├── utils/
-│   │   ├── STlinearlizer.py
-│   │   ├── util.py
+│   ├── data_structures/                # Package for data structures to cse machine
+│   │   ├── enviroment.py               # Module for enviroment data structures
+│   │   ├── stack.py                    # Module for stack
+│   │   ├── control_structure.py        # Module for control structure
 │   │   └── __init__.py                 # Marks the directory as a Python package
-│   ├── machine.py
+│   ├── utils/                          # Package for utilities to cse machine
+│   │   ├── STlinearlizer.py            # Module for linearlizer the standard tree
+│   │   ├── util.py                     # Module for utilities functions for cse machine
+│   │   └── __init__.py                 # Marks the directory as a Python package
+│   ├── machine.py                      # Module for cse machine
 │   └── __init__.py                     # Marks the directory as a Python package
 |
 ├── interpreter/                        # Package for interpreter functionality
