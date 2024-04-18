@@ -105,11 +105,10 @@ run: install myrpal.py test.txt
 # define test targets for the RPAL interpreter
 ############################################################################################################
 
-R = 1
 # Run normal tests
 test: 
 	@echo "Running tests...$(OS)"
-	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = "" ]; then \
+	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = " " ]; then \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_tests_with_rpal_exe.py ; \
 		else \
@@ -126,50 +125,40 @@ test:
 # Run a specific test with parameters
 test_st:
 	@echo "Running tests...$(OS)"
-	@if [ "$$(uname -s)" = "Linux" ] && [ -z "$(R)" ]; then \
+	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = " " ]; then \
+		if [ "$(F)" = "" ]; then \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
+		else \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate__st_tests_with_rpal_exe.py -vvv --tb=short; \
+		fi \
+	else \
 		if [ "$(F)" = "" ]; then \
 			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_st_tests.py ; \
 		else \
 			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_st_tests.py -vvv --tb=short; \
-		fi \
-	else \
-		if [ "$(F)" = "" ]; then \
-			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
-		else \
-			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_st_tests_with_rpal_exe.py -vvv --tb=short; \
 		fi \
 	fi
 
 # Run a specific test with parameters
 test_ast:
 	@echo "Running tests...$(OS)"
-	@if [ "$$(uname -s)" = "Linux" ] && [ -z "$(R)" ]; then \
+	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = " " ]; then \
 		if [ "$(F)" = "" ]; then \
-			$(PYTHON) -m pytest -vv --no-summary rpal_tests/test_generate_ast_tests.py ; \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
 		else \
-			$(PYTHON) -m pytest -vv  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate__ast_tests_with_rpal_exe.py -vvv --tb=short; \
 		fi \
 	else \
 		if [ "$(F)" = "" ]; then \
-			$(PYTHON) -m pytest -vv --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
+			$(PYTHON) -m pytest -v --no-summary rpal_tests/test_generate_ast_tests.py ; \
 		else \
-			$(PYTHON) -m pytest -vv  -k "$(F)" rpal_tests/test_generate_ast_tests_with_rpal_exe.py -vvv --tb=short; \
+			$(PYTHON) -m pytest -v  -k "$(F)" rpal_tests/test_generate_ast_tests.py -vvv --tb=short; \
 		fi \
 	fi
 
 test_all:
 	@echo "Running tests...$(OS)"
-	@if [ "$$(uname -s)" = "Linux" ] && [ -z "$(R)" ]; then \
-		echo "=========================================================================================================="; \
-		echo "Running tests for Abstract Syntax Tree (AST):"; \
-		$(PYTHON) -m pytest rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
-		echo "=========================================================================================================="; \
-		echo "Running tests for Standardized Syntax Tree (ST):"; \
-		$(PYTHON) -m pytest  rpal_tests/test_generate_st_tests_with_rpal_exe.py ; \
-		echo "=========================================================================================================="; \
-		echo "Running tests:"; \
-		$(PYTHON) -m pytest  rpal_tests/test_generate_tests_with_rpal_exe.py ; \
-	else \
+	@if [ "$(OS)" = "Windows_NT" ] && [ "$(R)" = " " ]; then \
 		echo "=========================================================================================================="; \
 		echo "Running tests for Abstract Syntax Tree (AST):"; \
 		$(PYTHON) -m pytest -q --no-summary rpal_tests/test_generate_ast_tests_with_rpal_exe.py ; \
@@ -179,6 +168,16 @@ test_all:
 		echo "=========================================================================================================="; \
 		echo "Running tests :"; \
 		$(PYTHON) -m pytest -q --no-summary rpal_tests/test_generate_tests_with_rpal_exe.py ; \
+	else \
+		echo "=========================================================================================================="; \
+		echo "Running tests for Abstract Syntax Tree (AST):"; \
+		$(PYTHON) -m pytest -q --no-summary rpal_tests/test_generate_ast_tests.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests for Standardized Syntax Tree (ST):"; \
+		$(PYTHON) -m pytest -q --no-summary  rpal_tests/test_generate_st_tests.py ; \
+		echo "=========================================================================================================="; \
+		echo "Running tests:"; \
+		$(PYTHON) -m pytest -q --no-summary  rpal_tests/test_generate_tests.py ; \
 	fi
 
 ############################################################################################################

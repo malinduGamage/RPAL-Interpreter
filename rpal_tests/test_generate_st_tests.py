@@ -12,7 +12,7 @@ from rpal_tests.assert_program import program
 from rpal_tests.program_name_list import test_programs
 from rpal_tests.output_st import out_st
 from rpal_tests.output import out
-from interpreter.execution_engine import Evaluator 
+from src.interpreter.execution_engine import Evaluator 
 
 """
 This function is a test function that is used to test the functionality of the interpreter.

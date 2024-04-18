@@ -227,90 +227,91 @@ The RPAL interpreter project is structured into several components, each respons
 
 ```bash
 RPAL-Interpreter/
-├── myrpal.py                             # Main entry point of the application
+├── myrpal.py                          # Main entry point of the RPAL interpreter application
 |
-├── lexical_analyzer/                   # Package for lexical analysis functionality
-│   ├── scanner.py                      # Module containing lexical scanner logic
-│   └── __init__.py                     # Marks the directory as a Python package
+├── src/                               # Source code directory
+|   ├── lexical_analyzer/              # Package for lexical analysis functionality
+|   │   ├── scanner.py                 # Module containing logic for the lexical scanner
+|   │   └── __init__.py                # Marks the directory as a Python package
+|   |
+|   ├── screener/                      # Package for screening functionality
+|   │   ├── screener.py                # Module containing logic for screening
+|   │   └── __init__.py                # Marks the directory as a Python package
+|   |
+|   ├── parser/                        # Package for parsing functionality
+|   │   ├── build_standard_tree.py     # Module for converting Abstract Syntax Tree (AST) to standard tree
+|   │   ├── parser_module.py           # Module containing parser logic (converts tokens to AST)
+|   │   └── __init__.py                # Marks the directory as a Python package
+|   |
+|   ├── cse_machine/                   # Package for CSE (Compiled Stack Environment) machine functionality
+|   │   ├── apply_operations/          # Package for applying operations in the CSE machine
+|   │   │   ├── apply_bi.py            # Module for applying binary operations
+|   │   │   ├── apply_un.py            # Module for applying unary operations
+|   │   │   └── __init__.py            # Marks the directory as a Python package
+|   │   ├── data_structures/           # Package for data structures used in the CSE machine
+|   │   │   ├── enviroment.py          # Module for environment data structures
+|   │   │   ├── stack.py               # Module for stack data structure
+|   │   │   ├── control_structure.py   # Module for control structure data structure
+|   │   │   └── __init__.py            # Marks the directory as a Python package
+|   │   ├── utils/                     # Package for utilities used in the CSE machine
+|   │   │   ├── STlinearlizer.py       # Module for linearizing the standard tree
+|   │   │   ├── util.py                # Module for utility functions for the CSE machine
+|   │   │   └── __init__.py            # Marks the directory as a Python package
+|   │   ├── machine.py                 # Module for the CSE machine
+|   │   └── __init__.py                # Marks the directory as a Python package
+|   |
+|   ├── interpreter/                   # Package for interpreter functionality
+|   │   ├── execution_engine.py        # Module containing the logic for the RPAL interpreter
+|   │   └── __init__.py                # Marks the directory as a Python package
+|   |
+|   ├── error_handling/                # Package for error handling functionality
+|   │   ├── error_handler.py           # Module containing logic for error handling
+|   │   └── __init__.py                # Marks the directory as a Python package
+|   |
+|   ├── table_routines/                # Package for table routines functionality
+|   │   ├── char_map.py                # Module containing logic for character mapping
+|   │   ├── fsa_table.py               # Module containing logic for Finite State Automaton (FSA) table
+|   │   ├── accept_states.py           # Module containing logic for accept states
+|   │   ├── keywords.py                # Module containing set of keywords
+|   │   └── __init__.py                # Marks the directory as a Python package
+|   |
+|   ├── utils/                         # Package for utility functionalities
+|   │   ├── tokens.py                  # Module containing token class definition
+|   │   ├── node.py                    # Module containing node data structure class definition
+|   │   ├── stack.py                   # Module containing stack class definition
+|   │   ├── token_printer.py           # Module containing token printing function (for debugging purposes)
+|   │   ├── tree_printer.py            # Module containing tree printing function (for debugging purposes)
+|   │   ├── tree_list.py               # Module for listing tree elements
+|   │   ├── file_handler.py            # Module containing file handling functions
+|   │   └── __init__.py                # Marks the directory as a Python package
 |
-├── screener/                           # Package for screening functionality
-│   ├── screener.py                     # Module containing screening logic
-│   └── __init__.py                     # Marks the directory as a Python package
+├── rpal_tests/                        # Directory for tests
+|   ├── rpal_sources/                  # Directory for RPAL source code files to test
+|   ├── test_generate_tests.py         # Module for generating tests
+|   ├── test_generate_ast_tests.py     # Module for generating tests in rpal_sources by pytest for AST
+|   ├── test_generate_st_tests.py      # Module for generating tests in rpal_sources by pytest for standard tree
+|   ├── test_generate_tests_with_rpal_exe.py            # Module for generating tests in rpal_sources by pytest output generated by real rpal.exe
+|   ├── test_generate_ast_tests_with_rpal_exe.py        # Module for generating tests in rpal_sources by pytest for AST output generated by real rpal.exe
+|   ├── test_generate_st_tests_with_rpal_exe.py         # Module for generating tests in rpal_sources by pytest for standard tree output generated by real rpal.exe
+|   ├── assert_program .py             # Module for checking tests
+|   ├── program_name_list.py           # List of program names in rpal_sources directory
+|   ├── output.py                      # List of outputs generated by rpal.exe
+|   ├── output_ast.py                  # List of AST outputs generated by rpal.exe
+|   ├── output_st.py                   # List of standard tree outputs generated by rpal.exe
+|   ├── rpal.exe                       # RPAL interpreter
+|   ├── cygwin1.dll                    # Cygwin DLL required for execution (if applicable)
+|   └── __init__.py                    # Marks the directory as a Python package
 |
-├── parser/                             # Package for parsing functionality
-│   ├── build_standard_tree.py          # Module for converting AST to standard tree
-│   ├── parser_module.py                # Module containing parser logic (filter token to AST)
-│   └── __init__.py                     # Marks the directory as a Python package
+├── doc/                               # Directory for documentation files
 |
-├── cse_machine/                        # Package for parsing functionality
-│   ├── apply_operations/               # Package for applying operations
-│   │   ├── apply_bi.py                 # Module for applying binary operations
-│   │   ├── apply_un.py                 # Module for applying unary operations
-│   │   └── __init__.py                 # Marks the directory as a Python package
-│   ├── data_structures/                # Package for data structures to cse machine
-│   │   ├── enviroment.py               # Module for enviroment data structures
-│   │   ├── stack.py                    # Module for stack
-│   │   ├── control_structure.py        # Module for control structure
-│   │   └── __init__.py                 # Marks the directory as a Python package
-│   ├── utils/                          # Package for utilities to cse machine
-│   │   ├── STlinearlizer.py            # Module for linearlizer the standard tree
-│   │   ├── util.py                     # Module for utilities functions for cse machine
-│   │   └── __init__.py                 # Marks the directory as a Python package
-│   ├── machine.py                      # Module for cse machine
-│   └── __init__.py                     # Marks the directory as a Python package
+├── .vscode/                           # Directory for VS Code settings
+│   └── settings.json                  # VS Code settings file
 |
-├── interpreter/                        # Package for interpreter functionality
-│   ├── execution_engine.py             # Module containing interpreter logic
-│   └── __init__.py                     # Marks the directory as a Python package
+├── requirements.txt                   # File containing project dependencies
 |
-├── error_handling/                     # Package for error handling functionality
-│   ├── error_handler.py                # Module containing error handling logic
-│   └── __init__.py                     # Marks the directory as a Python package
+├── Makefile                           # Makefile for automating tasks such as installation, running tests, and cleaning up
 |
-├── table_routines/                     # Package for table routines functionality
-│   ├── char_map.py                     # Module containing character mapping logic
-│   ├── fsa_table.py                    # Module containing Finite State Automaton table logic
-│   ├── accept_states.py                # Module containing accept states logic
-│   ├── keywords.py                     # Module containing keywords set
-│   └── __init__.py                     # Marks the directory as a Python package
-|
-├── utils/                              # Package for utility functionalities
-│   ├── tokens.py                       # Module containing token class definition
-│   ├── node.py                         # Module containing node data structure class definition
-│   ├── stack.py                        # Module containing stack class definition
-│   ├── token_printer.py                # Module containing token printing function (for debugging purposes)
-│   ├── tree_printer.py                 # Module containing tree printing function (for debugging purposes)
-│   ├── tree_list.py                    # Module for listing tree elements
-│   ├── file_handler.py                 # Module containing file handling functions
-│   └── __init__.py                     # Marks the directory as a Python package
-|
-├── rpal_tests/                         # Directory for tests
-│   ├── rpal_sources/                   # Directory for RPAL source code files to test
-│   ├── test_generate_tests.py          # Module for generating tests
-│   ├── test_generate_ast_tests.py      # Module for generating tests in rpal_sources by pytest for AST
-│   ├── test_generate_st_tests.py       # Module for generating tests in rpal_sources by pytest for standard tree
-│   ├── test_generate_tests_with_rpal_exe.py      # Module for generating tests in rpal_sources by pytest output generated by real rpal.exe
-│   ├── test_generate_ast_tests_with_rpal_exe.py  # Module for generating tests in rpal_sources by pytest for AST output generated by real rpal.exe
-│   ├── test_generate_st_tests_with_rpal_exe.py   # Module for generating tests in rpal_sources by pytest for standard tree output generated by real rpal.exe
-│   ├── assert_program .py              # Module for checking tests
-│   ├── program_name_list.py            # List of program names in rpal_sources directory
-│   ├── output.py                       # List of outputs generated by rpal.exe
-│   ├── output_ast.py                   # List of AST outputs generated by rpal.exe
-│   ├── output_st.py                    # List of standard tree outputs generated by rpal.exe
-│   ├── rpal.exe                        # RPAL interpreter
-│   ├── cygwin1.dll                     # Cygwin DLL required for execution (if applicable)
-│   └── __init__.py                     # Marks the directory as a Python package
-|
-├── doc/                                # Directory for documentation files
-|
-├── .vscode/                            # Directory for VS Code settings
-│   └── settings.json                   # VS Code settings file
-|
-├── requirements.txt                    # File containing project dependencies
-|
-├── Makefile                            # Makefile for automating tasks such as installation, running tests, and cleaning up
-|
-└── __init__.py                         # Marks the directory as a Python package
+└── __init__.py                        # Marks the directory as a Python package
 
 ```
 
