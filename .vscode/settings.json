@@ -1,13 +1,13 @@
 {
     "python.analysis.extraPaths": [
-        "${workspaceFolder}/utils/",
-        "${workspaceFolder}/errors_handling/",
-        "${workspaceFolder}/lexical_analysis/",
-        "${workspaceFolder}/table_routines/",
-        "${workspaceFolder}/screener/",
-        "${workspaceFolder}/parser/",
-        "${workspaceFolder}/cse_machine/",
-        "${workspaceFolder}/interpreter/",
+        "${workspaceFolder}/src/utils/",
+        "${workspaceFolder}/src/errors_handling/",
+        "${workspaceFolder}/src/lexical_analysis/",
+        "${workspaceFolder}src//table_routines/",
+        "${workspaceFolder}/src/screener/",
+        "${workspaceFolder}/src/parser/",
+        "${workspaceFolder}/src/cse_machine/",
+        "${workspaceFolder}/src/interpreter/",
         "${workspaceFolder}/rpal_tests/"
         
     ]

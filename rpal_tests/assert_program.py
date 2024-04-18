@@ -8,7 +8,7 @@
 
 import os
 from rpal_tests.rpal_exe import rpal_exe
-from interpreter.execution_engine import Evaluator 
+from src.interpreter.execution_engine import Evaluator 
 
 def program(source_file_name,flag=None):
     # Setup: Obtain original output by running the RPAL program using rpal_exe
