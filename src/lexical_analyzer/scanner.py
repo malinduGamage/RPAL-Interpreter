@@ -10,14 +10,11 @@
 # The token_scan() method takes a single argument, the input string to be scanned, and returns a list of Token objects.
 # If the input string contains any invalid characters or tokens, the Scanner class raises a ScannerError.
 
-import os
-import sys
 from src.errors_handling.error_handler import ErrorHandler
 from src.table_routines.char_map import CharMap
 from src.table_routines.fsa_table import FSATable
 from src.table_routines.accept_states import AcceptStates
 from src.utils.tokens import Token
-
 
 class Scanner:
     """

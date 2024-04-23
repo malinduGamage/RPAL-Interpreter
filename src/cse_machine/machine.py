@@ -27,14 +27,12 @@ Example Usage:
 
 
 from src.errors_handling.cse_error_handler import CseErrorHandler
-from src.cse_machine.data_structures.control_structure import ControlStructure
 from src.cse_machine.data_structures.enviroment import Environment
 from src.cse_machine.data_structures.stack import Stack
 from src.cse_machine.utils.STlinearizer import Linearizer
 from src.cse_machine.utils.util import add_table_data, print_cse_table , var_lookup , raw , add_table_data_decorator 
 from src.cse_machine.apply_operations.apply_bin import apply_binary
 from src.cse_machine.apply_operations.apply_un import apply_unary
-from src.utils.node import Node	
 from src.utils.control_structure_element import ControlStructureElement
 
 class CSEMachine:

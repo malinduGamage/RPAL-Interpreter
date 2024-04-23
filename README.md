@@ -30,7 +30,7 @@
 ## About our solution
 
 - **Programming Language**: python
-- **Development & Testing**: Visual Studio Code, Command Line, Cygwin, Pytest, GitHub Actions
+- **Development & Testing**: Visual Studio Code, Command Line, Cygwin, Pytest, GitHub Actions, Makefile
 
 ## Usage
 
@@ -243,7 +243,7 @@ RPAL-Interpreter/
 |   │   ├── parser_module.py           # Module containing parser logic (converts tokens to AST)
 |   │   └── __init__.py                # Marks the directory as a Python package
 |   |
-|   ├── cse_machine/                   # Package for CSE (Compiled Stack Environment) machine functionality
+|   ├── cse_machine/                   # Package for CSE (Control Stack Environment) machine functionality
 |   │   ├── apply_operations/          # Package for applying operations in the CSE machine
 |   │   │   ├── apply_bi.py            # Module for applying binary operations
 |   │   │   ├── apply_un.py            # Module for applying unary operations
@@ -275,15 +275,15 @@ RPAL-Interpreter/
 |   │   ├── keywords.py                # Module containing set of keywords
 |   │   └── __init__.py                # Marks the directory as a Python package
 |   |
-|   ├── utils/                         # Package for utility functionalities
-|   │   ├── tokens.py                  # Module containing token class definition
-|   │   ├── node.py                    # Module containing node data structure class definition
-|   │   ├── stack.py                   # Module containing stack class definition
-|   │   ├── token_printer.py           # Module containing token printing function (for debugging purposes)
-|   │   ├── tree_printer.py            # Module containing tree printing function (for debugging purposes)
-|   │   ├── tree_list.py               # Module for listing tree elements
-|   │   ├── file_handler.py            # Module containing file handling functions
-|   │   └── __init__.py                # Marks the directory as a Python package
+|   └── utils/                         # Package for utility functionalities
+|       ├── tokens.py                  # Module containing token class definition
+|       ├── node.py                    # Module containing node data structure class definition
+|       ├── stack.py                   # Module containing stack class definition
+|       ├── token_printer.py           # Module containing token printing function (for debugging purposes)
+|       ├── tree_printer.py            # Module containing tree printing function (for debugging purposes)
+|       ├── tree_list.py               # Module for listing tree elements
+|       ├── file_handler.py            # Module containing file handling functions
+|       └── __init__.py                # Marks the directory as a Python package
 |
 ├── rpal_tests/                        # Directory for tests
 |   ├── rpal_sources/                  # Directory for RPAL source code files to test
