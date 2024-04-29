@@ -15,7 +15,7 @@ def var_lookup(cse_machine , var_name):
     Raises:
         CSEError: If the variable was not found and no default value was provided.
     """
-    env_pointer = cse_machine.current_env
+    env_pointer = cse_machine.current_enviroment
     while env_pointer:
         if var_name in env_pointer._environment:
             out = env_pointer._environment[var_name]
@@ -70,7 +70,7 @@ def add_table_data(cse_machine,rule):
         rule (Rule): The rule to add to the table.
     """
     table_data = cse_machine.table_data
-    table_data.append((rule,cse_machine.control.whole_stack()[:],cse_machine.stack.whole_stack()[:],[cse_machine.current_env.index][:]))
+    table_data.append((rule,cse_machine.control.whole_stack()[:],cse_machine.stack.whole_stack()[:],[cse_machine.current_enviroment.index][:]))
 
 def add_table_data_decorator(table_entry):
     def decorator(func):

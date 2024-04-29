@@ -40,7 +40,7 @@ class Environment:
         """
         Initialize initial variables.
         """
-        initial_vars = {var: None for var in self.INITIAL_VARIABLES}
+        initial_vars = {var: ["inbuilt-functions",None] for var in self.INITIAL_VARIABLES}
         self._environment.update(initial_vars)
 
     def add_var(self, name, type, value):

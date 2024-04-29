@@ -14,6 +14,8 @@
 # - `make test_st F=...`: Executes a specific test case related to ST. (in rpal_tests/rpal_sources)
 # - `make clean`: Cleans up generated files.
 # - `make all`: Installs dependencies, runs the RPAL interpreter, runs tests, and cleans up.
+# - `make converge`: run all pytest, runs the RPAL interpreter
+# - `make converg_report`: get converg report in html format
 
 ############################################################################################################
 # define variables for the RPAL interpreter
@@ -203,7 +205,33 @@ requirements.txt:
 # end of makefile for the RPAL interpreter
 ############################################################################################################
 
+############################################################################################################
+# coverage check for the RPAL interpreter
+############################################################################################################
 
+coverage:
+	@echo "Running tests..."
+	$(PYTHON) -m coverage run -m pytest 
+	@echo "Generating HTML coverage report..."
+	$(PYTHON) -m coverage html
+
+coverage_report: 
+	@echo "Generating HTML coverage report..."
+	$(PYTHON) -m coverage html
+	@echo "Opening HTML coverage report..."
+	@if [ "$(OS)" = "Windows_NT" ] ; then \
+		cmd /c start htmlcov/index.html ; \
+		@echo "Generating coverage report...";\
+		$(PYTHON) -m coverage html;\
+	else \
+		xdg-open htmlcov/index.html; \
+	fi
+
+############################################################################################################
+
+############################################################################################################
+
+############################################################################################################
 
 
 

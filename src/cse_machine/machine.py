@@ -31,8 +31,8 @@ from src.cse_machine.data_structures.enviroment import Environment
 from src.cse_machine.data_structures.stack import Stack
 from src.cse_machine.utils.STlinearizer import Linearizer
 from src.cse_machine.utils.util import add_table_data, print_cse_table , var_lookup , raw , add_table_data_decorator 
-from src.cse_machine.apply_operations.apply_bin import apply_binary
-from src.cse_machine.apply_operations.apply_un import apply_unary
+from src.cse_machine.apply_operations.apply_binary_operations import apply_binary
+from src.cse_machine.apply_operations.apply_unary_operations import apply_unary
 from src.utils.control_structure_element import ControlStructureElement
 
 class CSEMachine:
@@ -43,13 +43,13 @@ class CSEMachine:
         _error_handler (CseErrorHandler): Error handler instance for managing errors during execution.
         control_structures (list): List of control structures extracted from the Standardized Tree (ST).
         environment_tree (Environment): Environment tree representing the current execution environment.
-        current_env (Environment): Reference to the current environment in the environment tree.
+        current_enviroment (Environment): Reference to the current environment in the environment tree.
         stack (Stack): Stack for managing the execution stack.
         control (Stack): Stack for managing the control structures during execution.
         _linearizer (Linearizer): Linearizer instance for converting the ST to linear form.
         binary_operator (set): Set of binary operators supported by the RPAL language.
         unary_operators (set): Set of unary operators supported by the RPAL language.
-        _outputs (list): List to store the output generated during execution.
+        _print_queue (list): List to store the print data as queue generated during execution.
         table_data (list): List to store data for generating the execution table.
     """
 
@@ -68,12 +68,12 @@ class CSEMachine:
 
         # Initialize the control structures, environment, and stacks
         self.control_structures = None
-        self.current_env = self.primitive_environment
+        self.current_enviroment = self.primitive_environment
         self.stack = Stack()
         self.control = Stack()
         
-        # Initialize the output and table data
-        self._outputs = list()
+        # Initialize print queue and table data
+        self._print_queue = list()
         self.table_data = list()
 
         # binary operators supported by RPAL and inbuilt functions(Conc)
@@ -103,17 +103,30 @@ class CSEMachine:
                                 # String manipulation inbuilt functions
                                 "Order", "Stern", "Stem", "ItoS", "$ConcPartial"
                                 }
+        
+        # inbuilt functions support by RPAL 
 
+        self.inbuilt_functions = {
+                                # print inbuilt functions
+                                "Print", 
+                                # type checking inbuilt functions
+                                "Isstring", "Isinteger", "Istruthvalue", "Isfunction", "Null","Istuple",
+                                # String manipulation inbuilt functions
+                                "Order", "Stern", "Stem", "ItoS", "$ConcPartial"
+                                }
     def initialize(self):
         """
         Initialize the CSEMachine with necessary components.
 
          :return: None
         """
-        # Push an environment marker onto the stack and control structures
-        env_marker = ControlStructureElement("env_marker", "env_marker", None, None, self.current_env)
-        self.stack.push(env_marker)
-        self.control.push(env_marker)
+    
+        # Create the primitive environment as element
+        primitive_enviroment = ControlStructureElement("env_marker", "env_marker", None, None, self.current_enviroment)
+
+        # Push the primitive environment onto both the stack and control stack
+        self.stack.push(primitive_enviroment)
+        self.control.push(primitive_enviroment)
 
         # Push elements from the first control structure onto the control stack
         if self.control_structures:
@@ -206,7 +219,7 @@ class CSEMachine:
         push it onto the stack. Set the environment of the lambda expression to the current environment.
         """
         lambda_ = self.control.pop()
-        lambda_.env = self.current_env
+        lambda_.env = self.current_enviroment
         self.stack.push(lambda_)
         
     @add_table_data_decorator("3")
@@ -219,30 +232,34 @@ class CSEMachine:
         CSE rule 4: If the top of the control stack is a lambda expression,
         push it onto the stack. Set the environment of the lambda expression to the current environment.
         """
-        if self.current_env.index >= 2000:
+
+        # for avoiding infinite loop 
+        if self.current_enviroment.index >= 2000:
             self._error_handler.handle_error("CSE : Environment limit exceeded")
+            return
+
         self.control.pop()
         lambda_ = self.stack.pop()
         rand = self.stack.pop()
-        new_env = Environment()
+        new_enviroment = Environment()
         if rand.type  == "eta" or rand.type == "lambda":
-            new_env.add_var(lambda_.bounded_variable[0],rand.type,rand)
+            new_enviroment.add_var(lambda_.bounded_variable[0],rand.type,rand)
         elif rand.type in ["tuple","INT","bool","STR","nil"]:
-            new_env.add_var(lambda_.bounded_variable[0],rand.type,rand.value)
+            new_enviroment.add_var(lambda_.bounded_variable[0],rand.type,rand.value)
         else:
             self._error_handler.handle_error("CSE : Invalid type")
-        new_env.parent = lambda_.env
+        new_enviroment.parent = lambda_.env
 
-        self.current_env = new_env
+        self.current_enviroment = new_enviroment
         
-        env_marker = ControlStructureElement("env_marker","env_marker",None,None,new_env)
+        new_enviroment_element = ControlStructureElement("env_marker","env_marker",None,None,new_enviroment)
         
-        self.control.push(env_marker)
+        self.control.push(new_enviroment_element) 
         
         for element in self.control_structures[lambda_.control_structure].elements:
             self.control.push(element)
             
-        self.stack.push(env_marker)
+        self.stack.push(new_enviroment_element)
         
     @add_table_data_decorator("5")
     def CSErule5(self):
@@ -270,7 +287,7 @@ class CSEMachine:
             self.stack.push(value)
             for element in reversed(self.stack.whole_stack()):
                 if element.type == "env_marker":
-                    self.current_env = element.env
+                    self.current_enviroment = element.env
                     break
         else:
             self._error_handler.handle_error("CSE : Invalid environment")
@@ -297,14 +314,13 @@ class CSEMachine:
             if rator.type == "STR" and rand.type == "STR":
                 result =self._apply_binary(rator.value,rand.value,binop)
                 self.stack.push(ControlStructureElement("STR",result))
-                while self.control.peek().type == "gamma":
-                    self.control.pop()
+                self.remove_gamma()
+                self.remove_gamma()
             elif rator.type == "STR":
                 rator.type = "ConcPartial"
                 self.stack.push(rand)
                 self.stack.push(rator)
-                while self.control.peek().type == "gamma":
-                    self.control.pop()
+                self.remove_gamma()
             else:
                 self._error_handler.handle_error("CSE : Invalid type for concatenation")
         else:
@@ -338,8 +354,8 @@ class CSEMachine:
             res_type = "STR"
         else :
             res_type = "INT"
-        while self.control.peek().type == "gamma":
-            self.control.pop()
+        if unop in self.inbuilt_functions:
+            self.remove_gamma()
         self.stack.push(ControlStructureElement(res_type,result))
                     
     @add_table_data_decorator("8")
@@ -432,7 +448,7 @@ class CSEMachine:
                 new_env.add_var(var_list[i],rand.value[i].type,rand.value[i].value)
         
         new_env.parent = c
-        self.current_env = new_env
+        self.current_enviroment = new_env
         env_marker = ControlStructureElement("env_marker","env_marker",None,None,new_env)
         self.stack.push(env_marker)
         self.control.push(env_marker)
@@ -472,8 +488,7 @@ class CSEMachine:
         if rand.type == "STR":
             result = self._apply_binary(rator.value,rand.value,"Conc")
             self.stack.push(ControlStructureElement("STR",result))
-            while self.control.peek().type == "gamma":
-                    self.control.pop()
+            self.remove_gamma()
         else:
             self._error_handler.handle_error("CSE : Invalid type for concatenation")
 
@@ -482,8 +497,6 @@ class CSEMachine:
     # helper functions
     ##############################################################################################################
     
-    def _var_lookup(self , var_name):
-        return var_lookup(self, var_name)
     def _var_lookup(self , var_name):
         return var_lookup(self, var_name)
             
@@ -501,10 +514,14 @@ class CSEMachine:
         print_cse_table(self)
 
     def _generate_output(self):
-        return "".join(self._outputs)+"\n"
+        return "".join(self._print_queue)+"\n"
     
     def _generate_raw_output(self):
         return raw(self._generate_output()) 
+    
+    def remove_gamma(self):
+        if self.control.peek().type == "gamma":
+            self.control.pop()    
     
 
 
