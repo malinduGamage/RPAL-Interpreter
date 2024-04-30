@@ -57,7 +57,7 @@ def main():
     # Check if there are enough command-line arguments
     if len(sys.argv) < 2:
         print("[Version 1.0 by Malindu & Harshana 4/12/2024]")
-        print("\nUsage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] [-ct] [-l] [-noout] file_name ")
+        print("Usage: python main.py [-ast] [-t] [-ft] [-st] [-r] [-rast] [-ct] [-l] [-noout] file_name ")
         return
 
     # Get the filename from the command-line arguments

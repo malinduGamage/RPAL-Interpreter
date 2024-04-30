@@ -1,6 +1,12 @@
-let Vec_sum (A,B) =
-Psum(A,B,Order A) where
-rec Psum(A,B,N) =
-N eq 0 -> nil
-| (Psum(A,B,N-1) aug A N + B N)
-in Print (Vec_sum ( (1,-2,3), (4,5,6) ))
+let con x y = (x,y)
+in
+let co x = con x y and y = 'b'
+in
+Print (co 'a')
+
+
+// let Null = 1
+// in
+// let not = 2
+// in
+// Print(Null)

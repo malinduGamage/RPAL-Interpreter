@@ -34,6 +34,7 @@ def apply_binary(cse_machine, rator, rand, binop):
     ValueError
         If the binary operator is not recognized.
     """
+
     # Dictionary mapping binary operators to their corresponding functions
     binary_operators = {
             "aug" : lambda cse_machine, rator, rand : apply_aug(cse_machine, rator, rand),
@@ -86,6 +87,7 @@ def apply_aug(cse_machine, rator, rand):
     ValueError
         If the binary operator is not recognized.
     """
+    
     if rator.type == "nil" :
         return ControlStructureElement("tuple", [rand])
     elif rand.type == "nil":
