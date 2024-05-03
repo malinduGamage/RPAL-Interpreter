@@ -21,7 +21,7 @@
 
 ## Problem Requirements
 
-- Implement a lexical analyzer and a parser for the RPAL (Right-reference Pedagogic Algorithmic Language). Refer the [RPAL_Lex](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Lex.pdf) for the lexical rules and [RPAL_Grammar](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/docs/Group%20116%20-%20PL%20Project%20Report%20.pdf) for information about the RPAL language.
+- Implement a lexical analyzer and a parser for the RPAL (Right-reference Pedagogic Algorithmic Language). Refer the [RPAL_Lex](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Lex.pdf) for the lexical rules and [RPAL_Grammar](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/RPAL_Grammar.pdf) for the grammar details.Additionally, refer to [About RPAL](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/About%20RPAL.pdf) for information about the RPAL language.
 - The output of the parser should be the Abstract Syntax Tree (AST) for the given input program.
   Implement an algorithm to convert the Abstract Syntax Tree (AST) in to Standardize Tree (ST) and implement CSE machine.Refer to the [semantics](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/doc/semantics.pdf) document, which contains the rules for transforming the AST into the ST
 - Program should be able to read an input file which contains a RPAL program and return Output which should match the output of rpal.exe for the relevant program.
@@ -317,7 +317,7 @@ RPAL-Interpreter/
 
 This directory structure outlines the organization of your RPAL interpreter project, with each package and module serving a specific purpose related to lexical analysis, parsing, interpretation, error handling, table routines, and utilities.
 
-For more detailed information about the purpose of each file and the function prototypes along with their uses, please refer to the [documentation](https://docs.google.com/document/d/1knA2_kh6vq_9lilMKiYFS5hVSPmpnmvaV6-6ir3mjp8/edit](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/docs/Group%20116%20-%20PL%20Project%20Report%20.pdf).
+For more detailed information about the purpose of each file and the function prototypes along with their uses, please refer to the [documentation](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/docs/Group%20116%20-%20PL%20Project%20Report%20.pdf).
 
 ## Contributors
 
