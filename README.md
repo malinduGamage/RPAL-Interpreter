@@ -317,7 +317,7 @@ RPAL-Interpreter/
 
 This directory structure outlines the organization of your RPAL interpreter project, with each package and module serving a specific purpose related to lexical analysis, parsing, interpretation, error handling, table routines, and utilities.
 
-For more detailed information about the purpose of each file and the function prototypes along with their uses, please refer to the [documentation](https://docs.google.com/document/d/1knA2_kh6vq_9lilMKiYFS5hVSPmpnmvaV6-6ir3mjp8/edit).
+For more detailed information about the purpose of each file and the function prototypes along with their uses, please refer to the [documentation](https://docs.google.com/document/d/1knA2_kh6vq_9lilMKiYFS5hVSPmpnmvaV6-6ir3mjp8/edit](https://github.com/malinduGamage/RPAL-Interpreter/blob/main/docs/Group%20116%20-%20PL%20Project%20Report%20.pdf).
 
 ## Contributors
 
